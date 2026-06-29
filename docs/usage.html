@@ -1,0 +1,951 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Usage &#8212; gptme</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/asciinema-player_3.12.1.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usage';</script>
+    <link rel="canonical" href="https://gptme.org/docs/usage.html" />
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="System Dependencies" href="system-dependencies.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system-dependencies.html">System Dependencies</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos.html">Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">How to Debug Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom-providers.html">Custom Providers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Extensibility</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="agent/verifier-profile.html">Verifier Profile</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP (Agent Client Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lessons.html">Lessons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skills.html">Skills</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prompts.html">Prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Design Documents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arewetiny.html">Are we tiny?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.29.0.html">v0.29.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.3.html">v0.28.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.2.html">v0.28.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.1.html">v0.28.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.0.html">v0.28.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.27.0.html">v0.27.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.26.0.html">v0.26.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.25.0.html">v0.25.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.1.html">v0.24.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.0.html">v0.24.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.23.0.html">v0.23.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.22.0.html">v0.22.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.21.0.html">v0.21.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.20.0.html">v0.20.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.19.0.html">v0.19.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.18.0.html">v0.18.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.17.0.html">v0.17.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.16.0.html">v0.16.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.15.0.html">v0.15.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.14.0.html">v0.14.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.13.0.html">v0.13.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.12.0.html">v0.12.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.11.0.html">v0.11.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.5.html">v0.10.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.4.html">v0.10.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.3.html">v0.10.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.2.html">v0.10.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.1.html">v0.10.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.0.html">v0.10.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.4.html">v0.9.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.3.html">v0.9.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.2.html">v0.9.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.1.html">v0.9.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.0.html">v0.9.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.1.html">v0.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.0.html">v0.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.7.0.html">v0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.1.html">v0.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.0.html">v0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.5.0.html">v0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.2.html">v0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.1.html">v0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.0.html">v0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.3.html">v0.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.2.html">v0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.1.html">v0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.0.html">v0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.2.html">v0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.1.html">v0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.1.1.html">v0.1.1</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/gptme/gptme">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/NMaCmmkxWv">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://x.com/gptmeorg">X</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme/edit/main/docs/usage.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/usage.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Usage</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commands">Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaces">Interfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes">Making Changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#browser-integration">Browser Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprompt-syntax">Multiprompt syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#queue-follow-up-prompts">Queue follow-up prompts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-selection-patterns">Tool Selection Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-context-mode">Minimal context mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-confirmation-prompts">Skip confirmation prompts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-interactive-mode">Non-interactive mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-readable-output">Machine-readable output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-commit-integration">Pre-commit Integration</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h1>
+<p>This guide covers common usage patterns and examples for gptme.</p>
+<p>To start a new chat or select an existing one, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme
+</pre></div>
+</div>
+<p>This will show you a list of past chats, allowing you to select one or start a new one.</p>
+<p>To get inspiration for your first prompt, see the <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a>.</p>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#commands" id="id1">Commands</a></p></li>
+<li><p><a class="reference internal" href="#interfaces" id="id2">Interfaces</a></p></li>
+<li><p><a class="reference internal" href="#features" id="id3">Features</a></p>
+<ul>
+<li><p><a class="reference internal" href="#writing-files" id="id4">Writing Files</a></p></li>
+<li><p><a class="reference internal" href="#making-changes" id="id5">Making Changes</a></p></li>
+<li><p><a class="reference internal" href="#browser-integration" id="id6">Browser Integration</a></p></li>
+<li><p><a class="reference internal" href="#multiprompt-syntax" id="id7">Multiprompt syntax</a></p></li>
+<li><p><a class="reference internal" href="#queue-follow-up-prompts" id="id8">Queue follow-up prompts</a></p></li>
+<li><p><a class="reference internal" href="#tool-selection-patterns" id="id9">Tool Selection Patterns</a></p></li>
+<li><p><a class="reference internal" href="#minimal-context-mode" id="id10">Minimal context mode</a></p></li>
+<li><p><a class="reference internal" href="#skip-confirmation-prompts" id="id11">Skip confirmation prompts</a></p></li>
+<li><p><a class="reference internal" href="#non-interactive-mode" id="id12">Non-interactive mode</a></p></li>
+<li><p><a class="reference internal" href="#machine-readable-output" id="id13">Machine-readable output</a></p></li>
+<li><p><a class="reference internal" href="#pre-commit-integration" id="id14">Pre-commit Integration</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="commands">
+<span id="usage-commands"></span><h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">#</a></h2>
+<p>gptme provides slash-commands for various actions within the chat.
+For the complete reference, see <a class="reference internal" href="commands.html"><span class="doc">Commands</span></a>.</p>
+<p>Common commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/help</span></code> - Show available commands</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/undo</span> <span class="pre">[n]</span></code> - Undo the last n actions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/log</span></code> - Show the conversation log</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/edit</span></code> - Edit the conversation in your editor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/model</span></code> - Show or switch the current model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/models</span></code> - List available models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/tokens</span></code> - Show token usage and costs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/exit</span></code> - Exit the program</p></li>
+</ul>
+</section>
+<section id="interfaces">
+<h2>Interfaces<a class="headerlink" href="#interfaces" title="Link to this heading">#</a></h2>
+<p>Besides the CLI, gptme can be used through:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="server.html#server-gptme-webui"><span class="std std-ref">gptme-webui: Modern Web Interface</span></a> - A web-based interface</p></li>
+<li><p>A <a class="reference external" href="https://github.com/gptme/gptme-tauri">desktop app</a> (WIP)</p></li>
+<li><p><a class="reference internal" href="bot.html"><span class="doc">GitHub Bot</span></a> - GitHub bot integration</p></li>
+</ul>
+<p>For more detailed information about specific features, check out:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="tools.html"><span class="doc">Tools</span></a> - Available tools and their usage</p></li>
+<li><p><a class="reference internal" href="providers.html"><span class="doc">Providers</span></a> - Supported LLM providers</p></li>
+<li><p><a class="reference internal" href="server.html"><span class="doc">Server</span></a> - Web UI and API server setup</p></li>
+</ul>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
+<p>Here is a very quick overview of the main features of gptme.</p>
+<p class="rubric">Tools</p>
+<p>gptme comes with a variety of tools for different tasks:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="tools.html#shell"><span class="std std-ref">Shell</span></a> - Execute shell commands</p></li>
+<li><p><a class="reference internal" href="tools.html#python"><span class="std std-ref">Python</span></a> - Run Python code</p></li>
+<li><p><a class="reference internal" href="tools.html#browser"><span class="std std-ref">Browser</span></a> - Browse and interact with web content</p></li>
+<li><p><a class="reference internal" href="tools.html#vision"><span class="std std-ref">Vision</span></a> - Process and analyze images</p></li>
+</ul>
+<p>See the <a class="reference internal" href="tools.html"><span class="doc">Tools</span></a> page for a complete list of available tools.</p>
+<section id="writing-files">
+<h3>Writing Files<a class="headerlink" href="#writing-files" title="Link to this heading">#</a></h3>
+<p>You can ask the assistant to create new files or modify existing ones:</p>
+<table style="width: 100%; margin-bottom: 1em">
+  
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #5555cc;">User</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">implement game of life in life.py</pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Certainly! I'll create a new file named `life.py` implementing Conway's Game of Life. This implementation will use NumPy for efficient array operations and Matplotlib for visualization. Here's the code:<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">save life.py</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;">import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+...
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #AAAAAA">System</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Saved to life.py</pre>
+  </td>
+</tr>
+</table></section>
+<section id="making-changes">
+<h3>Making Changes<a class="headerlink" href="#making-changes" title="Link to this heading">#</a></h3>
+<p>You can start chats and request changes directly from the command line. The contents of any mentioned text files will be included as context, and the assistant will generate patches to apply the requested changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s1">&#39;make improvements to life.py so dead cells fade out over time&#39;</span>
+</pre></div>
+</div>
+<table style="width: 100%; margin-bottom: 1em">
+  
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #5555cc;">User</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">make improvements to life.py so dead cells fade out over time<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">life.py</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;">...
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">To make alive cells green and dead cells black in the Game of Life simulation, we need to modify the colormap and how we represent the cell states. Here's the updated `life.py` script with these changes:<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">patch life.py</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;">...
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #AAAAAA">System</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Patch applied</pre>
+  </td>
+</tr>
+</table></section>
+<section id="browser-integration">
+<h3>Browser Integration<a class="headerlink" href="#browser-integration" title="Link to this heading">#</a></h3>
+<p>With the <a class="reference internal" href="tools.html#browser"><span class="std std-ref">Browser</span></a> extras installed, the assistant can read URLs (included in the prompt or with its <code class="docutils literal notranslate"><span class="pre">read_url</span></code> tool) and “see” web pages by taking screenshots and viewing them.</p>
+</section>
+<section id="multiprompt-syntax">
+<h3>Multiprompt syntax<a class="headerlink" href="#multiprompt-syntax" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">-</span></code> separator allows you to chain multiple prompts together, letting the assistant finish running tools for one prompt before moving on to the next:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s1">&#39;create a project&#39;</span><span class="w"> </span>-<span class="w"> </span><span class="s1">&#39;add tests&#39;</span><span class="w"> </span>-<span class="w"> </span><span class="s1">&#39;commit changes&#39;</span>
+</pre></div>
+</div>
+<p>This is particularly useful for breaking down complex tasks into steps and creating <a class="reference internal" href="automation.html"><span class="doc">Automation</span></a> workflows.</p>
+</section>
+<section id="queue-follow-up-prompts">
+<h3>Queue follow-up prompts<a class="headerlink" href="#queue-follow-up-prompts" title="Link to this heading">#</a></h3>
+<p>If another <code class="docutils literal notranslate"><span class="pre">gptme</span></code> process is already busy in a conversation, queue the next
+user turn from a second terminal instead of waiting for the current step to
+finish:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>chats<span class="w"> </span>send<span class="w"> </span>chat-123<span class="w"> </span><span class="s2">&quot;once the tests finish, summarize the failures&quot;</span>
+</pre></div>
+</div>
+<p>The running conversation will drain the queued prompt on its next turn. Use
+<code class="docutils literal notranslate"><span class="pre">gptme-util</span> <span class="pre">chats</span> <span class="pre">list</span></code> if you need to look up the conversation ID first.</p>
+</section>
+<section id="tool-selection-patterns">
+<h3>Tool Selection Patterns<a class="headerlink" href="#tool-selection-patterns" title="Link to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--tools</span></code> to control which tools are available.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--tools</span> <span class="pre">read,append</span></code> replaces defaults with exactly those tools.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--tools</span> <span class="pre">+computer</span></code> adds the <code class="docutils literal notranslate"><span class="pre">computer</span></code> tool on top of defaults.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add computer use while keeping the standard default tools</span>
+gptme<span class="w"> </span>--tools<span class="w"> </span>+computer<span class="w"> </span><span class="s2">&quot;take a screenshot and summarize what you see&quot;</span>
+</pre></div>
+</div>
+<p>For long visual tasks, use a subagent profile to avoid bloating parent context
+with repeated screenshots:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Desktop interaction (mouse, keyboard, screenshots)</span>
+<span class="n">subagent</span><span class="p">(</span>
+    <span class="s2">&quot;computer-use&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Click the Submit button, wait for the modal, and screenshot the result&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Web browsing and testing</span>
+<span class="n">subagent</span><span class="p">(</span>
+    <span class="s2">&quot;browser-use&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Navigate web app UI, capture evidence, and return a concise bug report&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>See available profiles with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>profile<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="minimal-context-mode">
+<h3>Minimal context mode<a class="headerlink" href="#minimal-context-mode" title="Link to this heading">#</a></h3>
+<p>When you want a tighter startup prompt for a specialized task, combine a short
+system prompt, a narrow tool set, and selective context:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--system<span class="w"> </span>short<span class="w"> </span>--tools<span class="w"> </span>shell,read,patch,save<span class="w"> </span>--context<span class="w"> </span>files<span class="w"> </span><span class="s2">&quot;fix the failing test&quot;</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--no-workspace</span></code> to skip all project-specific context (prompt files and
+<code class="docutils literal notranslate"><span class="pre">context_cmd</span></code> output) in one flag — tools and the core prompt are still
+included:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--no-workspace<span class="w"> </span>--system<span class="w"> </span>short<span class="w"> </span>--tools<span class="w"> </span>shell,read,patch,save<span class="w"> </span><span class="s2">&quot;apply this patch&quot;</span>
+</pre></div>
+</div>
+<p>Measure the prompt before and after with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--show-prompt-stats
+</pre></div>
+</div>
+<p>That prints per-section token counts for the startup system prompt so you can
+see whether the cost is coming from tool docs, user profile text, workspace
+prompt files, or dynamic <code class="docutils literal notranslate"><span class="pre">context_cmd</span></code> output.</p>
+<p>For a deeper recipe, see <a class="reference internal" href="howto/minimal-context.html"><span class="doc">Run gptme with minimal context</span></a>.</p>
+</section>
+<section id="skip-confirmation-prompts">
+<h3>Skip confirmation prompts<a class="headerlink" href="#skip-confirmation-prompts" title="Link to this heading">#</a></h3>
+<p>You can skip confirmation prompts using the <code class="docutils literal notranslate"><span class="pre">--no-confirm</span></code> flag. This is useful when you are confident the LLM will do what you want, so you don’t want to have to confirm actions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--no-confirm<span class="w"> </span><span class="s1">&#39;create a snake game using curses in snake.py, dont run it&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="non-interactive-mode">
+<h3>Non-interactive mode<a class="headerlink" href="#non-interactive-mode" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">--non-interactive</span></code> flag runs gptme in a mode that terminates after completing all prompts. This is useful for scripting and automation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--non-interactive<span class="w"> </span><span class="s1">&#39;create a snake game using curses in snake.py, dont run it&#39;</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="w"> </span><span class="s1">&#39;make the snake green and the apple red&#39;</span>
+</pre></div>
+</div>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">--non-interactive</span></code> implies <code class="docutils literal notranslate"><span class="pre">--no-confirm</span></code>, so you don’t need to specify both.</p>
+</section>
+<section id="machine-readable-output">
+<h3>Machine-readable output<a class="headerlink" href="#machine-readable-output" title="Link to this heading">#</a></h3>
+<p>Pair <code class="docutils literal notranslate"><span class="pre">--non-interactive</span></code> with <code class="docutils literal notranslate"><span class="pre">--output-format</span> <span class="pre">json</span></code> when stdout needs to
+be consumed by another program. In JSON mode, gptme emits one JSON object per
+line on stdout (JSONL):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--non-interactive<span class="w"> </span>--output-format<span class="w"> </span>json<span class="w"> </span><span class="s1">&#39;summarize this repository&#39;</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--resume</span></code> to continue an existing automated conversation without
+supplying a new prompt. This also picks up any queued follow-up prompts for the
+current conversation before exiting:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span>--non-interactive<span class="w"> </span>--output-format<span class="w"> </span>json<span class="w"> </span>--resume
+</pre></div>
+</div>
+</section>
+<section id="pre-commit-integration">
+<span id="pre-commit"></span><h3>Pre-commit Integration<a class="headerlink" href="#pre-commit-integration" title="Link to this heading">#</a></h3>
+<p>gptme integrates with <a class="reference external" href="https://pre-commit.com/">pre-commit</a> to catch code quality issues early. When enabled, it will automatically run pre-commit checks after file modifications, right before yielding control back to the user, to let the assistant address issues without human intervention.</p>
+<ul class="simple">
+<li><p>Enabled automatically if a <code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code> exists in any parent directory</p></li>
+<li><p>Can be explicitly enabled/disabled with <code class="docutils literal notranslate"><span class="pre">GPTME_CHECK=true/false</span></code></p></li>
+<li><p>Runs after file modifications to catch issues early</p></li>
+<li><p>Shows output in conversation when issues are found</p></li>
+<li><p>Distinguishes between automatically fixed issues and those requiring manual fixes</p></li>
+</ul>
+<p>Example workflow:</p>
+<table style="width: 100%; margin-bottom: 1em">
+  
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #5555cc;">User</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">create a new file named main.py with a simple function</pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Sure! I'll create a new file named `main.py` with a simple function that adds two numbers together. Here's the code:<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">save main.py</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;">def my_function(x, y):
+    return x + y
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #AAAAAA">System</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Saved to main.py</pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">I have created the file.</pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #AAAAAA">System</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Pre-commit checks failed<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">stdout</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;">typecheck................................................................Failed
+- hook id: typecheck
+- exit code: 1
+main.py: error: Function is missing type hints
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Typechecks failed, I'll update the function to use type hints.<div style="opacity: 0.8;"><div style="display: inline-block; margin-bottom: -.5px; margin-top: 1em; border: 0 #888 solid; border-width: 1px 1px 0 1px; border-radius: 3px 3px 0 0; padding: 0.3em 0.6em; font-size: 0.7em; background-color: #000; color: #FFF">patch main.py</div>
+<pre style="background-color: #000; color: #ccc; margin-right: 1em; margin-top: 0; padding: 5px; margin-bottom: 0.5em; overflow: scroll;"><<<<<<< ORIGINAL
+def my_function(x, y):
+=======
+def my_function(x: int, y: int) -> int:
+>>>>>>> UPDATED
+</pre></div></pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #AAAAAA">System</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Patch applied</pre>
+  </td>
+</tr>
+<tr>
+  <td style="text-align: right; padding: 0 1em 0 1em; width: 0.1%; font-weight: bold; color: #44cc44">Assistant</td>
+  <td>
+    <pre style="margin-right: 1em; padding: 5px; margin-bottom: 0.5em; white-space: pre-wrap;">Great, the typecheck should now pass.</pre>
+  </td>
+</tr>
+</table><hr class="docutils" />
+<p>For further usage examples, see the <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a> page.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="system-dependencies.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">System Dependencies</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commands">Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaces">Interfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes">Making Changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#browser-integration">Browser Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprompt-syntax">Multiprompt syntax</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#queue-follow-up-prompts">Queue follow-up prompts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tool-selection-patterns">Tool Selection Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-context-mode">Minimal context mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-confirmation-prompts">Skip confirmation prompts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-interactive-mode">Non-interactive mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-readable-output">Machine-readable output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-commit-integration">Pre-commit Integration</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Bjäreholt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Erik Bjäreholt.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

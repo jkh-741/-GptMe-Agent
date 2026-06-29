@@ -1,0 +1,1937 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CLI Reference &#8212; gptme</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/asciinema-player_3.12.1.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cli';</script>
+    <link rel="canonical" href="https://gptme.org/docs/cli.html" />
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="config.html" />
+    <link rel="prev" title="Commands" href="commands.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system-dependencies.html">System Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos.html">Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">How to Debug Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom-providers.html">Custom Providers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Extensibility</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="agent/verifier-profile.html">Verifier Profile</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP (Agent Client Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lessons.html">Lessons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skills.html">Skills</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prompts.html">Prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Design Documents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arewetiny.html">Are we tiny?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.29.0.html">v0.29.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.3.html">v0.28.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.2.html">v0.28.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.1.html">v0.28.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.0.html">v0.28.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.27.0.html">v0.27.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.26.0.html">v0.26.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.25.0.html">v0.25.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.1.html">v0.24.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.0.html">v0.24.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.23.0.html">v0.23.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.22.0.html">v0.22.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.21.0.html">v0.21.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.20.0.html">v0.20.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.19.0.html">v0.19.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.18.0.html">v0.18.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.17.0.html">v0.17.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.16.0.html">v0.16.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.15.0.html">v0.15.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.14.0.html">v0.14.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.13.0.html">v0.13.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.12.0.html">v0.12.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.11.0.html">v0.11.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.5.html">v0.10.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.4.html">v0.10.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.3.html">v0.10.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.2.html">v0.10.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.1.html">v0.10.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.0.html">v0.10.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.4.html">v0.9.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.3.html">v0.9.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.2.html">v0.9.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.1.html">v0.9.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.0.html">v0.9.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.1.html">v0.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.0.html">v0.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.7.0.html">v0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.1.html">v0.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.0.html">v0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.5.0.html">v0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.2.html">v0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.1.html">v0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.0.html">v0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.3.html">v0.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.2.html">v0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.1.html">v0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.0.html">v0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.2.html">v0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.1.html">v0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.1.1.html">v0.1.1</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/gptme/gptme">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/NMaCmmkxWv">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://x.com/gptmeorg">X</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme/edit/main/docs/cli.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/cli.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CLI Reference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">gptme</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server">gptme-server</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-openapi">openapi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-serve">serve</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-token">token</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-eval">gptme-eval</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth">gptme-auth</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-login">login</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-logout">logout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openai-subscription">openai-subscription</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-status">status</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util">gptme-util</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context">context</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-files">files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-git">git</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-index">index</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-journal">journal</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-retrieve">retrieve</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-search-conversations">search-conversations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-tree">tree</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-llm">llm</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-llm-generate">generate</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models">models</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-info">info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-test">test</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile">profile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-show">show</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-validate">validate</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-prompts">prompts</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-prompts-expand">expand</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers">providers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-test">test</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tokens">tokens</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tokens-count">count</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools">tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-call">call</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-info">info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-list">list</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="cli-reference">
+<h1>CLI Reference<a class="headerlink" href="#cli-reference" title="Link to this heading">#</a></h1>
+<p>gptme provides the following commands:</p>
+<nav class="contents local" id="commands">
+<p class="topic-title">Commands</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gptme" id="id1">gptme</a></p></li>
+<li><p><a class="reference internal" href="#gptme-server" id="id2">gptme-server</a></p></li>
+<li><p><a class="reference internal" href="#gptme-eval" id="id3">gptme-eval</a></p></li>
+<li><p><a class="reference internal" href="#gptme-auth" id="id4">gptme-auth</a></p></li>
+<li><p><a class="reference internal" href="#gptme-util" id="id5">gptme-util</a></p></li>
+</ul>
+</nav>
+<p>This is the full CLI reference. For a more concise version, run <code class="docutils literal notranslate"><span class="pre">gptme</span> <span class="pre">--help</span></code>.</p>
+<section id="gptme">
+<h2>gptme<a class="headerlink" href="#gptme" title="Link to this heading">#</a></h2>
+<p>gptme is a chat-CLI for LLMs, empowering them with tools to run shell commands, execute code, read and manipulate files, and more.</p>
+<p>If PROMPTS are provided, a new conversation will be started with it.
+PROMPTS can be chained with the ‘-’ separator.</p>
+<div class="line-block">
+<div class="line">Examples:</div>
+<div class="line-block">
+<div class="line">gptme “hello”                              Start a conversation</div>
+<div class="line">gptme “fix TODOs” main.py                  Include file or URL in context</div>
+<div class="line">gptme “review” github.com/org/repo/pull/1  Include a GitHub PR in context</div>
+<div class="line">gptme –tools none “what is 2+2”           No tools, just chat</div>
+<div class="line">gptme -t patch,save “fix typo” main.py     Only specific tools (comma-separated)</div>
+<div class="line">gptme -t +subagent “plan a refactor”       Default tools + subagent</div>
+<div class="line">gptme -t=-browser “summarize code”         Default tools minus browser</div>
+<div class="line">gptme –context files “do task”             Skip context_cmd, keep project files</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">The interface provides /commands during a conversation:</div>
+<div class="line">Available commands:</div>
+<div class="line-block">
+<div class="line">/undo         Undo the last action</div>
+<div class="line">/backtrack    Rewind conversation to a checkpoint or message index</div>
+<div class="line">/log          Show the conversation log</div>
+<div class="line">/checkpoint   Manage workspace checkpoints</div>
+<div class="line">/edit         Edit the conversation in your editor</div>
+<div class="line">/rename       Rename the conversation</div>
+<div class="line">/fork         Create a copy of the conversation</div>
+<div class="line">/delete       Delete a conversation by ID (alias: /rm)</div>
+<div class="line">/summarize    Summarize the conversation</div>
+<div class="line">/replay       Replay tool operations</div>
+<div class="line">/export       Export conversation as HTML</div>
+<div class="line">/model        Show or switch the current model</div>
+<div class="line">/models       List available models</div>
+<div class="line">/tokens       Show token usage and costs (alias: /cost)</div>
+<div class="line">/context      Show context token breakdown</div>
+<div class="line">/tools        Show available tools</div>
+<div class="line">/commit       Ask assistant to git commit</div>
+<div class="line">/compact      Compact the conversation</div>
+<div class="line">/impersonate  Impersonate the assistant</div>
+<div class="line">/plugin       Manage plugins</div>
+<div class="line">/clear        Clear the terminal screen</div>
+<div class="line">/setup        Setup gptme with completions and configuration</div>
+<div class="line">/doctor       Run system diagnostics</div>
+<div class="line">/restart      Restart gptme process</div>
+<div class="line">/help         Show this help message</div>
+<div class="line">/exit         Exit the program</div>
+</div>
+<div class="line">Keyboard shortcuts:</div>
+<div class="line-block">
+<div class="line">Ctrl+X Ctrl+E  Edit prompt in your editor</div>
+<div class="line">Ctrl+J         Insert a new line without executing the prompt</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Utilities (gptme-util):</div>
+<div class="line-block">
+<div class="line">gptme-util tools list       List all tools and their availability</div>
+<div class="line">gptme-util tools info TOOL  Show detailed tool instructions/examples</div>
+<div class="line">gptme-util skills list      List discoverable skills in the current workspace</div>
+<div class="line">gptme-util skills show NAME Show a skill or lesson by name</div>
+<div class="line">gptme-util chats list       List past conversations</div>
+<div class="line">gptme-util chats search Q   Search conversations for query</div>
+<div class="line">gptme-util chats send ID MSG Queue a prompt for a running chat from another terminal</div>
+<div class="line">gptme-util chats rename     Rename a conversation</div>
+<div class="line">gptme-util models list      List available models</div>
+<div class="line">gptme-util snapshot list    List workspace snapshots outside a session</div>
+<div class="line">gptme-util context index    Index project files for RAG</div>
+<div class="line">gptme-util llm generate     Direct LLM generation without chat</div>
+</div>
+</div>
+<p>Run ‘gptme-util –help’ for all utility commands.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>PROMPTS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-name">
+<span class="sig-name descname"><span class="pre">--name</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;name&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-name" title="Link to this definition">#</a></dt>
+<dd><p>Conversation ID (used to resume). Defaults to a random name.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-m">
+<span id="cmdoption-gptme-model"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-m" title="Link to this definition">#</a></dt>
+<dd><p>Model to use, e.g. openai/gpt-5, anthropic/claude-sonnet-4-6. If only provider given then a default is used.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-w">
+<span id="cmdoption-gptme-workspace"></span><span class="sig-name descname"><span class="pre">-w</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--workspace</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;workspace&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-w" title="Link to this definition">#</a></dt>
+<dd><p>Path to workspace directory, or <a class="reference external" href="mailto:'&#37;&#52;&#48;log">‘<span>&#64;</span>log</a>’ to use the log directory.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-agent-path">
+<span class="sig-name descname"><span class="pre">--agent-path</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;agent_path&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-agent-path" title="Link to this definition">#</a></dt>
+<dd><p>Path to agent workspace directory.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-r">
+<span id="cmdoption-gptme-resume"></span><span class="sig-name descname"><span class="pre">-r</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--resume</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-r" title="Link to this definition">#</a></dt>
+<dd><p>Load most recent conversation.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-y">
+<span id="cmdoption-gptme-no-confirm"></span><span class="sig-name descname"><span class="pre">-y</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-confirm</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-y" title="Link to this definition">#</a></dt>
+<dd><p>Skip all confirmation prompts.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-n">
+<span id="cmdoption-gptme-non-interactive"></span><span class="sig-name descname"><span class="pre">-n</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--non-interactive</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-n" title="Link to this definition">#</a></dt>
+<dd><p>Non-interactive mode. Implies –no-confirm.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-output-format">
+<span class="sig-name descname"><span class="pre">--output-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_format&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-output-format" title="Link to this definition">#</a></dt>
+<dd><p>Output format for non-interactive mode. ‘json’ emits one JSON object per line on stdout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>text | json</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-system">
+<span class="sig-name descname"><span class="pre">--system</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;prompt_system&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-system" title="Link to this definition">#</a></dt>
+<dd><p>System prompt [full|short|&lt;custom&gt;]. Defaults to ‘full’.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-t">
+<span id="cmdoption-gptme-tools"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--tools</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;tool_allowlist&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-t" title="Link to this definition">#</a></dt>
+<dd><p>Tools to allow. Comma-separated or repeated. Use ‘+tool’ to add to defaults (e.g., ‘-t +subagent’). Use ‘-tool’ to exclude from defaults (e.g., ‘-t=-browser’). Use ‘none’ to disable all tools. Supports .py file paths for custom tools (e.g., ‘-t path/to/tool.py’). Available: append, autocommit, autocompact, browser, chats, choice, clarify, complete, computer, elicit, form, gh, ipython, lessons, mcp, patch, patch_anchored, patch_many, precommit, progress, read, restart, save, shell, subagent, tmux, todo, vent, view_anchored, vision.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-agent-profile">
+<span class="sig-name descname"><span class="pre">--agent-profile</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;agent_profile&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-agent-profile" title="Link to this definition">#</a></dt>
+<dd><p>Agent profile to use. Profiles provide system prompts, tool access hints, and behavior rules. Use ‘gptme-util profile list’ to see available profiles.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-tool-format">
+<span class="sig-name descname"><span class="pre">--tool-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;tool_format&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-tool-format" title="Link to this definition">#</a></dt>
+<dd><p>Tool format to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>markdown | xml | tool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-stream">
+<span id="cmdoption-gptme-no-stream"></span><span class="sig-name descname"><span class="pre">--stream</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-stream</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-stream" title="Link to this definition">#</a></dt>
+<dd><p>Stream responses</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-show-hidden">
+<span class="sig-name descname"><span class="pre">--show-hidden</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-show-hidden" title="Link to this definition">#</a></dt>
+<dd><p>Show hidden system messages.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-show-prompt-stats">
+<span class="sig-name descname"><span class="pre">--show-prompt-stats</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-show-prompt-stats" title="Link to this definition">#</a></dt>
+<dd><p>Show startup system-prompt token stats for the current configuration and exit.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-v">
+<span id="cmdoption-gptme-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-v" title="Link to this definition">#</a></dt>
+<dd><p>Show verbose output.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-version">
+<span class="sig-name descname"><span class="pre">--version</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-version" title="Link to this definition">#</a></dt>
+<dd><p>Show version and configuration information</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-profile">
+<span class="sig-name descname"><span class="pre">--profile</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-profile" title="Link to this definition">#</a></dt>
+<dd><p>Enable profiling and save results to gptme-profile-{timestamp}.prof</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-context">
+<span class="sig-name descname"><span class="pre">--context</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;context_include&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-context" title="Link to this definition">#</a></dt>
+<dd><p>Context to include (default: all). Comma-separated or repeated. Tools and agent config (–agent-path) are always included.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-no-workspace">
+<span class="sig-name descname"><span class="pre">--no-workspace</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-no-workspace" title="Link to this definition">#</a></dt>
+<dd><p>Skip all workspace context (prompt files and context_cmd). Tools and agent config are still included.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-architect">
+<span class="sig-name descname"><span class="pre">--architect</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-architect" title="Link to this definition">#</a></dt>
+<dd><p>Enable architect/editor split mode: plan with strong model, execute with cheap model.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-architect-model">
+<span class="sig-name descname"><span class="pre">--architect-model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;architect_model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-architect-model" title="Link to this definition">#</a></dt>
+<dd><p>Model to use for the architect (planning) turn. E.g. openai/o3, anthropic/claude-opus-4-7.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-editor-model">
+<span class="sig-name descname"><span class="pre">--editor-model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;editor_model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-editor-model" title="Link to this definition">#</a></dt>
+<dd><p>Model to use for the editor (execution) turn. E.g. anthropic/claude-sonnet-4-5, openai/gpt-5-mini.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auto-accept-architect">
+<span class="sig-name descname"><span class="pre">--auto-accept-architect</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-auto-accept-architect" title="Link to this definition">#</a></dt>
+<dd><p>Skip user confirmation between architect and editor turns.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-arg-PROMPTS">
+<span class="sig-name descname"><span class="pre">PROMPTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-arg-PROMPTS" title="Link to this definition">#</a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="gptme-server">
+<h2>gptme-server<a class="headerlink" href="#gptme-server" title="Link to this heading">#</a></h2>
+<p>gptme server commands.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-server<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-server-openapi">
+<h3>openapi<a class="headerlink" href="#gptme-server-openapi" title="Link to this heading">#</a></h3>
+<p>Generate OpenAPI specification without starting server.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-server<span class="w"> </span>openapi<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-openapi-o">
+<span id="cmdoption-gptme-server-openapi-output"></span><span class="sig-name descname"><span class="pre">-o</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--output</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-openapi-o" title="Link to this definition">#</a></dt>
+<dd><p>Output file path</p>
+</dd></dl>
+
+</section>
+<section id="gptme-server-serve">
+<h3>serve<a class="headerlink" href="#gptme-server-serve" title="Link to this heading">#</a></h3>
+<p>Starts a server and web UI for gptme.</p>
+<p>Note that this is very much a work in progress, and is not yet ready for normal use.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-server<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-server-serve-debug" title="Link to this definition">#</a></dt>
+<dd><p>Debug mode</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-v">
+<span id="cmdoption-gptme-server-serve-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-server-serve-v" title="Link to this definition">#</a></dt>
+<dd><p>Verbose output</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-model">
+<span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-model" title="Link to this definition">#</a></dt>
+<dd><p>Model to use by default, can be overridden in each request.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-host">
+<span class="sig-name descname"><span class="pre">--host</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;host&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-host" title="Link to this definition">#</a></dt>
+<dd><p>Host to bind the server to.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-port">
+<span class="sig-name descname"><span class="pre">--port</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;port&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-port" title="Link to this definition">#</a></dt>
+<dd><p>Port to run the server on.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-tools">
+<span class="sig-name descname"><span class="pre">--tools</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;tools&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-tools" title="Link to this definition">#</a></dt>
+<dd><p>Tools to enable (comma separated). Use ‘none’ to disable all tools.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-cors-origin">
+<span class="sig-name descname"><span class="pre">--cors-origin</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;cors_origin&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-cors-origin" title="Link to this definition">#</a></dt>
+<dd><p>CORS origin(s) to allow. Use ‘*’ to allow all origins. Pass a comma-separated list to allow multiple origins, e.g. ‘<a class="reference external" href="https://chat.gptme.org,tauri://localhost,http://tauri.localhost">https://chat.gptme.org,tauri://localhost,http://tauri.localhost</a>’. Set this to the origin of the web UI you load (for the hosted UI, ‘<a class="reference external" href="https://chat.gptme.org">https://chat.gptme.org</a>’).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-webui-dir">
+<span class="sig-name descname"><span class="pre">--webui-dir</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;webui_dir&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-webui-dir" title="Link to this definition">#</a></dt>
+<dd><p>Directory containing a web UI build (e.g. the modern React webui’s dist/) to serve instead of the bundled legacy UI. Can also be set via the GPTME_WEBUI_DIR environment variable.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-exit-on-parent-death">
+<span class="sig-name descname"><span class="pre">--exit-on-parent-death</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-server-serve-exit-on-parent-death" title="Link to this definition">#</a></dt>
+<dd><p>Exit when the parent process dies. Useful when run as a sidecar (e.g. by gptme-tauri) to avoid orphaned servers when the parent exits without cleaning up children (gptme/gptme#2260).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-watch-pid">
+<span class="sig-name descname"><span class="pre">--watch-pid</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;watch_pid&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-watch-pid" title="Link to this definition">#</a></dt>
+<dd><p>PID to watch for liveness. If the PID disappears the server exits. Used by gptme-tauri to pass its own PID so PyInstaller-bundled servers can detect Tauri exit even when the bootloader survives reparenting.</p>
+</dd></dl>
+
+<p class="rubric">Environment variables</p>
+<dl class="std envvar" id="gptme-server-serve-host-gptme-server-host">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_SERVER_HOST</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-server-serve-host"><code class="xref std std-option docutils literal notranslate"><span class="pre">--host</span></code></a></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="std envvar" id="gptme-server-serve-port-gptme-server-port">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_SERVER_PORT</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-server-serve-port"><code class="xref std std-option docutils literal notranslate"><span class="pre">--port</span></code></a></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="std envvar" id="gptme-server-serve-webui-dir-gptme-webui-dir">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_WEBUI_DIR</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-server-serve-webui-dir"><code class="xref std std-option docutils literal notranslate"><span class="pre">--webui-dir</span></code></a></p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="gptme-server-token">
+<h3>token<a class="headerlink" href="#gptme-server-token" title="Link to this heading">#</a></h3>
+<p>Display the server authentication token.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-server<span class="w"> </span>token<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gptme-eval">
+<h2>gptme-eval<a class="headerlink" href="#gptme-eval" title="Link to this heading">#</a></h2>
+<p>Run evals for gptme.
+Pass eval or suite names to run, or result files to print.</p>
+<p>Use –leaderboard to generate a model comparison table from existing results.</p>
+<p>Output from evals will be captured, unless a single eval is run, and saved to the results directory.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-eval<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>EVAL_NAMES_OR_RESULT_FILES<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-m">
+<span id="cmdoption-gptme-eval-model"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;_model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-m" title="Link to this definition">#</a></dt>
+<dd><p>Model to use, can be passed multiple times. Can include tool format with &#64;, e.g. <a class="reference external" href="mailto:'gpt-4&#37;&#52;&#48;tool">‘gpt-4<span>&#64;</span>tool</a>’</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-t">
+<span id="cmdoption-gptme-eval-timeout"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--timeout</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;timeout&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-t" title="Link to this definition">#</a></dt>
+<dd><p>Timeout for code generation (seconds)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-p">
+<span id="cmdoption-gptme-eval-parallel"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parallel</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parallel&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-p" title="Link to this definition">#</a></dt>
+<dd><p>Number of parallel evals to run</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-tool-format">
+<span class="sig-name descname"><span class="pre">--tool-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;tool_format&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-tool-format" title="Link to this definition">#</a></dt>
+<dd><p>Tool format to use. Can also be specified per model with &#64;format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>markdown | xml | tool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-l">
+<span id="cmdoption-gptme-eval-list"></span><span class="sig-name descname"><span class="pre">-l</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--list</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-l" title="Link to this definition">#</a></dt>
+<dd><p>List available eval suites and tests, then exit.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-use-docker">
+<span class="sig-name descname"><span class="pre">--use-docker</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-use-docker" title="Link to this definition">#</a></dt>
+<dd><p>Run evals in Docker container for isolation (prevents host environment pollution)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-user-context">
+<span id="cmdoption-gptme-eval-no-user-context"></span><span class="sig-name descname"><span class="pre">--user-context</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-user-context</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-user-context" title="Link to this definition">#</a></dt>
+<dd><p>Include user-level prompt files and agent instructions from ~/.config/gptme. Disabled by default for reproducible evals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-json" title="Link to this definition">#</a></dt>
+<dd><p>Output results as JSON to stdout (also saves eval_results.json alongside CSV).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-E">
+<span id="cmdoption-gptme-eval-eval-module"></span><span class="sig-name descname"><span class="pre">-E</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--eval-module</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;eval_modules&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-E" title="Link to this definition">#</a></dt>
+<dd><p>Load eval specs from an external Python module file (e.g. generated by speckit-eval gen). The module must define a ‘tests’ list of EvalSpec dicts. Can be passed multiple times.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-leaderboard">
+<span class="sig-name descname"><span class="pre">--leaderboard</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-leaderboard" title="Link to this definition">#</a></dt>
+<dd><p>Generate a model comparison leaderboard from eval_results/ instead of running evals.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-leaderboard-format">
+<span class="sig-name descname"><span class="pre">--leaderboard-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;leaderboard_format&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-leaderboard-format" title="Link to this definition">#</a></dt>
+<dd><p>Output format for the leaderboard (default: markdown).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rst | csv | markdown | json | html</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-min-tests">
+<span class="sig-name descname"><span class="pre">--min-tests</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;min_tests&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-min-tests" title="Link to this definition">#</a></dt>
+<dd><p>Minimum number of tests for a model to appear in the leaderboard (default: 4).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-trends">
+<span class="sig-name descname"><span class="pre">--trends</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-trends" title="Link to this definition">#</a></dt>
+<dd><p>Show pass-rate trends over time (use with –leaderboard).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-trend-days">
+<span class="sig-name descname"><span class="pre">--trend-days</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;trend_days&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-eval-trend-days" title="Link to this definition">#</a></dt>
+<dd><p>Number of days to include in trend analysis (default: 90).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-adversarial">
+<span class="sig-name descname"><span class="pre">--adversarial</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-adversarial" title="Link to this definition">#</a></dt>
+<dd><p>Inject adversarial framing into behavioral eval prompts (idea #190 Phase 2).</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-no-lessons">
+<span class="sig-name descname"><span class="pre">--no-lessons</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-no-lessons" title="Link to this definition">#</a></dt>
+<dd><p>Disable lesson auto-inclusion during eval runs (for no-context baselines).</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-eval-arg-EVAL_NAMES_OR_RESULT_FILES">
+<span class="sig-name descname"><span class="pre">EVAL_NAMES_OR_RESULT_FILES</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-eval-arg-EVAL_NAMES_OR_RESULT_FILES" title="Link to this definition">#</a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</section>
+<section id="gptme-auth">
+<h2>gptme-auth<a class="headerlink" href="#gptme-auth" title="Link to this heading">#</a></h2>
+<p>Authenticate with various gptme providers.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-auth-login">
+<h3>login<a class="headerlink" href="#gptme-auth-login" title="Link to this heading">#</a></h3>
+<p>Login to gptme cloud using RFC 8628 Device Flow.</p>
+<p>Initiates an OAuth Device Authorization Grant flow:</p>
+<div class="line-block">
+<div class="line">1. Requests a device code from the gptme service</div>
+<div class="line">2. Prompts you to visit a URL and enter a code in your browser</div>
+<div class="line">3. Polls until you approve (or the code expires)</div>
+<div class="line">4. Saves the token for future use</div>
+</div>
+<p>Works great for SSH sessions and headless environments.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>login<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auth-login-url">
+<span class="sig-name descname"><span class="pre">--url</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;url&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-auth-login-url" title="Link to this definition">#</a></dt>
+<dd><p>gptme service URL (used for LLM API and token storage).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'https://kpkxgnfpyntahyhckhgm.supabase.co'</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auth-login-auth-url">
+<span class="sig-name descname"><span class="pre">--auth-url</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;auth_url&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-auth-login-auth-url" title="Link to this definition">#</a></dt>
+<dd><p>Override the device-auth endpoint base URL. Defaults to the Supabase edge function used by gptme.ai.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auth-login-no-browser">
+<span class="sig-name descname"><span class="pre">--no-browser</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-auth-login-no-browser" title="Link to this definition">#</a></dt>
+<dd><p>Don’t open the browser automatically.</p>
+</dd></dl>
+
+</section>
+<section id="gptme-auth-logout">
+<h3>logout<a class="headerlink" href="#gptme-auth-logout" title="Link to this heading">#</a></h3>
+<p>Remove stored credentials for gptme cloud.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span><span class="nb">logout</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auth-logout-url">
+<span class="sig-name descname"><span class="pre">--url</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;url&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-auth-logout-url" title="Link to this definition">#</a></dt>
+<dd><p>gptme service URL to log out from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'https://kpkxgnfpyntahyhckhgm.supabase.co'</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="gptme-auth-openai-subscription">
+<h3>openai-subscription<a class="headerlink" href="#gptme-auth-openai-subscription" title="Link to this heading">#</a></h3>
+<p>Authenticate with OpenAI using your ChatGPT Plus/Pro subscription.</p>
+<p>This opens a browser for you to log in with your OpenAI account.
+After successful login, tokens are stored locally for future use.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>openai-subscription<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gptme-auth-status">
+<h3>status<a class="headerlink" href="#gptme-auth-status" title="Link to this heading">#</a></h3>
+<p>Show current login status for gptme cloud.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>status<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-auth-status-url">
+<span class="sig-name descname"><span class="pre">--url</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;url&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-auth-status-url" title="Link to this definition">#</a></dt>
+<dd><p>gptme service URL to check.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'https://kpkxgnfpyntahyhckhgm.supabase.co'</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util">
+<h2>gptme-util<a class="headerlink" href="#gptme-util" title="Link to this heading">#</a></h2>
+<p>Utility commands for gptme.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-v">
+<span id="cmdoption-gptme-util-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-v" title="Link to this definition">#</a></dt>
+<dd><p>Enable verbose output.</p>
+</dd></dl>
+
+<section id="gptme-util-context">
+<h3>context<a class="headerlink" href="#gptme-util-context" title="Link to this heading">#</a></h3>
+<p>Commands for context generation.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-context-files">
+<h4>files<a class="headerlink" href="#gptme-util-context-files" title="Link to this heading">#</a></h4>
+<p>Print the contents of all files listed in gptme.toml [prompt] files.</p>
+<p>Replaces ad-hoc context scripts in non-gptme harnesses (autonomous runs,
+project-monitoring) that manually concatenate gptme.toml prompt files.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>files<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-files-config">
+<span class="sig-name descname"><span class="pre">--config</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;config&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-files-config" title="Link to this definition">#</a></dt>
+<dd><p>Path to gptme.toml (default: auto-discover from git root or cwd)</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-context-git">
+<h4>git<a class="headerlink" href="#gptme-util-context-git" title="Link to this heading">#</a></h4>
+<p>Summarise the current git repo: branch, recent commits, staged/unstaged changes.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>git<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gptme-util-context-index">
+<h4>index<a class="headerlink" href="#gptme-util-context-index" title="Link to this heading">#</a></h4>
+<p>Index a file or directory for context retrieval.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>index<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>PATH
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-index-arg-PATH">
+<span class="sig-name descname"><span class="pre">PATH</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-context-index-arg-PATH" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-context-journal">
+<h4>journal<a class="headerlink" href="#gptme-util-context-journal" title="Link to this heading">#</a></h4>
+<p>Print journal entries from the last N days.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>journal<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-journal-days">
+<span class="sig-name descname"><span class="pre">--days</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;days&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-journal-days" title="Link to this definition">#</a></dt>
+<dd><p>Days to look back</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-journal-path">
+<span class="sig-name descname"><span class="pre">--path</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-journal-path" title="Link to this definition">#</a></dt>
+<dd><p>Journal directory</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-context-retrieve">
+<h4>retrieve<a class="headerlink" href="#gptme-util-context-retrieve" title="Link to this heading">#</a></h4>
+<p>Search indexed documents for relevant context.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>retrieve<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>QUERY
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-retrieve-full">
+<span class="sig-name descname"><span class="pre">--full</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-context-retrieve-full" title="Link to this definition">#</a></dt>
+<dd><p>Show full context of search results</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-retrieve-arg-QUERY">
+<span class="sig-name descname"><span class="pre">QUERY</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-context-retrieve-arg-QUERY" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-context-search-conversations">
+<h4>search-conversations<a class="headerlink" href="#gptme-util-context-search-conversations" title="Link to this heading">#</a></h4>
+<p>Search indexed conversations for relevant context.</p>
+<p>Returns the most relevant past conversation snippets for the given query.
+Requires conversations to be indexed first with <cite>rag_index_conversations</cite>
+(use <cite>rag_index_conversations()</cite> via the ipython tool, or <cite>gptme context index</cite> on a directory).</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>search-conversations<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>QUERY
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-search-conversations-top-k">
+<span class="sig-name descname"><span class="pre">--top-k</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;top_k&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-search-conversations-top-k" title="Link to this definition">#</a></dt>
+<dd><p>Number of results to return</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">3</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-search-conversations-arg-QUERY">
+<span class="sig-name descname"><span class="pre">QUERY</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-context-search-conversations-arg-QUERY" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-context-tree">
+<h4>tree<a class="headerlink" href="#gptme-util-context-tree" title="Link to this heading">#</a></h4>
+<p>Print workspace directory tree (respects .gitignore).</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>context<span class="w"> </span>tree<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-tree-path">
+<span class="sig-name descname"><span class="pre">--path</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;path&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-tree-path" title="Link to this definition">#</a></dt>
+<dd><p>Workspace root</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-context-tree-max-depth">
+<span class="sig-name descname"><span class="pre">--max-depth</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_depth&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-context-tree-max-depth" title="Link to this definition">#</a></dt>
+<dd><p>Tree depth</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-llm">
+<h3>llm<a class="headerlink" href="#gptme-util-llm" title="Link to this heading">#</a></h3>
+<p>LLM-related utilities.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>llm<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-llm-generate">
+<h4>generate<a class="headerlink" href="#gptme-util-llm-generate" title="Link to this heading">#</a></h4>
+<p>Generate a response from an LLM without any formatting.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>llm<span class="w"> </span>generate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>PROMPT<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-m">
+<span id="cmdoption-gptme-util-llm-generate-model"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-m" title="Link to this definition">#</a></dt>
+<dd><p>Model to use (e.g. openai/gpt-4o, anthropic/claude-sonnet-4-6)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-stream">
+<span id="cmdoption-gptme-util-llm-generate-no-stream"></span><span class="sig-name descname"><span class="pre">--stream</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-stream</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-stream" title="Link to this definition">#</a></dt>
+<dd><p>Stream the response</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-system">
+<span class="sig-name descname"><span class="pre">--system</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;system_prompt&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-system" title="Link to this definition">#</a></dt>
+<dd><p>System message to prepend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'You</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">helpful</span> <span class="pre">assistant.'</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-max-tokens">
+<span class="sig-name descname"><span class="pre">--max-tokens</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;max_tokens&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-max-tokens" title="Link to this definition">#</a></dt>
+<dd><p>Maximum number of tokens to generate.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-temperature">
+<span class="sig-name descname"><span class="pre">--temperature</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;temperature&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-temperature" title="Link to this definition">#</a></dt>
+<dd><p>Sampling temperature (0.0=deterministic, higher=more creative). Range: 0.0–2.0.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-output-format">
+<span class="sig-name descname"><span class="pre">--output-format</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;output_format&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-output-format" title="Link to this definition">#</a></dt>
+<dd><p>Output format: ‘text’ (default) or ‘json’ (includes model and usage metadata). Incompatible with –stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">'text'</span></code></p>
+</dd>
+<dt class="field-even">Options<span class="colon">:</span></dt>
+<dd class="field-even"><p>text | json</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-llm-generate-arg-PROMPT">
+<span class="sig-name descname"><span class="pre">PROMPT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-llm-generate-arg-PROMPT" title="Link to this definition">#</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-models">
+<h3>models<a class="headerlink" href="#gptme-util-models" title="Link to this heading">#</a></h3>
+<p>Model-related utilities.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>models<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-models-info">
+<h4>info<a class="headerlink" href="#gptme-util-models-info" title="Link to this heading">#</a></h4>
+<p>Show detailed information about a specific model.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>models<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>MODEL_NAME
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-info-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-info-json" title="Link to this definition">#</a></dt>
+<dd><p>Output as JSON.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-info-arg-MODEL_NAME">
+<span class="sig-name descname"><span class="pre">MODEL_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-info-arg-MODEL_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-models-list">
+<h4>list<a class="headerlink" href="#gptme-util-models-list" title="Link to this heading">#</a></h4>
+<p>List available models.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>models<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-provider">
+<span class="sig-name descname"><span class="pre">--provider</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;provider&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-provider" title="Link to this definition">#</a></dt>
+<dd><p>Filter by provider (e.g., openai, anthropic, gemini)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-pricing">
+<span class="sig-name descname"><span class="pre">--pricing</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-pricing" title="Link to this definition">#</a></dt>
+<dd><p>Show pricing information</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-vision">
+<span class="sig-name descname"><span class="pre">--vision</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-vision" title="Link to this definition">#</a></dt>
+<dd><p>Show only models with vision support</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-reasoning">
+<span class="sig-name descname"><span class="pre">--reasoning</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-reasoning" title="Link to this definition">#</a></dt>
+<dd><p>Show only models with reasoning support</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-simple">
+<span class="sig-name descname"><span class="pre">--simple</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-simple" title="Link to this definition">#</a></dt>
+<dd><p>Output one model per line as provider/model</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-include-deprecated">
+<span class="sig-name descname"><span class="pre">--include-deprecated</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-include-deprecated" title="Link to this definition">#</a></dt>
+<dd><p>Include deprecated/sunset models in the listing</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-available">
+<span class="sig-name descname"><span class="pre">--available</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-available" title="Link to this definition">#</a></dt>
+<dd><p>Only show models from providers with configured API keys</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-list-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-list-json" title="Link to this definition">#</a></dt>
+<dd><p>Output as JSON.</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-models-test">
+<h4>test<a class="headerlink" href="#gptme-util-models-test" title="Link to this heading">#</a></h4>
+<p>Test connectivity to a model by making a minimal API call.</p>
+<p>Verifies that the API key is configured, the model is reachable, and
+returns a response. Useful for troubleshooting provider setup and verifying
+model availability.</p>
+<dl class="simple">
+<dt>Examples:</dt><dd><p>gptme-util models test                    # test default model from config
+gptme-util models test anthropic          # test provider default
+gptme-util models test anthropic/claude-opus-4-7  # specific model
+gptme-util models test –json anthropic   # machine-readable output</p>
+</dd>
+</dl>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>models<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>MODEL_NAME<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-test-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-test-json" title="Link to this definition">#</a></dt>
+<dd><p>Output as JSON.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-models-test-arg-MODEL_NAME">
+<span class="sig-name descname"><span class="pre">MODEL_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-models-test-arg-MODEL_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-profile">
+<h3>profile<a class="headerlink" href="#gptme-util-profile" title="Link to this heading">#</a></h3>
+<p>Commands for managing agent profiles.</p>
+<p>Profiles define system prompts, tool access, and behavior rules.
+Tool restrictions are hard-enforced in subagent and CLI mode.</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>gptme-util profile list          # List all profiles
+gptme-util profile show explorer  # Show profile details</p>
+</dd>
+</dl>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>profile<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-profile-list">
+<h4>list<a class="headerlink" href="#gptme-util-profile-list" title="Link to this heading">#</a></h4>
+<p>List available agent profiles.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>profile<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gptme-util-profile-show">
+<h4>show<a class="headerlink" href="#gptme-util-profile-show" title="Link to this heading">#</a></h4>
+<p>Show details for a specific profile.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>profile<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>NAME
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-profile-show-arg-NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-profile-show-arg-NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-profile-validate">
+<h4>validate<a class="headerlink" href="#gptme-util-profile-validate" title="Link to this heading">#</a></h4>
+<p>Validate all profiles against available tools.</p>
+<p>Checks that tool names specified in profiles match actual loaded tools.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>profile<span class="w"> </span>validate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gptme-util-prompts">
+<h3>prompts<a class="headerlink" href="#gptme-util-prompts" title="Link to this heading">#</a></h3>
+<p>Commands for prompt utilities.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>prompts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-prompts-expand">
+<h4>expand<a class="headerlink" href="#gptme-util-prompts-expand" title="Link to this heading">#</a></h4>
+<p>Expand a prompt to show what will be sent to the LLM.</p>
+<p>Shows exactly how file paths in prompts are expanded into message content,
+using the same logic as the main gptme tool.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>prompts<span class="w"> </span>expand<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>PROMPT...
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-prompts-expand-arg-PROMPT">
+<span class="sig-name descname"><span class="pre">PROMPT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-prompts-expand-arg-PROMPT" title="Link to this definition">#</a></dt>
+<dd><p>Required argument(s)</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-providers">
+<h3>providers<a class="headerlink" href="#gptme-util-providers" title="Link to this heading">#</a></h3>
+<p>Commands for managing custom providers.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>providers<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-providers-list">
+<h4>list<a class="headerlink" href="#gptme-util-providers-list" title="Link to this heading">#</a></h4>
+<p>List configured custom OpenAI-compatible providers.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>providers<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gptme-util-providers-test">
+<h4>test<a class="headerlink" href="#gptme-util-providers-test" title="Link to this heading">#</a></h4>
+<p>Test connectivity to a custom provider.</p>
+<p>Connects to the provider’s API and lists available models.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>providers<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>PROVIDER_NAME
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-providers-test-arg-PROVIDER_NAME">
+<span class="sig-name descname"><span class="pre">PROVIDER_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-providers-test-arg-PROVIDER_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-tokens">
+<h3>tokens<a class="headerlink" href="#gptme-util-tokens" title="Link to this heading">#</a></h3>
+<p>Commands for token counting.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tokens<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-tokens-count">
+<h4>count<a class="headerlink" href="#gptme-util-tokens-count" title="Link to this heading">#</a></h4>
+<p>Count tokens in text or file.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tokens<span class="w"> </span>count<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TEXT<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tokens-count-m">
+<span id="cmdoption-gptme-util-tokens-count-model"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--model</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;model&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-tokens-count-m" title="Link to this definition">#</a></dt>
+<dd><p>Model to use for token counting.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tokens-count-f">
+<span id="cmdoption-gptme-util-tokens-count-file"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--file</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;file&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-tokens-count-f" title="Link to this definition">#</a></dt>
+<dd><p>File to count tokens in. Use ‘-’ to read from stdin.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tokens-count-arg-TEXT">
+<span class="sig-name descname"><span class="pre">TEXT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tokens-count-arg-TEXT" title="Link to this definition">#</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="gptme-util-tools">
+<h3>tools<a class="headerlink" href="#gptme-util-tools" title="Link to this heading">#</a></h3>
+<p>Tool-related utilities.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tools<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<section id="gptme-util-tools-call">
+<h4>call<a class="headerlink" href="#gptme-util-tools-call" title="Link to this heading">#</a></h4>
+<p>Call a tool with the given arguments.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tools<span class="w"> </span>call<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TOOL_NAME<span class="w"> </span>FUNCTION_NAME
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-call-a">
+<span id="cmdoption-gptme-util-tools-call-arg"></span><span class="sig-name descname"><span class="pre">-a</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--arg</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;arg&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-util-tools-call-a" title="Link to this definition">#</a></dt>
+<dd><p>Arguments to pass to the function. Format: key=value</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-call-arg-TOOL_NAME">
+<span class="sig-name descname"><span class="pre">TOOL_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-call-arg-TOOL_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-call-arg-FUNCTION_NAME">
+<span class="sig-name descname"><span class="pre">FUNCTION_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-call-arg-FUNCTION_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-tools-info">
+<h4>info<a class="headerlink" href="#gptme-util-tools-info" title="Link to this heading">#</a></h4>
+<p>Show detailed information about a tool.</p>
+<p>Displays tool instructions, examples, and token usage estimates.
+Use this to understand how a tool works and how to use it.</p>
+<p>Output is truncated by default. Use -v for full output.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tools<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TOOL_NAME
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-info-v">
+<span id="cmdoption-gptme-util-tools-info-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-info-v" title="Link to this definition">#</a></dt>
+<dd><p>Show full output (not truncated)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-info-no-examples">
+<span class="sig-name descname"><span class="pre">--no-examples</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-info-no-examples" title="Link to this definition">#</a></dt>
+<dd><p>Hide examples section</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-info-no-tokens">
+<span class="sig-name descname"><span class="pre">--no-tokens</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-info-no-tokens" title="Link to this definition">#</a></dt>
+<dd><p>Hide token estimates</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-info-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-info-json" title="Link to this definition">#</a></dt>
+<dd><p>Output as JSON.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-info-arg-TOOL_NAME">
+<span class="sig-name descname"><span class="pre">TOOL_NAME</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-info-arg-TOOL_NAME" title="Link to this definition">#</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="gptme-util-tools-list">
+<h4>list<a class="headerlink" href="#gptme-util-tools-list" title="Link to this heading">#</a></h4>
+<p>List available tools.</p>
+<p>By default shows only available tools (dependencies installed).
+Use –all to include unavailable tools as well.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>tools<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-list-available">
+<span id="cmdoption-gptme-util-tools-list-all"></span><span class="sig-name descname"><span class="pre">--available</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--all</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-list-available" title="Link to this definition">#</a></dt>
+<dd><p>Show only available tools or all tools</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-list-langtags">
+<span class="sig-name descname"><span class="pre">--langtags</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-list-langtags" title="Link to this definition">#</a></dt>
+<dd><p>Show language tags for code execution</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-list-compact">
+<span class="sig-name descname"><span class="pre">--compact</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-list-compact" title="Link to this definition">#</a></dt>
+<dd><p>Compact single-line format</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-util-tools-list-json">
+<span class="sig-name descname"><span class="pre">--json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-util-tools-list-json" title="Link to this definition">#</a></dt>
+<dd><p>Output as JSON.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="commands.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Commands</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="config.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Configuration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">gptme</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server">gptme-server</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-openapi">openapi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-serve">serve</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-server-token">token</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-eval">gptme-eval</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth">gptme-auth</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-login">login</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-logout">logout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openai-subscription">openai-subscription</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-status">status</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util">gptme-util</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context">context</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-files">files</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-git">git</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-index">index</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-journal">journal</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-retrieve">retrieve</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-search-conversations">search-conversations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-context-tree">tree</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-llm">llm</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-llm-generate">generate</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models">models</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-info">info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-models-test">test</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile">profile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-show">show</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-profile-validate">validate</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-prompts">prompts</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-prompts-expand">expand</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers">providers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-list">list</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-test">test</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tokens">tokens</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tokens-count">count</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools">tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-call">call</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-info">info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-tools-list">list</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Bjäreholt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Erik Bjäreholt.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,924 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Server &#8212; gptme</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/asciinema-player_3.12.1.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'server';</script>
+    <link rel="canonical" href="https://gptme.org/docs/server.html" />
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MCP" href="mcp.html" />
+    <link rel="prev" title="Verifier Profile" href="agent/verifier-profile.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system-dependencies.html">System Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos.html">Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">How to Debug Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom-providers.html">Custom Providers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Extensibility</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="agent/verifier-profile.html">Verifier Profile</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP (Agent Client Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lessons.html">Lessons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skills.html">Skills</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prompts.html">Prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Design Documents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arewetiny.html">Are we tiny?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.29.0.html">v0.29.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.3.html">v0.28.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.2.html">v0.28.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.1.html">v0.28.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.0.html">v0.28.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.27.0.html">v0.27.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.26.0.html">v0.26.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.25.0.html">v0.25.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.1.html">v0.24.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.0.html">v0.24.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.23.0.html">v0.23.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.22.0.html">v0.22.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.21.0.html">v0.21.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.20.0.html">v0.20.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.19.0.html">v0.19.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.18.0.html">v0.18.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.17.0.html">v0.17.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.16.0.html">v0.16.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.15.0.html">v0.15.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.14.0.html">v0.14.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.13.0.html">v0.13.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.12.0.html">v0.12.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.11.0.html">v0.11.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.5.html">v0.10.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.4.html">v0.10.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.3.html">v0.10.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.2.html">v0.10.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.1.html">v0.10.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.0.html">v0.10.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.4.html">v0.9.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.3.html">v0.9.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.2.html">v0.9.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.1.html">v0.9.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.0.html">v0.9.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.1.html">v0.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.0.html">v0.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.7.0.html">v0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.1.html">v0.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.0.html">v0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.5.0.html">v0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.2.html">v0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.1.html">v0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.0.html">v0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.3.html">v0.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.2.html">v0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.1.html">v0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.0.html">v0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.2.html">v0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.1.html">v0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.1.1.html">v0.1.1</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/gptme/gptme">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/NMaCmmkxWv">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://x.com/gptmeorg">X</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme/edit/main/docs/server.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/server.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Server</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-webui-modern-web-interface">gptme-webui: Modern Web Interface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-hosting-with-docker-compose">Self-Hosting with Docker Compose</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production-deployment-nginx-reverse-proxy">Production Deployment: nginx Reverse Proxy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-as-a-systemd-service-pipx">Running as a systemd Service (pipx)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-web-ui">Basic Web UI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computer-use-interface">Computer Use Interface</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-computer-use-advanced">Local Computer Use (Advanced)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rest-api">REST API</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="server">
+<h1>Server<a class="headerlink" href="#server" title="Link to this heading">#</a></h1>
+<p>gptme provides multiple web-based interfaces for browser-based interactions, from lightweight options to sophisticated desktop-integrated experiences.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>To use gptme’s server capabilities, install with server extras:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipx<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;gptme[server]&#39;</span>
+</pre></div>
+</div>
+<p>Start the server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme-server
+</pre></div>
+</div>
+<p>For more CLI options, see the <a class="reference internal" href="cli.html#gptme-server"><span class="std std-ref">CLI reference</span></a>.</p>
+</section>
+<section id="gptme-webui-modern-web-interface">
+<span id="server-gptme-webui"></span><h2>gptme-webui: Modern Web Interface<a class="headerlink" href="#gptme-webui-modern-web-interface" title="Link to this heading">#</a></h2>
+<p>The primary web interface is <a class="reference external" href="https://github.com/gptme/gptme/tree/master/webui">gptme-webui</a>: a modern, feature-rich application that provides a complete gptme experience in your browser. (Originally a <a class="reference external" href="https://github.com/gptme/gptme-webui">standalone repo</a>, now merged into the main gptme repository.)</p>
+<p><strong>Try it now:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://chat.gptme.org">chat.gptme.org</a> (latest version of gptme-webui, bring your own gptme-server)</p></li>
+<li><p><a class="reference external" href="https://gptme.ai">gptme.ai</a> (upcoming hosted gptme service)</p></li>
+</ul>
+<p><strong>Key Features:</strong></p>
+<ul class="simple">
+<li><p>Modern interface</p></li>
+<li><p>Streaming responses</p></li>
+<li><p>Mobile-friendly responsive design</p></li>
+<li><p>Dark mode support</p></li>
+<li><p>Conversation export and offline capabilities</p></li>
+<li><p>Integrated computer use interface</p></li>
+<li><p>Create your own persistent <cite>agents</cite></p></li>
+</ul>
+<p><strong>Local Installation:</strong>
+For self-hosting and local development, see the <a class="reference external" href="https://github.com/gptme/gptme/tree/master/webui">gptme-webui README</a>.</p>
+<p>To use the server with a locally hosted gptme-webui, configure the CORS origin when starting the server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme-server<span class="w"> </span>--cors-origin<span class="w"> </span><span class="s1">&#39;http://localhost:5701&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Connecting the hosted web UI to a local server (Chrome 142+).</strong>
+When you use the hosted web UI at <a class="reference external" href="https://chat.gptme.org">chat.gptme.org</a>
+with a <code class="docutils literal notranslate"><span class="pre">gptme-server</span></code> running on <code class="docutils literal notranslate"><span class="pre">localhost</span></code>, recent Chromium browsers
+(Chrome 142+) gate the connection behind a <em>Local Network Access</em> permission
+prompt. This check runs <em>before</em> CORS headers are evaluated, so the
+<code class="docutils literal notranslate"><span class="pre">--cors-origin</span></code> flag is necessary but no longer sufficient — you must also
+click <strong>Allow</strong> on the permission prompt for the page to reach your local
+server. Serving the web UI from a local origin (for example
+<code class="docutils literal notranslate"><span class="pre">http://localhost:5701</span></code>) avoids the prompt entirely, since that is a
+local-to-local request.</p>
+</div>
+</section>
+<section id="self-hosting-with-docker-compose">
+<h2>Self-Hosting with Docker Compose<a class="headerlink" href="#self-hosting-with-docker-compose" title="Link to this heading">#</a></h2>
+<p>For a self-contained deployment, a <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> is included at the
+repository root. It builds a lean image (<code class="docutils literal notranslate"><span class="pre">scripts/Dockerfile.selfhost</span></code>,
+gptme + the <code class="docutils literal notranslate"><span class="pre">server</span></code> extra only — no Node/agent tooling) and runs
+<code class="docutils literal notranslate"><span class="pre">gptme-server</span></code> with persistent volumes for config and conversation logs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/gptme/gptme.git
+<span class="nb">cd</span><span class="w"> </span>gptme
+
+<span class="c1"># Configure: at least one provider key is required</span>
+cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<span class="nv">$EDITOR</span><span class="w"> </span>.env
+
+<span class="c1"># Build and start the server</span>
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>--build
+</pre></div>
+</div>
+<p>The server listens on <a class="reference external" href="http://localhost:5700">http://localhost:5700</a>.</p>
+<p>The simplest way to use it is the basic web UI the server bundles at the same
+origin — just open <a class="reference external" href="http://localhost:5700">http://localhost:5700</a> in a browser. Being same-origin, it
+needs no CORS setup (you will still need the server token; see below).</p>
+<p>To use the full-featured hosted web UI instead, open
+<a class="reference external" href="https://chat.gptme.org">chat.gptme.org</a> and point it at your server. That is
+a cross-origin setup, so the server must allow the UI’s origin — the default
+<code class="docutils literal notranslate"><span class="pre">CORS_ORIGIN</span></code> already permits <code class="docutils literal notranslate"><span class="pre">chat.gptme.org</span></code>. Set <code class="docutils literal notranslate"><span class="pre">CORS_ORIGIN</span></code> in
+<code class="docutils literal notranslate"><span class="pre">.env</span></code> to a different origin if you self-host the web UI yourself.</p>
+<p>Key <code class="docutils literal notranslate"><span class="pre">.env</span></code> settings:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY</span></code> / <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY</span></code> / <code class="docutils literal notranslate"><span class="pre">OPENROUTER_API_KEY</span></code> — at least one is required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_SERVER_TOKEN</span></code> — auth token. The server enables auth by default when bound to <code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code> (as in the container), so set this and configure the web UI with the same value. If left blank, a token is auto-generated at startup — find it with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">logs</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CORS_ORIGIN</span></code> — origin allowed to call the server (defaults to the hosted web UI).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_SERVER_PORT</span></code> — host port to publish (the container always listens on 5700).</p></li>
+</ul>
+</section>
+<section id="production-deployment-nginx-reverse-proxy">
+<h2>Production Deployment: nginx Reverse Proxy<a class="headerlink" href="#production-deployment-nginx-reverse-proxy" title="Link to this heading">#</a></h2>
+<p>The docker-compose setup above publishes the server on a plain HTTP port
+(<code class="docutils literal notranslate"><span class="pre">5700</span></code> by default). For a public-facing deployment you should put it behind a
+reverse proxy that terminates TLS and forwards requests to the container. The
+example below uses nginx with a Let’s Encrypt certificate.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do <strong>not</strong> expose the raw <code class="docutils literal notranslate"><span class="pre">5700</span></code> port to the internet. Bind the published
+port to loopback so only the proxy can reach it. In <code class="docutils literal notranslate"><span class="pre">.env</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>) set the publish address to <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;127.0.0.1:5700:5700&quot;</span>
+</pre></div>
+</div>
+<p>Also set <code class="docutils literal notranslate"><span class="pre">GPTME_SERVER_TOKEN</span></code> to a strong value — the proxy handles TLS,
+but the token is what authenticates each request.</p>
+</div>
+<p><strong>1. Obtain a TLS certificate</strong> with certbot (one-time, then auto-renewed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>certbot<span class="w"> </span>python3-certbot-nginx
+sudo<span class="w"> </span>certbot<span class="w"> </span>certonly<span class="w"> </span>--nginx<span class="w"> </span>-d<span class="w"> </span>gptme.example.com
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--nginx</span></code> plugin handles the ACME HTTP challenge through nginx
+itself, so you do <strong>not</strong> need to stop nginx first (unlike
+<code class="docutils literal notranslate"><span class="pre">--standalone</span></code>, which binds its own listener to port 80 and fails
+when nginx is already running).</p>
+</div>
+<p><strong>2. nginx site config</strong> (<code class="docutils literal notranslate"><span class="pre">/etc/nginx/sites-available/gptme</span></code>):</p>
+<div class="highlight-nginx notranslate"><div class="highlight"><pre><span></span><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">gptme.example.com</span><span class="p">;</span>
+<span class="w">    </span><span class="c1"># Redirect all HTTP to HTTPS</span>
+<span class="w">    </span><span class="kn">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">gptme.example.com</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">ssl_certificate</span><span class="w">     </span><span class="s">/etc/letsencrypt/live/gptme.example.com/fullchain.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/gptme.example.com/privkey.pem</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1"># Restrict to TLS 1.2/1.3 with strong ciphers (Mozilla &quot;intermediate&quot; profile)</span>
+<span class="w">    </span><span class="kn">ssl_protocols</span><span class="w"> </span><span class="s">TLSv1.2</span><span class="w"> </span><span class="s">TLSv1.3</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_ciphers</span><span class="w"> </span><span class="s">ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_prefer_server_ciphers</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://127.0.0.1:5700</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w">              </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w">         </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-For</span><span class="w">   </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1"># gptme-server streams responses over Server-Sent Events</span>
+<span class="w">        </span><span class="c1"># (text/event-stream). Disable proxy buffering and use long</span>
+<span class="w">        </span><span class="c1"># read timeouts so streamed tokens are flushed to the client</span>
+<span class="w">        </span><span class="c1"># immediately rather than buffered until the response completes.</span>
+<span class="w">        </span><span class="kn">proxy_buffering</span><span class="w">    </span><span class="no">off</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_cache</span><span class="w">        </span><span class="no">off</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="s">3600s</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">Connection</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_http_version</span><span class="w"> </span><span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>3. Enable the site and reload nginx:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/etc/nginx/sites-available/gptme<span class="w"> </span>/etc/nginx/sites-enabled/
+sudo<span class="w"> </span>nginx<span class="w"> </span>-t<span class="w">        </span><span class="c1"># validate config</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</pre></div>
+</div>
+<p>The server is now reachable at <code class="docutils literal notranslate"><span class="pre">https://gptme.example.com</span></code>. Point your web UI
+(or the hosted UI at <a class="reference external" href="https://chat.gptme.org">chat.gptme.org</a>) at that URL, and
+set <code class="docutils literal notranslate"><span class="pre">CORS_ORIGIN</span></code> in <code class="docutils literal notranslate"><span class="pre">.env</span></code> to the origin the UI is served from.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">proxy_buffering</span> <span class="pre">off</span></code> and long <code class="docutils literal notranslate"><span class="pre">proxy_read_timeout</span></code> settings are the
+important part: without them nginx buffers the SSE stream and the chat appears
+to hang until each full response is ready, instead of streaming token by
+token.</p>
+</div>
+<p><strong>Local-only access.</strong> If you only want the server reachable from the host
+itself (for example, behind a VPN or an SSH tunnel), skip the proxy entirely and
+keep the default loopback bind — open an SSH tunnel from your client with
+<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-L</span> <span class="pre">5700:127.0.0.1:5700</span> <span class="pre">user&#64;host</span></code> and use <code class="docutils literal notranslate"><span class="pre">http://localhost:5700</span></code>.</p>
+</section>
+<section id="running-as-a-systemd-service-pipx">
+<h2>Running as a systemd Service (pipx)<a class="headerlink" href="#running-as-a-systemd-service-pipx" title="Link to this heading">#</a></h2>
+<p>If you installed gptme directly with <code class="docutils literal notranslate"><span class="pre">pipx</span></code> rather than Docker, you can run
+the server as a systemd service so it starts on boot and restarts on failure.
+A ready-to-edit unit template ships at <a class="reference external" href="https://github.com/gptme/gptme/blob/master/scripts/gptme-server.service">scripts/gptme-server.service</a>.</p>
+<p>The template runs the server as a dedicated <code class="docutils literal notranslate"><span class="pre">gptme</span></code> user, reads secrets from
+<code class="docutils literal notranslate"><span class="pre">/etc/gptme/server.env</span></code>, binds loopback, and applies systemd hardening
+(<code class="docutils literal notranslate"><span class="pre">ProtectSystem=strict</span></code>, <code class="docutils literal notranslate"><span class="pre">NoNewPrivileges</span></code>, etc.). Install it with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dedicated service user + pipx install of the entrypoint</span>
+sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--create-home<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>gptme
+sudo<span class="w"> </span>-u<span class="w"> </span>gptme<span class="w"> </span>pipx<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;gptme[server]&#39;</span>
+
+<span class="c1"># Pre-create config/data dirs (required: ProtectHome=read-only only bind-mounts</span>
+<span class="c1"># paths that already exist; gptme initialises them at import time, which fails</span>
+<span class="c1"># under the sandbox on a fresh install before any request is served)</span>
+sudo<span class="w"> </span>-u<span class="w"> </span>gptme<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/home/gptme/.config/gptme<span class="w"> </span><span class="se">\</span>
+<span class="w">                       </span>/home/gptme/.local/share/gptme<span class="w"> </span><span class="se">\</span>
+<span class="w">                       </span>/home/gptme/.local/state/gptme
+
+<span class="c1"># Secrets file (provider keys, optional GPTME_SERVER_TOKEN), not world-readable</span>
+sudo<span class="w"> </span>install<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="m">750</span><span class="w"> </span>-o<span class="w"> </span>gptme<span class="w"> </span>-g<span class="w"> </span>gptme<span class="w"> </span>/etc/gptme
+sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">640</span><span class="w"> </span>-o<span class="w"> </span>gptme<span class="w"> </span>-g<span class="w"> </span>gptme<span class="w"> </span>/dev/null<span class="w"> </span>/etc/gptme/server.env
+sudoedit<span class="w"> </span>/etc/gptme/server.env<span class="w">   </span><span class="c1"># add ANTHROPIC_API_KEY=... etc.</span>
+
+<span class="c1"># Download and install the unit (adjust User=, the ExecStart path, --cors-origin)</span>
+sudo<span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/gptme/gptme/master/scripts/gptme-server.service<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>/etc/systemd/system/gptme-server.service
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>gptme-server
+</pre></div>
+</div>
+<p>Tail logs with <code class="docutils literal notranslate"><span class="pre">journalctl</span> <span class="pre">-u</span> <span class="pre">gptme-server</span> <span class="pre">-f</span></code>. Because the unit binds
+<code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>, pair it with the nginx reverse proxy above to expose it over TLS;
+on loopback the auth token is optional (set <code class="docutils literal notranslate"><span class="pre">GPTME_SERVER_TOKEN</span></code> in the env
+file if you change the bind to a public interface).</p>
+</section>
+<section id="basic-web-ui">
+<h2>Basic Web UI<a class="headerlink" href="#basic-web-ui" title="Link to this heading">#</a></h2>
+<p>A lightweight chat interface with minimal dependencies is bundled with the gptme server for simple deployments.</p>
+<p>Access at <a class="reference external" href="http://localhost:5700">http://localhost:5700</a> after starting <code class="docutils literal notranslate"><span class="pre">gptme-server</span></code>.</p>
+<p>This interface provides basic chat functionality and is useful for:</p>
+<ul class="simple">
+<li><p>Quick testing and development</p></li>
+<li><p>Minimal server deployments</p></li>
+<li><p>Environments with limited resources</p></li>
+</ul>
+</section>
+<section id="computer-use-interface">
+<h2>Computer Use Interface<a class="headerlink" href="#computer-use-interface" title="Link to this heading">#</a></h2>
+<p>The computer use interface provides an innovative split-view experience with chat on the left and a live desktop environment on the right, enabling AI agents to interact directly with desktop applications.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The computer use interface is experimental and has serious security implications.
+Please use with caution and see Anthropic’s documentation on <a class="reference external" href="https://docs.anthropic.com/en/docs/build-with-claude/computer-use">computer use</a> for additional guidance.</p>
+</div>
+<p><strong>Docker Setup</strong> (Recommended):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/gptme/gptme.git
+<span class="nb">cd</span><span class="w"> </span>gptme
+
+<span class="c1"># Build and run the computer use container</span>
+make<span class="w"> </span>build-docker-computer
+docker<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>~/.config/gptme:/home/computeruse/.config/gptme<span class="w"> </span>-p<span class="w"> </span><span class="m">6080</span>:6080<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>gptme-computer:latest
+</pre></div>
+</div>
+<p><strong>Access Points:</strong></p>
+<ul class="simple">
+<li><p><strong>Combined interface:</strong> <a class="reference external" href="http://localhost:8080/computer">http://localhost:8080/computer</a></p></li>
+<li><p><strong>Chat only:</strong> <a class="reference external" href="http://localhost:8080">http://localhost:8080</a></p></li>
+<li><p><strong>Desktop only:</strong> <a class="reference external" href="http://localhost:6080/vnc.html">http://localhost:6080/vnc.html</a></p></li>
+</ul>
+<p><strong>Features:</strong></p>
+<ul class="simple">
+<li><p>Split-view interface with real-time desktop interaction</p></li>
+<li><p>Toggle between view-only and interactive desktop modes</p></li>
+<li><p>Automatic screen scaling optimized for LLM vision models</p></li>
+<li><p>Secure containerized environment</p></li>
+</ul>
+<p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li><p>Docker with X11 support</p></li>
+<li><p>Available ports: 6080 (VNC) and 8080 (web interface)</p></li>
+</ul>
+<section id="local-computer-use-advanced">
+<h3>Local Computer Use (Advanced)<a class="headerlink" href="#local-computer-use-advanced" title="Link to this heading">#</a></h3>
+<p>You can enable the <code class="docutils literal notranslate"><span class="pre">computer</span></code> tool locally on Linux systems, though this is not recommended for security reasons.</p>
+<p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li><p>X11 server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xdotool</span></code> package installed</p></li>
+</ul>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable computer tool in addition to default tools</span>
+gptme<span class="w"> </span>--tools<span class="w"> </span>+computer
+</pre></div>
+</div>
+<p>Set an appropriate screen resolution for your vision model before use.</p>
+<p>For long-running visual workflows, prefer a specialized subagent profile to keep
+parent context smaller:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Desktop interaction (mouse, keyboard, screenshots)</span>
+<span class="n">subagent</span><span class="p">(</span>
+    <span class="s2">&quot;computer-use&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Click the Submit button, wait for the modal, and screenshot the result&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Web browsing and testing</span>
+<span class="n">subagent</span><span class="p">(</span>
+    <span class="s2">&quot;browser-use&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Open localhost:5173, capture a screenshot, and report UI issues&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="rest-api">
+<h2>REST API<a class="headerlink" href="#rest-api" title="Link to this heading">#</a></h2>
+<p>gptme-server provides a REST API for programmatic access to gptme functionality. This enables integration with custom applications and automation workflows.</p>
+<p>The API endpoints support the core gptme operations including chat interactions, tool execution, and conversation management.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>API documentation is available when running the server. Visit the server endpoint <code class="docutils literal notranslate"><span class="pre">/api/docs/</span></code> for interactive API documentation based on the OpenAPI spec (served at <code class="docutils literal notranslate"><span class="pre">/api/docs/openapi.json</span></code>).</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="agent/verifier-profile.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Verifier Profile</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mcp.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">MCP</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-webui-modern-web-interface">gptme-webui: Modern Web Interface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-hosting-with-docker-compose">Self-Hosting with Docker Compose</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production-deployment-nginx-reverse-proxy">Production Deployment: nginx Reverse Proxy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-as-a-systemd-service-pipx">Running as a systemd Service (pipx)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-web-ui">Basic Web UI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computer-use-interface">Computer Use Interface</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-computer-use-advanced">Local Computer Use (Advanced)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rest-api">REST API</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Bjäreholt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Erik Bjäreholt.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

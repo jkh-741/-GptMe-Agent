@@ -1,0 +1,1272 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plugin System &#8212; gptme</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/asciinema-player_3.12.1.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'plugins';</script>
+    <link rel="canonical" href="https://gptme.org/docs/plugins.html" />
+    <link rel="icon" href="_static/logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prompts" href="prompts.html" />
+    <link rel="prev" title="Hooks" href="hooks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system-dependencies.html">System Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos.html">Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">How to Debug Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom-providers.html">Custom Providers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Extensibility</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="agent/verifier-profile.html">Verifier Profile</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP (Agent Client Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lessons.html">Lessons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skills.html">Skills</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Plugin System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prompts.html">Prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Design Documents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arewetiny.html">Are we tiny?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.29.0.html">v0.29.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.3.html">v0.28.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.2.html">v0.28.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.1.html">v0.28.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.28.0.html">v0.28.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.27.0.html">v0.27.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.26.0.html">v0.26.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.25.0.html">v0.25.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.1.html">v0.24.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.24.0.html">v0.24.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.23.0.html">v0.23.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.22.0.html">v0.22.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.21.0.html">v0.21.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.20.0.html">v0.20.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.19.0.html">v0.19.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.18.0.html">v0.18.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.17.0.html">v0.17.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.16.0.html">v0.16.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.15.0.html">v0.15.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.14.0.html">v0.14.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.13.0.html">v0.13.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.12.0.html">v0.12.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.11.0.html">v0.11.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.5.html">v0.10.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.4.html">v0.10.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.3.html">v0.10.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.2.html">v0.10.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.1.html">v0.10.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.10.0.html">v0.10.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.4.html">v0.9.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.3.html">v0.9.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.2.html">v0.9.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.1.html">v0.9.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.9.0.html">v0.9.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.1.html">v0.8.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.8.0.html">v0.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.7.0.html">v0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.1.html">v0.6.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.6.0.html">v0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.5.0.html">v0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.2.html">v0.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.1.html">v0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.4.0.html">v0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.3.html">v0.3.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.2.html">v0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.1.html">v0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.3.0.html">v0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.2.html">v0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.2.1.html">v0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.1.1.html">v0.1.1</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">External</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/gptme/gptme">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/NMaCmmkxWv">Discord</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://x.com/gptmeorg">X</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/gptme/gptme/edit/main/docs/plugins.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/plugins.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Plugin System</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-structure">Plugin Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skills-vs-plugins">Skills vs Plugins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-plugin">Creating a Plugin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-plugin-directory-structure">1. Create Plugin Directory Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-tool-module">2. Create a Tool Module</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-your-plugin">3. Use Your Plugin</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">How It Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-tool-modules">Plugin Tool Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-tools-as-a-package">Option 1: tools/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-tool-files">Option 2: Individual Tool Files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-hook-modules">Plugin Hook Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-hooks-as-a-package">Option 1: hooks/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-hook-files">Option 2: Individual Hook Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook-types">Hook Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook-registration">Hook Registration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-command-modules">Plugin Command Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-commands-as-a-package">Option 1: commands/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-command-files">Option 2: Individual Command Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-plugin-commands">Using Plugin Commands</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-handler-requirements">Command Handler Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logging-plugin">Example: Logging Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-weather-plugin">Example: Weather Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution">Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-plugin-system-entry-points">Unified Plugin System (Entry Points)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-from-tool-modules">Migration from TOOL_MODULES</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="plugin-system">
+<h1>Plugin System<a class="headerlink" href="#plugin-system" title="Link to this heading">#</a></h1>
+<p>The plugin system allows extending gptme with <a class="reference internal" href="custom_tool.html"><span class="doc">custom tools</span></a>, <a class="reference internal" href="hooks.html"><span class="doc">hooks</span></a>, and <a class="reference internal" href="concepts.html#commands"><span class="std std-ref">commands</span></a> without modifying the core codebase.</p>
+<p><strong>When to use plugins</strong>: For runtime integration (hooks, custom tools, commands). For lightweight knowledge bundles, see <a class="reference internal" href="lessons.html"><span class="doc">Lessons</span></a> or <a class="reference internal" href="skills.html"><span class="doc">Skills</span></a> instead.</p>
+<section id="plugin-structure">
+<h2>Plugin Structure<a class="headerlink" href="#plugin-structure" title="Link to this heading">#</a></h2>
+<p>A plugin is a Python package (directory with <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>) that can contain:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my_plugin/
+├── __init__.py          # Plugin metadata
+├── tools/               # Tool modules (optional)
+│   ├── __init__.py     # Makes tools/ a package
+│   └── my_tool.py      # Individual tool modules
+├── hooks/               # Hook modules (optional)
+│   ├── __init__.py     # Makes hooks/ a package
+│   └── my_hook.py      # Individual hook modules
+└── commands/            # Command modules (optional)
+    ├── __init__.py     # Makes commands/ a package
+    └── my_command.py   # Individual command modules
+</pre></div>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<p>Plugins can be configured at two levels:</p>
+<p><strong>User-level</strong> (<code class="docutils literal notranslate"><span class="pre">~/.config/gptme/config.toml</span></code>): Applies to all projects.</p>
+<p><strong>Project-level</strong> (<code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code> in workspace root): Applies only to this project, merged with user config.</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins]</span>
+<span class="c1"># Paths to search for plugins (supports ~ expansion and relative paths)</span>
+<span class="n">paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;~/.config/gptme/plugins&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;~/.local/share/gptme/plugins&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;./plugins&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1"># Project-local plugins</span>
+<span class="p">]</span>
+
+<span class="c1"># Optional: only enable specific plugins (empty = all discovered)</span>
+<span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;my_plugin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;another_plugin&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Project-level plugin paths are relative to the workspace root.</p>
+<p>Plugin-owned config lives under <code class="docutils literal notranslate"><span class="pre">[plugin.&lt;name&gt;]</span></code>. For example:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugin.my_plugin]</span>
+<span class="n">api_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://example.com&quot;</span>
+<span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span>
+</pre></div>
+</div>
+<p>Plugin <code class="docutils literal notranslate"><span class="pre">init(config)</span></code> hooks can read that config via
+<code class="docutils literal notranslate"><span class="pre">config.project.plugin.get(&quot;my_plugin&quot;,</span> <span class="pre">{})</span> <span class="pre">if</span> <span class="pre">config.project</span> <span class="pre">else</span> <span class="pre">{}</span></code> and
+<code class="docutils literal notranslate"><span class="pre">config.user.plugin.get(&quot;my_plugin&quot;,</span> <span class="pre">{})</span> <span class="pre">if</span> <span class="pre">config.user</span> <span class="pre">else</span> <span class="pre">{}</span></code>.</p>
+</section>
+<section id="skills-vs-plugins">
+<h2>Skills vs Plugins<a class="headerlink" href="#skills-vs-plugins" title="Link to this heading">#</a></h2>
+<p><strong>Choose the right extensibility mechanism</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Need</p></th>
+<th class="head"><p>Use</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Share knowledge
+and workflows</p></td>
+<td><p>Skills</p></td>
+<td><p>Lightweight bundles
+(Anthropic format)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Runtime hooks
+(lifecycle events)</p></td>
+<td><p>Plugins</p></td>
+<td><p>Deep integration
+with gptme runtime</p></td>
+</tr>
+<tr class="row-even"><td><p>Custom tools
+(new actions)</p></td>
+<td><p>Plugins</p></td>
+<td><p>Extend capabilities
+via Python code</p></td>
+</tr>
+<tr class="row-odd"><td><p>Custom commands
+(/command)</p></td>
+<td><p>Plugins</p></td>
+<td><p>Add CLI commands
+for users</p></td>
+</tr>
+<tr class="row-even"><td><p>Bundled scripts
+(no integration)</p></td>
+<td><p>Skills</p></td>
+<td><p>Simple file bundles
+without hooks</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Examples</strong>:</p>
+<ul class="simple">
+<li><p><strong>Skill</strong>: Python best practices guide with example scripts</p></li>
+<li><p><strong>Plugin</strong>: Automatic linting that runs hooks on file save</p></li>
+</ul>
+<p>See <a class="reference internal" href="skills.html"><span class="doc">Skills</span></a> for lightweight knowledge bundles.</p>
+</section>
+<section id="creating-a-plugin">
+<span id="id1"></span><h2>Creating a Plugin<a class="headerlink" href="#creating-a-plugin" title="Link to this heading">#</a></h2>
+<section id="create-plugin-directory-structure">
+<h3>1. Create Plugin Directory Structure<a class="headerlink" href="#create-plugin-directory-structure" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.config/gptme/plugins/my_plugin/tools
+touch<span class="w"> </span>~/.config/gptme/plugins/my_plugin/__init__.py
+touch<span class="w"> </span>~/.config/gptme/plugins/my_plugin/tools/__init__.py
+</pre></div>
+</div>
+</section>
+<section id="create-a-tool-module">
+<h3>2. Create a Tool Module<a class="headerlink" href="#create-a-tool-module" title="Link to this heading">#</a></h3>
+<p><strong>my_plugin/tools/hello.py:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gptme.tools.base</span> <span class="kn">import</span> <span class="n">ToolSpec</span>
+
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Say hello to the world.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello from my plugin!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello, World!&quot;</span>
+
+<span class="c1"># Tool specification that gptme will discover</span>
+<span class="n">hello_tool</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Say hello&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Use this tool to greet the world.&quot;</span><span class="p">,</span>
+    <span class="n">functions</span><span class="o">=</span><span class="p">[</span><span class="n">hello_world</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="use-your-plugin">
+<h3>3. Use Your Plugin<a class="headerlink" href="#use-your-plugin" title="Link to this heading">#</a></h3>
+<p>Start gptme and your plugin tools will be automatically discovered and available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gptme<span class="w"> </span><span class="s2">&quot;use the hello tool&quot;</span>
+&gt;<span class="w"> </span>Using<span class="w"> </span>tool:<span class="w"> </span>hello
+Hello<span class="w"> </span>from<span class="w"> </span>my<span class="w"> </span>plugin!
+</pre></div>
+</div>
+</section>
+</section>
+<section id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Discovery</strong>: gptme searches configured plugin paths for directories with <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+<li><p><strong>Loading</strong>: For each plugin, gptme discovers:</p>
+<ul class="simple">
+<li><p>Tool modules in <code class="docutils literal notranslate"><span class="pre">tools/</span></code> subdirectory</p></li>
+<li><p>Hook modules in <code class="docutils literal notranslate"><span class="pre">hooks/</span></code> subdirectory</p></li>
+<li><p>Command modules in <code class="docutils literal notranslate"><span class="pre">commands/</span></code> subdirectory</p></li>
+</ul>
+</li>
+<li><p><strong>Integration</strong>:</p>
+<ul class="simple">
+<li><p>Plugin tools are loaded using the same mechanism as built-in tools</p></li>
+<li><p>Plugin hooks are registered during initialization via their <code class="docutils literal notranslate"><span class="pre">register()</span></code> functions</p></li>
+<li><p>Plugin commands are registered during initialization via their <code class="docutils literal notranslate"><span class="pre">register()</span></code> functions</p></li>
+</ul>
+</li>
+<li><p><strong>Availability</strong>:</p>
+<ul class="simple">
+<li><p>Tools appear in <code class="docutils literal notranslate"><span class="pre">--tools</span></code> list and can be used like built-in tools</p></li>
+<li><p>Hooks are automatically triggered at appropriate lifecycle points</p></li>
+<li><p>Commands can be invoked with <code class="docutils literal notranslate"><span class="pre">/</span></code> prefix like built-in commands</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="plugin-tool-modules">
+<h2>Plugin Tool Modules<a class="headerlink" href="#plugin-tool-modules" title="Link to this heading">#</a></h2>
+<p>Plugins can provide tools in two ways:</p>
+<section id="option-1-tools-as-a-package">
+<h3>Option 1: tools/ as a Package<a class="headerlink" href="#option-1-tools-as-a-package" title="Link to this heading">#</a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">tools/__init__.py</span></code> and gptme will import <code class="docutils literal notranslate"><span class="pre">my_plugin.tools</span></code> as a package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_plugin/tools/__init__.py</span>
+<span class="kn">from</span> <span class="nn">gptme.tools.base</span> <span class="kn">import</span> <span class="n">ToolSpec</span>
+
+<span class="n">tool1</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">tool2</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="option-2-individual-tool-files">
+<h3>Option 2: Individual Tool Files<a class="headerlink" href="#option-2-individual-tool-files" title="Link to this heading">#</a></h3>
+<p>Skip <code class="docutils literal notranslate"><span class="pre">tools/__init__.py</span></code> and create individual files:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my_plugin/tools/
+├── tool1.py
+└── tool2.py
+</pre></div>
+</div>
+<p>Each file will be imported as <code class="docutils literal notranslate"><span class="pre">my_plugin.tools.tool1</span></code>, <code class="docutils literal notranslate"><span class="pre">my_plugin.tools.tool2</span></code>, etc.</p>
+</section>
+</section>
+<section id="plugin-hook-modules">
+<h2>Plugin Hook Modules<a class="headerlink" href="#plugin-hook-modules" title="Link to this heading">#</a></h2>
+<p>Plugins can provide hooks to extend gptme’s behavior at various lifecycle points, similar to how tools work.</p>
+<section id="option-1-hooks-as-a-package">
+<h3>Option 1: hooks/ as a Package<a class="headerlink" href="#option-1-hooks-as-a-package" title="Link to this heading">#</a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">hooks/__init__.py</span></code> and define a <code class="docutils literal notranslate"><span class="pre">register()</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_plugin/hooks/__init__.py</span>
+<span class="kn">from</span> <span class="nn">gptme.hooks</span> <span class="kn">import</span> <span class="n">HookType</span><span class="p">,</span> <span class="n">register_hook</span>
+<span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+<span class="k">def</span> <span class="nf">my_session_hook</span><span class="p">(</span><span class="n">logdir</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">initial_msgs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hook called at session start.&quot;&quot;&quot;</span>
+    <span class="k">yield</span> <span class="n">Message</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Plugin initialized in workspace: </span><span class="si">{</span><span class="n">workspace</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register all hooks from this module.&quot;&quot;&quot;</span>
+    <span class="n">register_hook</span><span class="p">(</span>
+        <span class="s2">&quot;my_plugin.session_start&quot;</span><span class="p">,</span>
+        <span class="n">HookType</span><span class="o">.</span><span class="n">SESSION_START</span><span class="p">,</span>
+        <span class="n">my_session_hook</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="option-2-individual-hook-files">
+<h3>Option 2: Individual Hook Files<a class="headerlink" href="#option-2-individual-hook-files" title="Link to this heading">#</a></h3>
+<p>Create individual hook modules without <code class="docutils literal notranslate"><span class="pre">hooks/__init__.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_plugin/hooks/logging_hook.py</span>
+<span class="kn">from</span> <span class="nn">gptme.hooks</span> <span class="kn">import</span> <span class="n">HookType</span><span class="p">,</span> <span class="n">register_hook</span>
+<span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+<span class="k">def</span> <span class="nf">log_tool_execution</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">tool_use</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log tool executions.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing tool: </span><span class="si">{</span><span class="n">tool_use</span><span class="o">.</span><span class="n">tool</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield</span>  <span class="c1"># Hooks must be generators</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register hooks from this module.&quot;&quot;&quot;</span>
+    <span class="n">register_hook</span><span class="p">(</span>
+        <span class="s2">&quot;my_plugin.log_tool&quot;</span><span class="p">,</span>
+        <span class="n">HookType</span><span class="o">.</span><span class="n">TOOL_PRE_EXECUTE</span><span class="p">,</span>
+        <span class="n">log_tool_execution</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="hook-types">
+<h3>Hook Types<a class="headerlink" href="#hook-types" title="Link to this heading">#</a></h3>
+<p>Available hook types:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SESSION_START</span></code> - Called at session start</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SESSION_END</span></code> - Called at session end</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TOOL_PRE_EXECUTE</span></code> - Before tool execution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TOOL_POST_EXECUTE</span></code> - After tool execution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FILE_PRE_SAVE</span></code> - Before saving a file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FILE_POST_SAVE</span></code> - After saving a file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GENERATION_PRE</span></code> - Before generating response</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GENERATION_POST</span></code> - After generating response</p></li>
+<li><p>And more (see <code class="docutils literal notranslate"><span class="pre">gptme.hooks.HookType</span></code>)</p></li>
+</ul>
+</section>
+<section id="hook-registration">
+<h3>Hook Registration<a class="headerlink" href="#hook-registration" title="Link to this heading">#</a></h3>
+<p>Every hook module must have a <code class="docutils literal notranslate"><span class="pre">register()</span></code> function that calls <code class="docutils literal notranslate"><span class="pre">register_hook()</span></code> for each hook it provides. The plugin system automatically calls <code class="docutils literal notranslate"><span class="pre">register()</span></code> during initialization.</p>
+</section>
+</section>
+<section id="plugin-command-modules">
+<span id="id2"></span><h2>Plugin Command Modules<a class="headerlink" href="#plugin-command-modules" title="Link to this heading">#</a></h2>
+<p>Plugins can provide custom commands that users can invoke with the <code class="docutils literal notranslate"><span class="pre">/</span></code> prefix, similar to built-in commands like <code class="docutils literal notranslate"><span class="pre">/help</span></code> or <code class="docutils literal notranslate"><span class="pre">/exit</span></code>.</p>
+<section id="option-1-commands-as-a-package">
+<h3>Option 1: commands/ as a Package<a class="headerlink" href="#option-1-commands-as-a-package" title="Link to this heading">#</a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">commands/__init__.py</span></code> and define a <code class="docutils literal notranslate"><span class="pre">register()</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_plugin/commands/__init__.py</span>
+<span class="kn">from</span> <span class="nn">gptme.commands</span> <span class="kn">import</span> <span class="n">register_command</span><span class="p">,</span> <span class="n">CommandContext</span>
+<span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+<span class="k">def</span> <span class="nf">weather_handler</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">CommandContext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle the /weather command.&quot;&quot;&quot;</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">full_args</span> <span class="ow">or</span> <span class="s2">&quot;Stockholm&quot;</span>
+    <span class="c1"># Your weather logic here</span>
+    <span class="k">yield</span> <span class="n">Message</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Weather in </span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">: Sunny, 20°C&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register all commands from this module.&quot;&quot;&quot;</span>
+    <span class="n">register_command</span><span class="p">(</span><span class="s2">&quot;weather&quot;</span><span class="p">,</span> <span class="n">weather_handler</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;w&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="option-2-individual-command-files">
+<h3>Option 2: Individual Command Files<a class="headerlink" href="#option-2-individual-command-files" title="Link to this heading">#</a></h3>
+<p>Create individual command modules without <code class="docutils literal notranslate"><span class="pre">commands/__init__.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_plugin/commands/joke.py</span>
+<span class="kn">from</span> <span class="nn">gptme.commands</span> <span class="kn">import</span> <span class="n">register_command</span><span class="p">,</span> <span class="n">CommandContext</span>
+<span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+<span class="k">def</span> <span class="nf">joke_handler</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">CommandContext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tell a random joke.&quot;&quot;&quot;</span>
+    <span class="n">jokes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Why did the AI cross the road? To optimize the other side!&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;What&#39;s an AI&#39;s favorite snack? Microchips!&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="kn">import</span> <span class="nn">random</span>
+    <span class="k">yield</span> <span class="n">Message</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">jokes</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Register command.&quot;&quot;&quot;</span>
+    <span class="n">register_command</span><span class="p">(</span><span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="n">joke_handler</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;j&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="using-plugin-commands">
+<h3>Using Plugin Commands<a class="headerlink" href="#using-plugin-commands" title="Link to this heading">#</a></h3>
+<p>Once registered, commands can be used like built-in commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gptme
+&gt;<span class="w"> </span>/weather<span class="w"> </span>London
+Weather<span class="w"> </span><span class="k">in</span><span class="w"> </span>London:<span class="w"> </span>Sunny,<span class="w"> </span><span class="m">20</span>°C
+
+&gt;<span class="w"> </span>/joke
+Why<span class="w"> </span>did<span class="w"> </span>the<span class="w"> </span>AI<span class="w"> </span>cross<span class="w"> </span>the<span class="w"> </span>road?<span class="w"> </span>To<span class="w"> </span>optimize<span class="w"> </span>the<span class="w"> </span>other<span class="w"> </span>side!
+</pre></div>
+</div>
+</section>
+<section id="command-handler-requirements">
+<h3>Command Handler Requirements<a class="headerlink" href="#command-handler-requirements" title="Link to this heading">#</a></h3>
+<p>Command handlers must:</p>
+<ol class="arabic simple">
+<li><p>Accept a <code class="docutils literal notranslate"><span class="pre">CommandContext</span></code> parameter with:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: List of space-separated arguments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">full_args</span></code>: Complete argument string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">manager</span></code>: LogManager instance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">confirm</span></code>: Confirmation function</p></li>
+</ul>
+</li>
+<li><p>Be a generator (use <code class="docutils literal notranslate"><span class="pre">yield</span></code>) that yields <code class="docutils literal notranslate"><span class="pre">Message</span></code> objects</p></li>
+<li><p>Be registered via <code class="docutils literal notranslate"><span class="pre">register_command()</span></code> in a <code class="docutils literal notranslate"><span class="pre">register()</span></code> function</p></li>
+</ol>
+</section>
+</section>
+<section id="example-logging-plugin">
+<h2>Example: Logging Plugin<a class="headerlink" href="#example-logging-plugin" title="Link to this heading">#</a></h2>
+<p>A complete example of a plugin that logs tool executions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_logging_plugin/hooks/tool_logger.py</span>
+<span class="kn">from</span> <span class="nn">gptme.hooks</span> <span class="kn">import</span> <span class="n">HookType</span><span class="p">,</span> <span class="n">register_hook</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">log_tool_pre</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">tool_use</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log before tool execution.&quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing tool: </span><span class="si">{</span><span class="n">tool_use</span><span class="o">.</span><span class="n">tool</span><span class="si">}</span><span class="s2"> with args: </span><span class="si">{</span><span class="n">tool_use</span><span class="o">.</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield</span>  <span class="c1"># Hooks must be generators</span>
+
+<span class="k">def</span> <span class="nf">log_tool_post</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">tool_use</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log after tool execution.&quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tool </span><span class="si">{</span><span class="n">tool_use</span><span class="o">.</span><span class="n">tool</span><span class="si">}</span><span class="s2"> completed&quot;</span><span class="p">)</span>
+    <span class="k">yield</span>
+
+<span class="k">def</span> <span class="nf">register</span><span class="p">():</span>
+    <span class="n">register_hook</span><span class="p">(</span><span class="s2">&quot;tool_logger.pre&quot;</span><span class="p">,</span> <span class="n">HookType</span><span class="o">.</span><span class="n">TOOL_PRE_EXECUTE</span><span class="p">,</span> <span class="n">log_tool_pre</span><span class="p">)</span>
+    <span class="n">register_hook</span><span class="p">(</span><span class="s2">&quot;tool_logger.post&quot;</span><span class="p">,</span> <span class="n">HookType</span><span class="o">.</span><span class="n">TOOL_POST_EXECUTE</span><span class="p">,</span> <span class="n">log_tool_post</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-weather-plugin">
+<h2>Example: Weather Plugin<a class="headerlink" href="#example-weather-plugin" title="Link to this heading">#</a></h2>
+<p>A complete example of a weather information plugin:</p>
+<p><strong>my_weather/tools/weather.py:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gptme.tools.base</span> <span class="kn">import</span> <span class="n">ToolSpec</span><span class="p">,</span> <span class="n">ToolUse</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">get_weather</span><span class="p">(</span><span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get weather for a location.&quot;&quot;&quot;</span>
+    <span class="c1"># Implementation</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Weather in </span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">: Sunny, 72°F&quot;</span>
+
+<span class="n">weather_tool</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;weather&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Get current weather information&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Use this tool to get weather for a location.&quot;</span><span class="p">,</span>
+    <span class="n">functions</span><span class="o">=</span><span class="p">[</span><span class="n">get_weather</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Configuration (~/.config/gptme/config.toml):</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins]</span>
+<span class="n">paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;~/.config/gptme/plugins&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gptme<span class="w"> </span><span class="s2">&quot;what&#39;s the weather in San Francisco?&quot;</span>
+&gt;<span class="w"> </span>Using<span class="w"> </span>tool:<span class="w"> </span>weather
+Weather<span class="w"> </span><span class="k">in</span><span class="w"> </span>San<span class="w"> </span>Francisco:<span class="w"> </span>Sunny,<span class="w"> </span><span class="m">72</span>°F
+</pre></div>
+</div>
+</section>
+<section id="distribution">
+<h2>Distribution<a class="headerlink" href="#distribution" title="Link to this heading">#</a></h2>
+<p>Plugins can be distributed as:</p>
+<ol class="arabic">
+<li><p><strong>Git repositories</strong>: Clone into plugin directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/user/gptme-plugin<span class="w"> </span>~/.config/gptme/plugins/plugin-name
+</pre></div>
+</div>
+</li>
+<li><p><strong>PyPI packages</strong>: Install and add to plugin path</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>gptme-weather-plugin
+<span class="c1"># Add site-packages location to plugins.paths in gptme.toml</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Local directories</strong>: Copy plugin folder to plugin path</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-r<span class="w"> </span>my_plugin<span class="w"> </span>~/.config/gptme/plugins/
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="unified-plugin-system-entry-points">
+<span id="unified-plugins"></span><h2>Unified Plugin System (Entry Points)<a class="headerlink" href="#unified-plugin-system-entry-points" title="Link to this heading">#</a></h2>
+<p>For <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code>-able packages, gptme supports a unified plugin interface via Python entry points. A single <code class="docutils literal notranslate"><span class="pre">GptmePlugin</span></code> dataclass lets a package expose <strong>any combination</strong> of tools, hooks, commands, and LLM providers — no folder structure required.</p>
+<p>This is the recommended approach for published packages. It uses the same mechanism as pytest plugins, setuptools console_scripts, etc.</p>
+<p class="rubric">GptmePlugin Dataclass</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gptme.plugins.plugin</span> <span class="kn">import</span> <span class="n">GptmePlugin</span>
+
+<span class="n">GptmePlugin</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_plugin&quot;</span><span class="p">,</span>           <span class="c1"># Unique plugin name</span>
+    <span class="n">provider</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>              <span class="c1"># ProviderPlugin for LLM providers (optional)</span>
+    <span class="n">tool_modules</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;...&quot;</span><span class="p">],</span>       <span class="c1"># Module names containing ToolSpec instances (optional)</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>                <span class="c1"># Direct ToolSpec instances (optional)</span>
+    <span class="n">register_hooks</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>          <span class="c1"># Callable that registers hooks (optional)</span>
+    <span class="n">register_commands</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>       <span class="c1"># Callable that registers commands (optional)</span>
+    <span class="n">init</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>                    <span class="c1"># Callable(Config) for plugin initialization (optional)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>A plugin only needs to provide the capabilities it uses — all fields except <code class="docutils literal notranslate"><span class="pre">name</span></code> are optional.</p>
+<p class="rubric">Creating a Unified Plugin</p>
+<ol class="arabic simple">
+<li><p>Create a Python package with a <code class="docutils literal notranslate"><span class="pre">GptmePlugin</span></code> instance:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># src/my_gptme_plugin/__init__.py</span>
+<span class="kn">from</span> <span class="nn">gptme.plugins.plugin</span> <span class="kn">import</span> <span class="n">GptmePlugin</span>
+<span class="kn">from</span> <span class="nn">gptme.tools.base</span> <span class="kn">import</span> <span class="n">ToolSpec</span>
+
+<span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Greet someone.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+
+<span class="n">greet_tool</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;greet&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Greet someone by name&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Use this tool to greet people.&quot;</span><span class="p">,</span>
+    <span class="n">functions</span><span class="o">=</span><span class="p">[</span><span class="n">greet</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">plugin</span> <span class="o">=</span> <span class="n">GptmePlugin</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_gptme_plugin&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">greet_tool</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Register the entry point in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p></li>
+</ol>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-gptme-plugin&quot;</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;gptme&quot;</span><span class="p">]</span>
+
+<span class="k">[project.entry-points.</span><span class="s2">&quot;gptme.plugins&quot;</span><span class="k">]</span>
+<span class="n">my_gptme_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_gptme_plugin:plugin&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Install and use:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>my-gptme-plugin
+gptme<span class="w"> </span><span class="s2">&quot;use the greet tool to say hello to Alice&quot;</span>
+</pre></div>
+</div>
+<p class="rubric">Full-Featured Plugin Example</p>
+<p>A plugin that provides a tool, a hook, a command, and an LLM provider:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># src/my_full_plugin/__init__.py</span>
+<span class="kn">from</span> <span class="nn">gptme.plugins.plugin</span> <span class="kn">import</span> <span class="n">GptmePlugin</span>
+<span class="kn">from</span> <span class="nn">gptme.tools.base</span> <span class="kn">import</span> <span class="n">ToolSpec</span>
+<span class="kn">from</span> <span class="nn">gptme.llm.models</span> <span class="kn">import</span> <span class="n">ModelMeta</span><span class="p">,</span> <span class="n">ProviderPlugin</span>
+
+<span class="c1"># Tool</span>
+<span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Look up information.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Result for: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">lookup_tool</span> <span class="o">=</span> <span class="n">ToolSpec</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Look up information&quot;</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;Use this tool to search for information.&quot;</span><span class="p">,</span>
+    <span class="n">functions</span><span class="o">=</span><span class="p">[</span><span class="n">lookup</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Hook registration</span>
+<span class="k">def</span> <span class="nf">_register_hooks</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">gptme.hooks</span> <span class="kn">import</span> <span class="n">HookType</span><span class="p">,</span> <span class="n">register_hook</span>
+    <span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+    <span class="k">def</span> <span class="nf">on_session_start</span><span class="p">(</span><span class="n">logdir</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">initial_msgs</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">Message</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;My plugin initialized!&quot;</span><span class="p">)</span>
+
+    <span class="n">register_hook</span><span class="p">(</span><span class="s2">&quot;my_plugin.start&quot;</span><span class="p">,</span> <span class="n">HookType</span><span class="o">.</span><span class="n">SESSION_START</span><span class="p">,</span> <span class="n">on_session_start</span><span class="p">)</span>
+
+<span class="c1"># Command registration</span>
+<span class="k">def</span> <span class="nf">_register_commands</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">gptme.commands</span> <span class="kn">import</span> <span class="n">register_command</span><span class="p">,</span> <span class="n">CommandContext</span>
+    <span class="kn">from</span> <span class="nn">gptme.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+    <span class="k">def</span> <span class="nf">status_handler</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">CommandContext</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">Message</span><span class="p">(</span><span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;My plugin is running!&quot;</span><span class="p">)</span>
+
+    <span class="n">register_command</span><span class="p">(</span><span class="s2">&quot;my-status&quot;</span><span class="p">,</span> <span class="n">status_handler</span><span class="p">)</span>
+
+<span class="c1"># LLM provider (optional)</span>
+<span class="n">my_provider</span> <span class="o">=</span> <span class="n">ProviderPlugin</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_llm&quot;</span><span class="p">,</span>
+    <span class="n">api_key_env</span><span class="o">=</span><span class="s2">&quot;MY_LLM_API_KEY&quot;</span><span class="p">,</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.example.com/v1&quot;</span><span class="p">,</span>
+    <span class="n">models</span><span class="o">=</span><span class="p">[</span><span class="n">ModelMeta</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;my_llm/fast&quot;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="mi">128_000</span><span class="p">)],</span>
+<span class="p">)</span>
+
+<span class="c1"># Plugin initialization (optional)</span>
+<span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Called once at startup with the full gptme Config.&quot;&quot;&quot;</span>
+    <span class="c1"># Access plugin-specific config via:</span>
+    <span class="c1">#   config.user.plugin.get(&quot;my_full_plugin&quot;, {})</span>
+    <span class="k">pass</span>
+
+<span class="n">plugin</span> <span class="o">=</span> <span class="n">GptmePlugin</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_full_plugin&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">lookup_tool</span><span class="p">],</span>
+    <span class="n">register_hooks</span><span class="o">=</span><span class="n">_register_hooks</span><span class="p">,</span>
+    <span class="n">register_commands</span><span class="o">=</span><span class="n">_register_commands</span><span class="p">,</span>
+    <span class="n">provider</span><span class="o">=</span><span class="n">my_provider</span><span class="p">,</span>
+    <span class="n">init</span><span class="o">=</span><span class="n">_init</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">How Discovery Works</p>
+<p>The plugin registry merges three sources in order:</p>
+<ol class="arabic simple">
+<li><p><strong>Folder plugins</strong> — from paths configured in <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code></p></li>
+<li><p><strong>Entry-point plugins</strong> — from the <code class="docutils literal notranslate"><span class="pre">gptme.plugins</span></code> group (deduped against folder plugins)</p></li>
+<li><p><strong>Legacy provider plugins</strong> — from the <code class="docutils literal notranslate"><span class="pre">gptme.providers</span></code> group (backward compat)</p></li>
+</ol>
+<p>If the same plugin name appears in multiple sources, folder plugins take precedence over entry-point plugins (to support editable installs where both are present). The <code class="docutils literal notranslate"><span class="pre">plugins.enabled</span></code> allowlist in <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code> can filter which plugins are loaded.</p>
+<p class="rubric">Factory Functions</p>
+<p>Entry points can reference either a <code class="docutils literal notranslate"><span class="pre">GptmePlugin</span></code> instance directly, or a callable (factory) that returns one:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.</span><span class="s2">&quot;gptme.plugins&quot;</span><span class="k">]</span>
+<span class="c1"># Direct instance</span>
+<span class="n">my_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_package:plugin&quot;</span>
+<span class="c1"># Factory function</span>
+<span class="n">my_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_package:create_plugin&quot;</span>
+</pre></div>
+</div>
+<p class="rubric">Legacy Provider Entry Points</p>
+<p>The older <code class="docutils literal notranslate"><span class="pre">gptme.providers</span></code> entry-point group still works for provider-only plugins. For new plugins, prefer <code class="docutils literal notranslate"><span class="pre">gptme.plugins</span></code> with a <code class="docutils literal notranslate"><span class="pre">provider</span></code> field — it supports all plugin capabilities in a single registration. See <a class="reference internal" href="providers.html"><span class="doc">Providers</span></a> for details.</p>
+</section>
+<section id="migration-from-tool-modules">
+<h2>Migration from TOOL_MODULES<a class="headerlink" href="#migration-from-tool-modules" title="Link to this heading">#</a></h2>
+<p>The plugin system is compatible with the existing <code class="docutils literal notranslate"><span class="pre">TOOL_MODULES</span></code> environment variable.</p>
+<p><strong>Old approach:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">TOOL_MODULES</span><span class="o">=</span><span class="s2">&quot;gptme.tools,my_custom_tools&quot;</span>
+gptme
+</pre></div>
+</div>
+<p><strong>New approach (gptme.toml):</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins]</span>
+<span class="n">paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;~/.config/gptme/plugins&quot;</span><span class="p">]</span>
+<span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;my_plugin&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Both approaches work and can coexist. The plugin system provides better organization and discoverability for complex tool collections.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<p><strong>Plugin not discovered:</strong></p>
+<ul class="simple">
+<li><p>Ensure plugin directory has <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+<li><p>Check plugin path is correctly configured in <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code></p></li>
+<li><p>Verify path is absolute or relative to config directory</p></li>
+<li><p>For entry-point plugins: verify the package is installed (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">my-plugin</span></code>)</p></li>
+</ul>
+<p><strong>Tools not loading:</strong></p>
+<ul class="simple">
+<li><p>Check <code class="docutils literal notranslate"><span class="pre">tools/</span></code> directory exists and has proper structure (for folder plugins)</p></li>
+<li><p>Verify tool modules define <code class="docutils literal notranslate"><span class="pre">ToolSpec</span></code> instances</p></li>
+<li><p>Look for import errors in gptme logs (<code class="docutils literal notranslate"><span class="pre">GPTME_LOG_LEVEL=debug</span> <span class="pre">gptme</span></code>)</p></li>
+</ul>
+<p><strong>Plugin not enabled:</strong></p>
+<ul class="simple">
+<li><p>If using <code class="docutils literal notranslate"><span class="pre">plugins.enabled</span></code> allowlist, ensure plugin name is included</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">enabled</span></code> list to load all discovered plugins</p></li>
+</ul>
+<p><strong>Entry-point plugin not found:</strong></p>
+<ul class="simple">
+<li><p>Verify the entry point is declared in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> under <code class="docutils literal notranslate"><span class="pre">[project.entry-points.&quot;gptme.plugins&quot;]</span></code></p></li>
+<li><p>Reinstall the package (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>) after adding or changing entry points</p></li>
+<li><p>Check that the exported object is a <code class="docutils literal notranslate"><span class="pre">GptmePlugin</span></code> instance or a callable returning one</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hooks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hooks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="prompts.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Prompts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-structure">Plugin Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skills-vs-plugins">Skills vs Plugins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-plugin">Creating a Plugin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-plugin-directory-structure">1. Create Plugin Directory Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-tool-module">2. Create a Tool Module</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-your-plugin">3. Use Your Plugin</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">How It Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-tool-modules">Plugin Tool Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-tools-as-a-package">Option 1: tools/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-tool-files">Option 2: Individual Tool Files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-hook-modules">Plugin Hook Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-hooks-as-a-package">Option 1: hooks/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-hook-files">Option 2: Individual Hook Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook-types">Hook Types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook-registration">Hook Registration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-command-modules">Plugin Command Modules</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-commands-as-a-package">Option 1: commands/ as a Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-individual-command-files">Option 2: Individual Command Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-plugin-commands">Using Plugin Commands</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-handler-requirements">Command Handler Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logging-plugin">Example: Logging Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-weather-plugin">Example: Weather Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution">Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-plugin-system-entry-points">Unified Plugin System (Entry Points)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-from-tool-modules">Migration from TOOL_MODULES</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Bjäreholt
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Erik Bjäreholt.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
