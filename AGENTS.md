@@ -104,3 +104,71 @@ See [webui/AGENTS.md](webui/AGENTS.md) for full setup including dev servers, tes
 ```bash
 make docs
 ```
+
+## User Learning and Resume Goal
+
+The user is studying this project in order to understand its Agent architecture, module design, and implementation details, then build focused improvements that can be packaged as a resume project within about half a month.
+
+When answering the user's later questions about modules, features, or code:
+- Use plain, direct Chinese explanations. Prefer intuitive wording over abstract framework language.
+- Do not rely on unexplained abbreviations. If a term must be abbreviated, or an abbreviation appears in code/comments, explicitly explain its full name and meaning in Chinese before using it heavily.
+- Explicitly describe the function call chain. Name the entry function, the next important functions it calls, and where the key behavior lives.
+- Point to concrete files and key functions/classes rather than only giving conceptual summaries.
+- Explain what each module is responsible for, how data flows through it, and why that design matters for an Agent system.
+- Prioritize the Agent-related core: CLI conversation loop, tool discovery/execution, message/tool-use parsing, context construction, LLM provider calls, logs/checkpoints, and safety boundaries.
+- Keep suggestions shaped by the user's job-search timeline. Favor changes that are interviewable, feasible in days, and easy to explain over broad rewrites.
+- When a module or implementation principle is important enough to become study material, the user may ask to save a summary to Notion. Only write to Notion when the user explicitly asks, or after asking for and receiving the user's approval.
+- The target Notion location for these notes is `主页\准备的项目\GptMe`. Use the configured Notion MCP/plugin when writing approved notes.
+
+The user's current framing for a resume-oriented direction is:
+
+> Design and implement a safe local code-execution Agent runtime on top of gptme's tool-calling framework, combining LLM semantic review, AST/static checks, checkpointing/sandboxing, and speculative execution.
+
+High-value implementation themes:
+- Unified `PolicyGuard` before risky tools such as shell, python, and patch.
+- Two-layer permission checks: LLM intent/risk review plus structured checks with command parsing, Python AST, or Tree-sitter.
+- Speculative execution using isolated directories or git worktrees to try candidate patches/commands, run tests/lint, then merge the best result.
+- Auditable execution logs that record user intent, model plan, parsed command structure, risk level, approval result, output, and rollback point.
+- Sandbox and rollback design using temporary directories, git checkpoints, file-scope limits, network limits, dangerous-command blocking, and environment-variable controls.
+
+For resume packaging, avoid framing the work as merely "modifying gptme". Frame it as building a local coding Agent safety runtime and speculative execution framework, with gptme as the foundation and research base.
+
+## Local Study Notes
+
+The local checkout is at `D:\Desktop\gptme`, with the virtual environment at `D:\Desktop\gptme\.venv`.
+
+Previously verified local state:
+- Version: `gptme v0.31.1.dev202604277+7061f0bbc`
+- Python: `3.11.15` on Windows
+- Install mode: editable pip install
+- Tools: 26 available
+- DeepSeek credentials are configured locally through gptme's user credential store.
+
+Useful local startup commands:
+```powershell
+Set-Location D:\Desktop\gptme
+conda activate D:\Desktop\gptme\.venv
+$env:PYTHONUTF8="1"
+$env:PYTHONIOENCODING="utf-8"
+.\.venv\Scripts\gptme.exe
+```
+
+DeepSeek example:
+```powershell
+$env:PYTHONUTF8="1"
+$env:PYTHONIOENCODING="utf-8"
+.\.venv\Scripts\gptme.exe -m deepseek/deepseek-chat
+```
+
+Important files and directories for the user's learning path:
+- `gptme/cli/main.py` - CLI entry point, conversation flow, tool selection, architect/editor modes.
+- `gptme/tools/` - Tool system, including shell, python, read, save, patch, browser, MCP, and related tools.
+- `gptme/tools/base.py` - Tool abstractions.
+- `gptme/tools/shell.py` - Shell execution behavior.
+- `gptme/tools/shell_validation.py` - Shell command validation and safety checks.
+- `gptme/llm/` - Provider adapters such as OpenAI, Anthropic, mock providers, and others.
+- `gptme/logmanager/` - Conversation logs, checkpoints, and event logs.
+- `gptme/context/` - Project context construction.
+- `gptme/prompts/` - System prompts, architect prompts, and related prompt assets.
+- `gptme/server/` - REST API and Web UI related code.
+- `gptme/mcp/` - MCP integration.

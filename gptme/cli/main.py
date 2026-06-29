@@ -720,29 +720,39 @@ def main(
     # so that logging and streaming assistant output are serialized through the
     # same Console, preventing stderr/stdout interleave mid-stream.
     # In non-interactive/pipe modes, keep traditional stderr routing.
+    # 中文说明：交互模式下，日志和模型流式输出都走同一个 Rich Console，
+    # 避免日志写 stderr、模型写 stdout 时在终端里交叉穿插。
     init_logging(verbose, stderr=not interactive)
 
     if not interactive:
+        # 中文说明：非交互模式没有用户现场确认，所以自动跳过工具执行确认。
         no_confirm = True
 
     if no_confirm:
         logger.info("Skipping all confirmation prompts.")
 
     # if stdin is not a tty, we might be getting piped input, which we should include in the prompt
+    # 中文说明：如果 stdin 不是普通终端，说明可能有人用管道把内容传给 gptme，
+    # 例如 `cat file.txt | gptme "总结一下"`，这里要把管道内容并入用户 prompt。
     was_piped = False
     piped_input = None
     if not sys.stdin.isatty():
         # fetch prompt from stdin
+        # 中文说明：尝试从 stdin 读取管道输入；读到内容就后面塞进 prompt_msgs。
         piped_input = _read_stdin()
         if piped_input:
             was_piped = True
 
             # Attempt to switch to interactive mode
             # https://github.com/prompt-toolkit/python-prompt-toolkit/issues/502#issuecomment-466591259
+            # 中文说明：读完管道后，把 stdin 指回 stdout，尽量恢复后续交互输入能力。
+            # 这是为了兼容 prompt_toolkit 在“stdin 不是 TTY”时的限制。
             sys.stdin = sys.stdout
         else:
             # If stdin is not a tty and we have prompts provided as arguments,
             # automatically switch to non-interactive mode to avoid termios errors
+            # 中文说明：如果 stdin 不是 TTY，但又没有真正读到管道内容，
+            # 同时命令行参数里已经有 prompt，就切到非交互模式，避免终端库报错。
             if prompts:
                 logger.info(
                     "stdin is not a TTY and prompts provided, switching to non-interactive mode"
@@ -752,16 +762,22 @@ def main(
                 auto_switched_noninteractive = True
 
     # add prompts to prompt-toolkit history
+    # 中文说明：把命令行里直接传入的 prompt 加入终端历史，方便上/下键复用。
     for prompt in prompts:
         if prompt and len(prompt) > 1000:
             # skip adding long prompts to history (slows down startup, unlikely to be useful)
+            # 中文说明：超长 prompt 不进历史，避免拖慢启动，也避免历史记录太臃肿。
             continue
         add_history(prompt)
 
     # join prompts, grouped by `-` if present, since that's the separator for "chained"/multiple-round prompts
+    # 中文说明：gptme 支持一次传多段 prompt；MULTIPROMPT_SEPARATOR 用来分割多轮任务。
+    # 这里先准备分隔符，后面会把 prompts 切成多个 Message("user", ...)。
     sep = "\n\n" + MULTIPROMPT_SEPARATOR
 
     if missing_path := _find_missing_explicit_local_path(prompts):
+        # 中文说明：如果用户输入看起来像一个本地路径，但这个路径不存在，
+        # 这里提前报错，避免把“路径拼错”误当成普通自然语言问题发给模型。
         raise click.UsageError(
             "Prompt looks like an explicit local path, but it does not exist: "
             f"{missing_path}"
@@ -1318,6 +1334,9 @@ def _format_resume_hint(name: str) -> str:
 
 def _cleanup_aborted_new_logdir(logdir: Path, *, preexisting: bool) -> None:
     """Remove logdirs created for a conversation that never actually started."""
+    # 中文说明：这个函数只清理“本次启动刚创建、但还没真正开始对话”的空会话目录。
+    # 如果目录原本就存在，说明可能是用户的历史会话，不能删。
+    # 如果 conversation.jsonl 已经有内容，说明会话已经写入过消息，也不能删。
     if preexisting:
         return
 
