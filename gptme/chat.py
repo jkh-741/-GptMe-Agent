@@ -67,6 +67,13 @@ def chat(
     workspace: path to workspace directory.
 
     Callable from other modules.
+
+    中文说明：chat() 是对话运行入口，但它本身不直接调用模型完成全部工作。
+    它先装配会话状态、日志、工作区、工具和输出格式，再把控制权交给
+    _run_chat_loop()。真正的 Agent loop 是下面三层叠加出来的：
+    _run_chat_loop() 负责不断接收用户消息；
+    _process_message_conversation() 负责一轮消息内多次推进；
+    step() 负责一次模型生成和工具执行。
     """
     # Set initial terminal title with conversation name
     conv_name = logdir.name
@@ -90,9 +97,13 @@ def chat(
 
         # init
         # Mode detection for confirmation hooks is now handled inside init_hooks()
+        # 中文说明：初始化模型、工具、命令和 hook。这里把 main() 准备好的配置
+        # 真正应用到运行时，后续 step() 才能拿到默认模型和可用工具。
         init(model, interactive, tool_allowlist, tool_format, no_confirm)
 
         # Trigger session start hooks
+        # 中文说明：会话开始 hook 可以追加系统消息，例如恢复待办、注入额外上下文。
+        # hook 是扩展点，表示某个生命周期阶段触发的回调逻辑。
         if session_start_msgs := trigger_hook(
             HookType.SESSION_START,
             logdir=logdir,
@@ -123,6 +134,8 @@ def chat(
 
         if not is_output_json():
             console.log(f"Using logdir: {path_with_tilde(logdir)}")
+        # 中文说明：LogManager 是会话状态管理器。它把 initial_msgs 作为初始历史，
+        # 并负责后续所有 Message 的追加、打印和写入 conversation.jsonl。
         manager = LogManager.load(logdir, initial_msgs=initial_msgs, create=True)
 
         # Note: todo replay is now handled via SESSION_START hook
@@ -131,6 +144,8 @@ def chat(
         if not is_output_json():
             console.log(f"Using workspace: {path_with_tilde(workspace)}")
         require_workspace_exists(workspace)
+        # 中文说明：切换进 workspace 后，shell、patch、read 等工具默认都围绕
+        # 这个项目目录工作，避免工具在错误目录里执行。
         os.chdir(workspace)
 
         # print log (suppressed in JSON output mode)
@@ -143,9 +158,13 @@ def chat(
         # so we no longer need to create and pass confirm_func.
 
         # Convert prompt_msgs to a queue for unified handling
+        # 中文说明：把 main() 传进来的初始用户消息转成队列。这样命令行 prompt、
+        # 管道 prompt、外部排队 prompt 和交互输入，都能走同一套循环处理。
         prompt_queue = list(prompt_msgs)
 
         # main loop
+        # 中文说明：这里进入真正的外层 Agent loop。它会不断取下一条用户消息，
+        # 调用模型，执行工具，然后决定继续下一轮还是回到用户输入。
         _run_chat_loop(
             manager,
             prompt_queue,
@@ -187,11 +206,15 @@ def _run_chat_loop(
     """Main chat loop - extracted to allow clean exception handling."""
 
     while True:
+        # 中文说明：先把其他终端或后台写入的 durable prompt queue 合并进内存队列。
+        # durable 表示这些排队消息已经持久化，不只存在当前进程内存里。
         _drain_external_prompt_queue(manager, prompt_queue)
         msg: Message | None = None
         try:
             # Process next message (either from prompt queue or user input)
             if prompt_queue:
+                # 中文说明：优先处理队列中的消息。队列里的消息可能来自命令行参数、
+                # 管道输入、多段 prompt，或者外部命令追加的 prompt。
                 msg = prompt_queue.pop(0)
                 assert msg is not None, "prompt_queue contained None"
                 msg = include_paths(msg, manager.workspace)
@@ -231,6 +254,8 @@ def _run_chat_loop(
                     logger.debug("Non-interactive and exhausted prompts")
                     break
 
+                # 中文说明：队列空了才向用户要新输入。交互模式下，这就是终端里
+                # 等待用户继续输入下一句话的位置。
                 user_input = _get_user_input(manager.log, manager.workspace)
                 if user_input is None:
                     # Either user wants to exit OR we should generate response directly
@@ -278,6 +303,8 @@ def _run_chat_loop(
 
             # Trigger LOOP_CONTINUE hooks to check if we should continue/exit
             # This handles auto-reply mechanism and other loop control logic
+            # 中文说明：一轮结束后，hook 可以决定是否自动追加下一条 prompt。
+            # 这让“自动继续”“后台队列”等能力不用塞进主循环硬编码。
             if loop_msgs := trigger_hook(
                 HookType.LOOP_CONTINUE,
                 manager=manager,
@@ -340,6 +367,10 @@ def _process_message_conversation(
     """Process a message and generate responses until no more tools to run.
 
     Note: Confirmation is now handled within ToolUse.execute() using the hook system.
+
+    中文说明：这是内层 Agent loop。一次用户输入可能不止触发一次模型调用：
+    模型先回复并写出工具调用，工具执行后把结果写回日志，随后模型继续读取
+    新日志再生成下一步。循环直到最后一条助手消息里没有可执行工具为止。
     """
     max_steps: int | None = None
     max_steps_str = os.environ.get("GPTME_MAX_STEPS")
@@ -357,6 +388,8 @@ def _process_message_conversation(
             set_interruptible()
 
             # Trigger pre-process hooks (step.pre - before each step in a turn)
+            # 中文说明：每个 step 前都可以通过 hook 注入额外消息或检查状态。
+            # step 指“一次模型生成 + 可能的工具执行”。
             if pre_msgs := trigger_hook(
                 HookType.STEP_PRE,
                 manager=manager,
@@ -383,6 +416,8 @@ def _process_message_conversation(
             clear_interruptible()
 
         for response_msg in response_msgs:
+            # 中文说明：step() 产出的助手消息和工具结果都要写回 LogManager。
+            # 这样下一次模型调用才能看到刚刚的工具执行结果。
             manager.append(response_msg)
             # run any user-commands, if msg is from user
             if response_msg.role == "user" and execute_cmd(response_msg, manager):
@@ -430,6 +465,8 @@ def _process_message_conversation(
             (m.content for m in reversed(manager.log) if m.role == "assistant"),
             "",
         )
+        # 中文说明：如果最后一条助手消息里还有可执行工具调用，就继续下一次 step。
+        # 如果没有工具调用，说明这一轮用户请求已经自然结束，回到外层循环。
         has_runnable = any(
             tooluse.is_runnable for tooluse in ToolUse.iter_from_content(last_content)
         )
@@ -527,7 +564,11 @@ def step(
     output_schema: type | None = None,
     on_token: Callable[[str], None] | None = None,
 ) -> Generator[Message, None, None]:
-    """Runs a single pass of the chat - generates response and executes tools."""
+    """Runs a single pass of the chat - generates response and executes tools.
+
+    中文说明：step() 是 Agent loop 的最小执行单元。它先整理上下文，
+    再调用模型生成助手消息，最后解析并执行助手消息里的工具调用。
+    """
     default_model = get_default_model()
     # Only require default_model if no explicit model was passed
     # Use nested if/else for proper mypy type narrowing
@@ -543,13 +584,19 @@ def step(
         set_interruptible()
 
         # performs reduction/context trimming, if necessary
+        # 中文说明：prepare_messages() 会把完整会话历史整理成适合发给模型的上下文，
+        # 包括上下文裁剪、临时消息清理和必要的项目上下文增强。
         msgs = prepare_messages(log.messages, workspace)
 
         tools = None
         if tool_format == "tool":
+            # 中文说明：当使用原生工具调用格式时，把可执行工具描述传给模型 API。
+            # API 是 Application Programming Interface，中文是“应用程序编程接口”。
             tools = [t for t in get_tools() if t.is_runnable]
 
         # generate response
+        # 中文说明：reply() 是模型调用入口。它根据 model 选择具体 provider，
+        # 例如 DeepSeek、OpenAI 或 Anthropic，然后返回一条 assistant Message。
         with terminal_state_title("🤔 generating"):
             msg_response = reply(
                 msgs,
@@ -575,6 +622,8 @@ def step(
         # log response and run tools
         if msg_response:
             yield msg_response.replace(quiet=True)
+            # 中文说明：execute_msg() 会扫描助手消息中的工具调用并执行。
+            # 工具结果也会作为 Message 产出，交给上层 manager.append() 写回日志。
             yield from execute_msg(msg_response, log=log, workspace=workspace)
 
     finally:
