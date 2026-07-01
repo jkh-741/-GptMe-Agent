@@ -205,6 +205,8 @@ def _run_chat_loop(
 ):
     """Main chat loop - extracted to allow clean exception handling."""
 
+    # 1. prompt_queue没有做持久化？ 假设被打断，是不是没有把剩余的prompt持久化到logdir下？只是在对话开始时有加载已经持久化的提示词队列
+    # 2. step为什么是个生成器generator？ 为什么一轮step能产生多个response_msg？
     while True:
         # 中文说明：先把其他终端或后台写入的 durable prompt queue 合并进内存队列。
         # durable 表示这些排队消息已经持久化，不只存在当前进程内存里。
@@ -584,8 +586,12 @@ def step(
         set_interruptible()
 
         # performs reduction/context trimming, if necessary
-        # 中文说明：prepare_messages() 会把完整会话历史整理成适合发给模型的上下文，
-        # 包括上下文裁剪、临时消息清理和必要的项目上下文增强。
+        # 中文说明：prepare_messages() 在消息发送给模型前依次完成以下处理：
+        # 1. 将消息所附文本文件的内容嵌入消息，图片和二进制附件留给模型适配层处理；
+        # 2. 会话超过预设令牌阈值时，压缩最长且未固定、非工具调用的消息；
+        # 3. 删除生存轮数已耗尽的临时消息，并合并因此产生的连续同角色消息；
+        # 4. 按模型上下文窗口保留开头的系统消息和最近消息，同时移除失去
+        #    对应工具调用的孤立工具结果，最终返回可传给 reply() 的消息列表。
         msgs = prepare_messages(log.messages, workspace)
 
         tools = None
