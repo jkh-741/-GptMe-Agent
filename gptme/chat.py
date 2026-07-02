@@ -205,8 +205,7 @@ def _run_chat_loop(
 ):
     """Main chat loop - extracted to allow clean exception handling."""
 
-    # 1. prompt_queue没有做持久化？ 假设被打断，是不是没有把剩余的prompt持久化到logdir下？只是在对话开始时有加载已经持久化的提示词队列
-    # 2. step为什么是个生成器generator？ 为什么一轮step能产生多个response_msg？
+
     while True:
         # 中文说明：先把其他终端或后台写入的 durable prompt queue 合并进内存队列。
         # durable 表示这些排队消息已经持久化，不只存在当前进程内存里。
@@ -399,6 +398,13 @@ def _process_message_conversation(
                 for msg in pre_msgs:
                     manager.append(msg)
 
+            # 中文说明：step() 是 generator，因为一次 step 的产物不是固定的一条
+            # 模型回复，而是“1 条 assistant 回复 + 0 到多条工具结果”。一条
+            # assistant 消息可以调用多个工具，每个工具及其执行前后 hook 又都
+            # 可能产生多条 Message，所以 step() 用 yield/yield from 统一展开。
+            # 理论上也可以改成 return list[Message]，但不能直接 return 单条
+            # Message，否则会丢失工具结果。这里立即 list() 会完整消费 generator，
+            # 因此当前实现会等整个 step 执行完，再统一把消息写入 LogManager。
             response_msgs = list(
                 step(
                     manager.log,
@@ -422,6 +428,13 @@ def _process_message_conversation(
             # 这样下一次模型调用才能看到刚刚的工具执行结果。
             manager.append(response_msg)
             # run any user-commands, if msg is from user
+            # 中文说明：reply() 本身固定返回 assistant Message；这里出现 user
+            # 角色，只可能是 execute_msg() 执行工具时，由自定义工具、插件工具
+            # 或 TOOL_EXECUTE_PRE/POST hook 额外产出的 Message，因为工具输出没有
+            # 被限制为 system 角色。例如插件工具返回
+            # Message("user", "/model deepseek/deepseek-chat")，step() 会通过
+            # yield from execute_msg() 将它向上传递，此处再按用户命令执行 /model。
+            # 当前内置工具的正常结果基本都是 system，这个分支主要保留扩展能力。
             if response_msg.role == "user" and execute_cmd(response_msg, manager):
                 return
 
@@ -569,7 +582,11 @@ def step(
     """Runs a single pass of the chat - generates response and executes tools.
 
     中文说明：step() 是 Agent loop 的最小执行单元。它先整理上下文，
-    再调用模型生成助手消息，最后解析并执行助手消息里的工具调用。
+    再调用模型生成助手消息，最后解析并执行助手消息里的工具调用。它使用
+    generator 是因为产物数量不固定：首先 yield 模型生成的 assistant Message，
+    然后通过 ``yield from execute_msg()`` 继续产出每个工具及其 hook 返回的
+    Message。调用方可以选择逐条消费，也可以像当前实现一样用 ``list()``
+    一次性收集。
     """
     default_model = get_default_model()
     # Only require default_model if no explicit model was passed
@@ -588,7 +605,7 @@ def step(
         # performs reduction/context trimming, if necessary
         # 中文说明：prepare_messages() 在消息发送给模型前依次完成以下处理：
         # 1. 将消息所附文本文件的内容嵌入消息，图片和二进制附件留给模型适配层处理；
-        # 2. 会话超过预设令牌阈值时，压缩最长且未固定、非工具调用的消息；
+        # 2. 会话超过预设token阈值时，压缩最长且未固定、非工具调用的消息；
         # 3. 删除生存轮数已耗尽的临时消息，并合并因此产生的连续同角色消息；
         # 4. 按模型上下文窗口保留开头的系统消息和最近消息，同时移除失去
         #    对应工具调用的孤立工具结果，最终返回可传给 reply() 的消息列表。
@@ -627,9 +644,12 @@ def step(
 
         # log response and run tools
         if msg_response:
+            # 第一条产物固定是模型生成的 assistant Message。
             yield msg_response.replace(quiet=True)
-            # 中文说明：execute_msg() 会扫描助手消息中的工具调用并执行。
-            # 工具结果也会作为 Message 产出，交给上层 manager.append() 写回日志。
+            # 中文说明：execute_msg() 会扫描assistant消息中的工具调用并执行。
+            # 每个工具可以返回一条或多条 Message，工具执行前后的 hook 也可以
+            # 产生 Message，因此这里继续使用 yield from 将所有结果逐条向上传递。
+            # 这些后续消息通常是 system，但扩展工具和 hook 也可以返回 user。
             yield from execute_msg(msg_response, log=log, workspace=workspace)
 
     finally:

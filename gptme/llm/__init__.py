@@ -270,11 +270,27 @@ def reply(
     temperature: float | None = None,
     top_p: float | None = None,
 ) -> Message:
+    """统一的大语言模型回复入口，负责生成前扩展、客户端初始化和模式分派。
+
+    中文说明：上层 ``chat.step()`` 将整理后的会话消息传到这里。该函数先触发
+    ``GENERATION_PRE`` 钩子，把钩子产生的临时上下文追加到本次请求；再根据
+    ``stream`` 选择 ``_reply_stream()`` 或 ``_chat_complete()``。两条分支最终
+    都返回统一的 assistant ``Message``，因此上层不需要了解具体模型供应商。
+
+    这里不执行工具。模型生成的工具调用会随 assistant ``Message`` 返回，
+    后续由 ``chat.step() -> execute_msg()`` 解析并执行。
+    """
     if max_tokens is not None and max_tokens <= 0:
         raise ValueError(f"max_tokens must be a positive integer, got {max_tokens}")
     # Trigger GENERATION_PRE hooks and collect context messages
     from ..hooks import HookType, trigger_hook
 
+    # 中文说明：context_msgs 不是由某一个固定函数生成，而是收集当前注册表中
+    # 所有已启用、同步执行的 GENERATION_PRE 钩子所产出的 Message。调用链为：
+    # trigger_hook() -> HookRegistry.trigger() -> 各个钩子函数。
+    # 典型钩子包括 active_context（新鲜文件上下文）、MCP（Model Context
+    # Protocol，模型上下文协议）命名空间提示和成本告警；启用了哪些钩子取决于
+    # 当前配置及已加载工具。
     context_msgs = list(
         trigger_hook(
             HookType.GENERATION_PRE,
@@ -285,11 +301,14 @@ def reply(
         )
     )
 
-    # Add context messages for generation (don't modify original messages)
+    # 中文说明：复制后再追加，保证钩子上下文只影响本次模型请求，不会直接修改
+    # 调用者传入的 messages，也不会在这里写入持久化会话日志。
     generation_msgs = list(messages)  # Create a copy
     if context_msgs:
         generation_msgs.extend(context_msgs)
 
+    # 中文说明：根据 model 前缀初始化对应供应商客户端，例如 deepseek/... 会
+    # 进入 OpenAI 兼容客户端；后续两个生成分支共用这份已初始化的客户端状态。
     init_llm(get_provider_from_model(model))
     config = get_config()
     agent_name = _get_agent_name(config)
@@ -299,11 +318,17 @@ def reply(
         _env_break = config.get_env_bool("GPTME_BREAK_ON_TOOLUSE")
         if _env_break is not None:
             # Explicit env var overrides model-dependent default
+            # 中文说明：显式环境变量优先，可强制决定发现首个工具调用后是否停流。
             break_on_tooluse = _env_break
         else:
             # Default based on model capability: don't break for models that support
             # emitting multiple tool calls in a single response (e.g. Sonnet 4.6+)
             model_meta = get_model(model)
+            # 中文说明：break_on_tooluse=True 表示流式输出中一旦解析出首个可执行
+            # 工具调用，就把本次返回的 assistant 内容截断在该工具调用之后，再由
+            # 上层执行工具并开启下一个 step；False 则保留完整响应，使模型可在
+            # 同一消息中给出多个工具调用。它控制返回内容的截止位置，不负责执行
+            # 工具；为收集用量元数据，底层流仍可能被继续排空。
             break_on_tooluse = not model_meta.supports_parallel_tool_calls
         return _reply_stream(
             generation_msgs,
@@ -398,8 +423,17 @@ def _chat_complete(
     temperature: float | None = None,
     top_p: float | None = None,
 ) -> tuple[str, MessageMetadata | None]:
+    """执行一次非流式模型调用，并返回完整文本及元数据。
+
+    中文说明：该函数是“供应商路由层”。它根据模型前缀和 gptme 云端模型的
+    实际后端，选择 OpenAI 兼容、Anthropic、订阅或 mock 实现，然后同步等待
+    供应商 ``chat()`` 返回完整结果。它不负责逐段显示、思考标签过滤、流式
+    回调或工具调用截断；这些是 ``_reply_stream()`` 才承担的职责。
+    """
     if max_tokens is not None and max_tokens <= 0:
         raise ValueError(f"max_tokens must be a positive integer, got {max_tokens}")
+    # 中文说明：先统一处理最大输出令牌数，再解析 provider，避免每个供应商
+    # 适配器重复实现相同的默认值和环境变量覆盖逻辑。
     max_tokens = _resolve_max_tokens(model, max_tokens)
     provider = get_provider_from_model(model)
 
@@ -429,6 +463,8 @@ def _chat_complete(
         or is_custom_provider(provider)
         or is_plugin_provider(str(provider))
     ):
+        # 中文说明：DeepSeek、OpenRouter、自定义供应商和插件供应商等只要兼容
+        # OpenAI 请求格式，就统一复用 llm_openai.chat()。
         from .llm_openai import chat as chat_openai
 
         return chat_openai(
@@ -636,6 +672,14 @@ def _reply_stream(
     temperature: float | None = None,
     top_p: float | None = None,
 ) -> Message:
+    """消费供应商流式输出，实时展示并组装最终 assistant 消息。
+
+    中文说明：``_stream()`` 只负责选择供应商并返回文本生成器；
+    ``_reply_stream()`` 在它之上处理终端展示、思考内容、逐段回调、生成阶段
+    钩子、工具调用检测和用量元数据。与 ``_chat_complete()`` 的核心区别是：
+    后者等待供应商一次性返回完整文本，而本函数边接收边处理，并可在发现首个
+    工具调用时截断最终返回的 assistant ``Message`` 内容。
+    """
     json_mode = is_output_json()
     if not json_mode:
         rprint(f"{prompt_assistant(agent_name)}: Thinking...", end="\r")
@@ -655,6 +699,8 @@ def _reply_stream(
     emit_active = on_token is not None or _chunk_hooks_active
 
     def _emit_chunk(text: str) -> None:
+        # 中文说明：普通响应行会同时发送给 GENERATION_CHUNK 钩子和调用方传入
+        # 的 on_token。思考标签及其内部内容会在下方状态机中过滤后再发送。
         if _chunk_hooks_active:
             for _ in trigger_hook(HookType.GENERATION_CHUNK, chunk=text):
                 pass
@@ -690,6 +736,8 @@ def _reply_stream(
     normal_display_buffer: list[str] = []
 
     # Create stream wrapper to capture metadata
+    # 中文说明：_stream() 完成供应商路由，_StreamWithMetadata 除了迭代文本块，
+    # 还会捕获生成器 StopIteration 的返回值，保存模型名、token用量和成本信息。
     stream = _stream(
         messages,
         model,
@@ -708,6 +756,9 @@ def _reply_stream(
                 yield c, i == n - 1
 
     try:
+        # 中文说明：供应商通常按不定长字符串块输出。这里进一步拆成字符，是为了
+        # 精确识别换行、<think> 标签和不同工具格式的结束边界；chunk 结束标记
+        # 则用于批量刷新终端，避免每个字符都触发一次输出系统调用。
         for char, _is_chunk_end in _chars_with_chunk_end(stream):
             if not output:  # first character
                 first_token_time = time.time()
@@ -854,6 +905,9 @@ def _reply_stream(
             # before a trailing newline, so waiting only for "\n" can leak
             # extra assistant text past the breakpoint.
             if break_on_tooluse and _tooluse_break_check_char(char):
+                # 中文说明：只在可能结束工具语法的位置重新解析累计 output，
+                # 避免每收到一个字符就完整扫描。找到可运行工具后确定本次返回
+                # 内容的截止位置；工具仍由上层 execute_msg() 执行。
                 # TODO: make this more robust/general, maybe with a callback that runs on each char/chunk
                 # pause inference on finished code-block, letting user run the command before continuing
                 # Use streaming=True to require blank line after code blocks during streaming
@@ -868,6 +922,8 @@ def _reply_stream(
                     # When break_on_tooluse fires before message_delta, the
                     # _StreamWithMetadata fallback only has input/cache counts from
                     # message_start — output tokens and cost are lost.
+                    # 中文说明：这里继续“排空”供应商生成器不是为了保留后续文本，
+                    # 而是为了接收末尾用量事件，保证token数和成本元数据完整。
                     _drain_toolbreak_stream(stream)
                     break
 

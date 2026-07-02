@@ -180,6 +180,11 @@ class HookRegistry:
     ) -> Generator[Message, None, None]:
         """Trigger all hooks of a given type.
 
+        中文说明：这是钩子的实际调度器。它取出指定类型下已启用的钩子，按注册
+        时排好的优先级执行。同步钩子产生的 Message 会逐个 yield 给调用方；
+        异步钩子只在后台执行副作用，其返回消息不会进入调用方的结果集合。
+        钩子产生 StopPropagation 时会停止执行后续同步钩子。
+
         Args:
             hook_type: The type of hook to trigger
             *args: Variable positional arguments to pass to hook functions
@@ -654,7 +659,12 @@ def unregister_hook(name: str, hook_type: HookType | None = None) -> None:
 def trigger_hook(
     hook_type: HookType, *args: Any, **kwargs: Any
 ) -> Generator[Message, None, None]:
-    """Trigger hooks of a given type."""
+    """Trigger hooks of a given type.
+
+    中文说明：这是业务代码调用钩子系统的统一入口，本身只把参数转交给当前
+    ``HookRegistry.trigger()``。例如 ``reply()`` 将其转成 list 后，得到的就是
+    所有同步 ``GENERATION_PRE`` 钩子产生的 ``context_msgs``。
+    """
     try:
         yield from get_registry().trigger(hook_type, *args, **kwargs)
     except KeyboardInterrupt:

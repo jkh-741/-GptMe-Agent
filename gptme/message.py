@@ -187,37 +187,64 @@ def _format_metadata_toml(metadata: MessageMetadata) -> str:
 
 @dataclass(frozen=True, eq=False)
 class Message:
-    """
-    A message in the assistant conversation.
+    """Agent 会话中的统一消息对象。
 
-    Attributes:
-        role: The role of the message sender (system, user, or assistant).
-        content: The content of the message.
-        timestamp: The timestamp of the message.
-        files: Files attached to the message, could e.g. be images for vision.
-        pinned: Whether this message should be pinned to the top of the chat, and never context-trimmed.
-        hide: Whether this message should be hidden from the chat output (but still be sent to the assistant).
-        quiet: Whether this message should be printed on execution (will still print on resume, unlike hide).
-               This is not persisted to the log file.
-        metadata: Optional metadata including token usage and cost information.
+    中文说明：用户输入、模型回复、系统提示词和工具结果最终都会转换成
+    ``Message``，再由日志、context 构造和模型 provider 适配层共同使用。
+    该类是冻结的 dataclass，已有消息不能原地修改，需要通过 ``replace()``
+    创建一个带有新字段值的副本。
     """
 
+    # 消息角色：
+    # - system：系统提示词、临时 context 或工具执行结果；
+    # - user：用户输入；
+    # - assistant：模型生成的回复，其中也可能包含工具调用。
     role: Literal["system", "user", "assistant"]
+
+    # 消息正文。除普通文本外，也可能包含代码块、思考标签或序列化后的工具调用。
     content: str
+
+    # 消息创建时间。默认取当前本地时间，并持久化到会话日志，用于恢复消息顺序、
+    # 计算一轮任务耗时等；它不是模型 provider 返回的服务端时间。
     timestamp: datetime = field(default_factory=datetime.now)
+
+    # 消息携带的附件引用，可以是本地文件路径或 URI（Uniform Resource
+    # Identifier，统一资源标识符）。发送给模型前，文本文件会尽量嵌入
+    # content，图片和二进制文件则留给具体 provider 适配层处理。
     files: list[FilePath] = field(default_factory=list)
-    file_hashes: dict[str, str] = field(default_factory=dict)  # {filepath: hash}
+
+    # 本地附件路径到内容 hash 的映射。LogManager 追加消息时会把附件保存到
+    # 内容寻址存储，之后可通过 hash 读取消息创建时对应的文件版本，避免磁盘
+    # 文件被修改后无法还原历史上下文。
+    file_hashes: dict[str, str] = field(default_factory=dict)
+
+    # provider 原生工具调用的唯一 ID（identifier，标识符）。通常设置在
+    # role=system 的工具结果消息上，用来把工具结果重新关联到 assistant
+    # 消息中的对应工具调用。
     call_id: str | None = None
 
+    # 固定消息。常用于初始系统提示词；reduce_log() 不会压缩它，
+    # prune_ephemeral_messages() 也不会按 TTL 移除它。该字段不会改变消息在
+    # 会话中的原始顺序。
     pinned: bool = False
+
+    # 隐藏消息。默认不在终端或日志展示中输出，但仍会持久化并发送给模型；
+    # 使用 show_hidden 等显式选项时仍可查看。
     hide: bool = False
+
+    # 静默追加。只阻止 LogManager.append() 当场打印该消息，不影响持久化和发送
+    # 给模型；该字段本身不写入日志，因此恢复会话后消息仍可正常显示。
     quiet: bool = False
-    # Number of later assistant turns after which this message is pruned from context.
-    # None means the message is never automatically pruned.
-    # ephemeral_ttl=2 means: keep for 2 more assistant turns, then drop from prepare_messages().
+
+    # 临时消息的 TTL（Time To Live，生命周期），以该消息之后保留下来的
+    # assistant 消息数量计数。数量超过 TTL 后，prepare_messages() 会将它从
+    # 本次模型 context 中移除，但不会删除磁盘日志；None 表示不自动过期，
+    # pinned=True 时即使设置了 TTL 也不会被该机制移除。
     ephemeral_ttl: int | None = None
 
-    # Metadata for token usage and cost tracking
+    # 可选扩展信息，主要记录生成该消息的模型、input/output token、缓存 token、
+    # 调用成本，以及工具或插件声明的结构化产物（artifacts）。存在有效内容时
+    # 会持久化到日志。
     metadata: MessageMetadata | None = None
 
     def __post_init__(self):
