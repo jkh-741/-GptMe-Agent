@@ -488,14 +488,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core">core</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#message">Message</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.role"><code class="docutils literal notranslate"><span class="pre">Message.role</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.content"><code class="docutils literal notranslate"><span class="pre">Message.content</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.timestamp"><code class="docutils literal notranslate"><span class="pre">Message.timestamp</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.files"><code class="docutils literal notranslate"><span class="pre">Message.files</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.pinned"><code class="docutils literal notranslate"><span class="pre">Message.pinned</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.hide"><code class="docutils literal notranslate"><span class="pre">Message.hide</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.quiet"><code class="docutils literal notranslate"><span class="pre">Message.quiet</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.metadata"><code class="docutils literal notranslate"><span class="pre">Message.metadata</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.__init__"><code class="docutils literal notranslate"><span class="pre">Message.__init__()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.concat"><code class="docutils literal notranslate"><span class="pre">Message.concat()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.cost"><code class="docutils literal notranslate"><span class="pre">Message.cost()</span></code></a></li>
@@ -734,56 +726,11 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="gptme.message.Message">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gptme.message.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><a class="headerlink" href="#gptme.message.Message" title="Link to this definition">#</a></dt>
-<dd><p>A message in the assistant conversation.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.role">
-<span class="sig-name descname"><span class="pre">role</span></span><a class="headerlink" href="#gptme.message.Message.role" title="Link to this definition">#</a></dt>
-<dd><p>The role of the message sender (system, user, or assistant).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.content">
-<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#gptme.message.Message.content" title="Link to this definition">#</a></dt>
-<dd><p>The content of the message.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.timestamp">
-<span class="sig-name descname"><span class="pre">timestamp</span></span><a class="headerlink" href="#gptme.message.Message.timestamp" title="Link to this definition">#</a></dt>
-<dd><p>The timestamp of the message.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.files">
-<span class="sig-name descname"><span class="pre">files</span></span><a class="headerlink" href="#gptme.message.Message.files" title="Link to this definition">#</a></dt>
-<dd><p>Files attached to the message, could e.g. be images for vision.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.pinned">
-<span class="sig-name descname"><span class="pre">pinned</span></span><a class="headerlink" href="#gptme.message.Message.pinned" title="Link to this definition">#</a></dt>
-<dd><p>Whether this message should be pinned to the top of the chat, and never context-trimmed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.hide">
-<span class="sig-name descname"><span class="pre">hide</span></span><a class="headerlink" href="#gptme.message.Message.hide" title="Link to this definition">#</a></dt>
-<dd><p>Whether this message should be hidden from the chat output (but still be sent to the assistant).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.quiet">
-<span class="sig-name descname"><span class="pre">quiet</span></span><a class="headerlink" href="#gptme.message.Message.quiet" title="Link to this definition">#</a></dt>
-<dd><p>Whether this message should be printed on execution (will still print on resume, unlike hide).
-This is not persisted to the log file.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="gptme.message.Message.metadata">
-<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#gptme.message.Message.metadata" title="Link to this definition">#</a></dt>
-<dd><p>Optional metadata including token usage and cost information.</p>
-</dd></dl>
-
+<dd><p>Agent 会话中的统一消息对象。</p>
+<p>中文说明：用户输入、模型回复、系统提示词和工具结果最终都会转换成
+<code class="docutils literal notranslate"><span class="pre">Message</span></code>，再由日志、context 构造和模型 provider 适配层共同使用。
+该类是冻结的 dataclass，已有消息不能原地修改，需要通过 <code class="docutils literal notranslate"><span class="pre">replace()</span></code>
+创建一个带有新字段值的副本。</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="gptme.message.Message.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">role:</span> <span class="pre">~typing.Literal['system',</span> <span class="pre">'user',</span> <span class="pre">'assistant'],</span> <span class="pre">content:</span> <span class="pre">str,</span> <span class="pre">timestamp:</span> <span class="pre">~datetime.datetime</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">files:</span> <span class="pre">list[~pathlib.Path</span> <span class="pre">|</span> <span class="pre">~gptme.util.uri.URI]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">file_hashes:</span> <span class="pre">dict[str,</span> <span class="pre">str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">call_id:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">pinned:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">hide:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">quiet:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">ephemeral_ttl:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">metadata:</span> <span class="pre">~gptme.message.MessageMetadata</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#gptme.message.Message.__init__" title="Link to this definition">#</a></dt>
@@ -1940,14 +1887,6 @@ variable, then to the embedded legacy static bundle.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core">core</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#message">Message</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.role"><code class="docutils literal notranslate"><span class="pre">Message.role</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.content"><code class="docutils literal notranslate"><span class="pre">Message.content</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.timestamp"><code class="docutils literal notranslate"><span class="pre">Message.timestamp</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.files"><code class="docutils literal notranslate"><span class="pre">Message.files</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.pinned"><code class="docutils literal notranslate"><span class="pre">Message.pinned</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.hide"><code class="docutils literal notranslate"><span class="pre">Message.hide</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.quiet"><code class="docutils literal notranslate"><span class="pre">Message.quiet</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.metadata"><code class="docutils literal notranslate"><span class="pre">Message.metadata</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.__init__"><code class="docutils literal notranslate"><span class="pre">Message.__init__()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.concat"><code class="docutils literal notranslate"><span class="pre">Message.concat()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme.message.Message.cost"><code class="docutils literal notranslate"><span class="pre">Message.cost()</span></code></a></li>
