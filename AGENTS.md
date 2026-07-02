@@ -5,8 +5,12 @@ For general project information, see [README.md](README.md) and [docs](https://g
 
 ## Git Workflow
 
-- **Default push target**: Commit and push changes directly to `master`
-- **Branches and PRs**: Only create a separate branch or PR when the user explicitly requests it
+- **Default push target**: Commit and push changes directly to `origin/master`
+- **Default push scope**: When the user asks to push, include all current local
+  modifications and local commits in `master` unless the user explicitly excludes
+  something
+- **Branches and PRs**: Do not create or maintain separate branches or PRs unless
+  the user explicitly requests them
 - **Commit format**: Use [Conventional Commits](https://www.conventionalcommits.org/)
   - `feat:` for new features (not just docs)
   - `fix:` for bug fixes
