@@ -5,15 +5,14 @@ For general project information, see [README.md](README.md) and [docs](https://g
 
 ## Git Workflow
 
-- **Never push directly to master** - always use branches and PRs
-- **Branch naming**: `feat/`, `fix/`, `docs/`, `refactor/` prefixes
+- **Default push target**: Commit and push changes directly to `master`
+- **Branches and PRs**: Only create a separate branch or PR when the user explicitly requests it
 - **Commit format**: Use [Conventional Commits](https://www.conventionalcommits.org/)
   - `feat:` for new features (not just docs)
   - `fix:` for bug fixes
   - `docs:` for documentation only
   - `refactor:`, `test:`, `chore:` as appropriate
 - **Stage files explicitly**: Never use `git add .` or `git commit -a`
-- **Create PRs**: Use `gh pr create` after pushing branch
 
 ## Code Style
 
@@ -26,7 +25,7 @@ For general project information, see [README.md](README.md) and [docs](https://g
 
 ## Testing
 
-Run tests before submitting PRs:
+Run tests before pushing changes:
 ```bash
 make test           # Fast tests (excludes slow/eval)
 make test SLOW=1    # Include slow tests
