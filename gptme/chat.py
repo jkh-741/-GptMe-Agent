@@ -22,7 +22,11 @@ from .llm import reply
 from .llm.models import get_default_model, get_model
 from .logmanager import Log, LogManager, prepare_messages
 from .message import Message, get_output_format, is_output_json, set_output_format
-from .prompt_queue import drain_prompt_queue
+from .prompt_queue import (
+    ack_prompt_queue_item,
+    drain_prompt_queue,
+    get_message_queue_id,
+)
 from .telemetry import set_conversation_context, trace_function
 from .tools import (
     ToolFormat,
@@ -205,7 +209,6 @@ def _run_chat_loop(
 ):
     """Main chat loop - extracted to allow clean exception handling."""
 
-
     while True:
         # 中文说明：先把其他终端或后台写入的 durable prompt queue 合并进内存队列。
         # durable 表示这些排队消息已经持久化，不只存在当前进程内存里。
@@ -220,6 +223,7 @@ def _run_chat_loop(
                 assert msg is not None, "prompt_queue contained None"
                 msg = include_paths(msg, manager.workspace)
                 manager.append(msg)
+                ack_prompt_queue_item(manager.logdir, get_message_queue_id(msg))
 
                 # Handle user commands
                 if msg.role == "user" and execute_cmd(msg, manager):
@@ -350,7 +354,16 @@ def _drain_external_prompt_queue(
     if capacity <= 0:
         return
 
-    drained = drain_prompt_queue(manager.logdir, max_items=capacity)
+    queued_ids = {
+        queue_id
+        for msg in prompt_queue
+        if (queue_id := get_message_queue_id(msg)) is not None
+    }
+    drained = drain_prompt_queue(
+        manager.logdir,
+        max_items=capacity,
+        exclude_queue_ids=queued_ids,
+    )
     if not drained:
         return
 

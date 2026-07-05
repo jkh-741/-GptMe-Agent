@@ -113,6 +113,7 @@ class MessageMetadata(TypedDict, total=False):
     usage: UsageData
     voice_call: dict[str, Any]  # Voice call metadata (call_sid, source, etc.)
     artifacts: list[ArtifactDescriptor]  # tool/plugin-emitted artifact descriptors
+    queue_id: str  # Durable prompt queue identifier for externally queued prompts
 
 
 _TOKEN_KEYS = (
