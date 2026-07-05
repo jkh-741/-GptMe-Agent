@@ -122,6 +122,7 @@ When answering the user's later questions about modules, features, or code:
 - Keep suggestions shaped by the user's job-search timeline. Favor changes that are interviewable, feasible in days, and easy to explain over broad rewrites.
 - When a module or implementation principle is important enough to become study material, the user may ask to save a summary to Notion. Only write to Notion when the user explicitly asks, or after asking for and receiving the user's approval.
 - The target Notion location for these notes is `主页\准备的项目\GptMe`. Use the configured Notion MCP/plugin when writing approved notes.
+- Maintain the Notion interview question bank as a separate resume-preparation section. Its overall organization should use the "Question and Answer" form: write each likely interviewer question, then write a concise but strong answer that shows real implementation experience, concrete tradeoffs, and project-specific details. Do not turn it into broad theory notes. Organize questions under four dimensions: gptme project and Agent loop fundamentals, Prompt Queue reliability, PolicyGuard safety review, and speculative execution.
 
 The user's current framing for a resume-oriented direction is:
 
