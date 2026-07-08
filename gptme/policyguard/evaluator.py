@@ -63,8 +63,15 @@ def evaluate_tool_use(
         return normalized, decision
 
     static_result = _run_static_checks(normalized, workspace)
-    semantic_result = _run_semantic_checks(normalized, static_result, workspace, log)
-    decision = merge_policy_results(semantic_result, static_result)
+    semantic_result, fast_result, thinking_result = _run_semantic_checks(
+        normalized, static_result, workspace, log
+    )
+    decision = merge_policy_results(
+        semantic_result,
+        static_result,
+        fast_semantic_result=fast_result,
+        thinking_semantic_result=thinking_result,
+    )
     return normalized, decision
 
 
@@ -129,6 +136,9 @@ def normalize_tool_use(tool_use: ToolUse) -> NormalizedToolUse:
 def merge_policy_results(
     semantic_result: SemanticRiskResult | None,
     static_result: StaticRiskResult | None,
+    *,
+    fast_semantic_result: SemanticRiskResult | None = None,
+    thinking_semantic_result: SemanticRiskResult | None = None,
 ) -> PolicyDecision:
     static_risk = static_result.risk_level if static_result else RiskLevel.LOW
     semantic_risk = semantic_result.risk_level if semantic_result else RiskLevel.LOW
@@ -144,10 +154,16 @@ def merge_policy_results(
     action = PolicyAction.ALLOW
     requires_explicit_confirmation = False
 
-    if _has_failed_check(checks, RiskLevel.CRITICAL) or (
+    if (
+        semantic_result
+        and semantic_result.action_hint == PolicyAction.DENY
+    ) or _has_failed_check(checks, RiskLevel.CRITICAL) or (
         semantic_result and semantic_result.verdict == SemanticVerdict.BLOCK
     ):
         action = PolicyAction.DENY
+    elif semantic_result and semantic_result.action_hint == PolicyAction.ASK:
+        action = PolicyAction.ASK
+        requires_explicit_confirmation = True
     elif RISK_ORDER[risk] >= RISK_ORDER[RiskLevel.MEDIUM]:
         action = PolicyAction.ASK
         requires_explicit_confirmation = True
@@ -158,6 +174,8 @@ def merge_policy_results(
         reasons=reasons,
         checks=checks,
         semantic_result=semantic_result,
+        fast_semantic_result=fast_semantic_result,
+        thinking_semantic_result=thinking_semantic_result,
         static_result=static_result,
         requires_explicit_confirmation=requires_explicit_confirmation,
         semantic_mode=_semantic_mode(),
@@ -208,7 +226,11 @@ def _run_semantic_checks(
     static_result: StaticRiskResult,
     workspace: Path | None,
     log: Log | None,
-) -> SemanticRiskResult:
+) -> tuple[
+    SemanticRiskResult,
+    SemanticRiskResult | None,
+    SemanticRiskResult | None,
+]:
     mode = _semantic_mode()
     request = SemanticRiskRequest(
         tool_name=normalized.tool_name,
@@ -221,11 +243,14 @@ def _run_semantic_checks(
     )
 
     if mode == "off":
-        return HeuristicSemanticClassifier().classify(request)
+        result = HeuristicSemanticClassifier().classify(request)
+        return result, None, None
     if mode == "fast":
-        return FastSemanticClassifier().classify(request)
+        fast = FastSemanticClassifier().classify(request)
+        return fast, fast, None
     if mode == "thinking":
-        return ThinkingSemanticClassifier().classify(request)
+        thinking = ThinkingSemanticClassifier().classify(request)
+        return thinking, None, thinking
 
     fast = FastSemanticClassifier().classify(request)
     should_think = (
@@ -235,8 +260,9 @@ def _run_semantic_checks(
         or RISK_ORDER[static_result.risk_level] >= RISK_ORDER[RiskLevel.MEDIUM]
     )
     if should_think:
-        return ThinkingSemanticClassifier().classify(request)
-    return fast
+        thinking = ThinkingSemanticClassifier().classify(request)
+        return thinking, fast, thinking
+    return fast, fast, None
 
 
 def _semantic_mode() -> str:

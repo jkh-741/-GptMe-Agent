@@ -556,6 +556,341 @@ patch_many 原子写入能力
 morph 写入前文件未变化校验
 ```
 
+### 18. 第二阶段：接入真实 Fast / Thinking 语义审查
+
+第一阶段的 `HeuristicSemanticClassifier` 是启发式策略，也就是用人工写好的经验规则判断风险。
+它不真正理解完整上下文，只根据命令文本、路径、工具名、静态检查结果等特征做保守判断。
+
+典型启发式规则包括：
+
+```text
+命令包含 curl/wget 且管道到 bash/sh/python -> block / deny
+命令或路径包含 .env、credentials、id_rsa、secret -> suspicious / ask
+工具是 morph -> suspicious / ask，因为会把文件内容发送给外部模型
+命令包含 git reset --hard、git clean、rm -rf -> suspicious 或 block
+Python AST 中出现 subprocess.run、os.system、shutil.rmtree、eval、exec -> high risk
+文件工具目标路径跳出 workspace -> critical / deny
+普通只读命令，例如 ls、pwd、git status -> allow
+```
+
+启发式策略的优点是稳定、可测试、不需要联网，适合 CI 和安全兜底。
+缺点是它主要靠模式匹配和结构特征，无法可靠判断“用户真正想做什么”和“工具调用是否越权”。
+第二阶段要补上的就是用真实 LLM-as-Judge 做语义判断。
+
+#### 18.1 第二阶段目标
+
+把当前占位的 Fast / Thinking 分类器升级为可调用真实模型的语义审查器：
+
+```text
+HeuristicSemanticClassifier:
+  永远保留，作为 off 模式和 LLM 失败时的兜底。
+
+FastSemanticClassifier:
+  默认调用轻量、低延迟模型，做快速 allow / suspicious / block 判断。
+
+ThinkingSemanticClassifier:
+  默认调用更强模型，对 suspicious、高风险、低置信度或静态检查命中的调用做深度复核。
+```
+
+目标调用链：
+
+```text
+evaluate_tool_use()
+  -> normalize_tool_use()
+  -> _run_static_checks()
+  -> _run_semantic_checks()
+       -> mode=off: HeuristicSemanticClassifier
+       -> mode=fast: DeepSeekFastSemanticClassifier
+       -> mode=thinking: DeepSeekThinkingSemanticClassifier
+       -> mode=both:
+            Fast first
+            if Fast uncertain/suspicious/block or static risk >= medium:
+              Thinking second
+  -> merge_policy_results()
+```
+
+#### 18.2 模型选择
+
+DeepSeek 官方 API 当前主模型建议使用：
+
+```text
+Fast 模型：
+  deepseek/deepseek-v4-flash
+  用途：低延迟快筛。
+  thinking：disabled。
+  max_tokens：512 到 1024。
+  temperature：0。
+
+Thinking 模型：
+  deepseek/deepseek-v4-pro
+  用途：深度复核高风险、复杂或不确定工具调用。
+  thinking：enabled。
+  reasoning_effort：high，必要时 max。
+  max_tokens：2048 到 4096。
+  temperature/top_p：不要传，thinking 模式下这些参数无效。
+```
+
+注意：`deepseek-chat` 和 `deepseek-reasoner` 仍可兼容使用，但 DeepSeek 官方已标注它们会在 `2026-07-24 15:59 UTC` 废弃。
+第二阶段不要把旧模型名作为长期默认值。
+
+如果当前 gptme 模型元数据里 direct `deepseek` provider 还没有 `deepseek-v4-flash` 和 `deepseek-v4-pro`，需要补充：
+
+```text
+gptme/llm/models/data.py
+  deepseek:
+    deepseek-v4-flash
+    deepseek-v4-pro
+```
+
+#### 18.3 配置项
+
+先用环境变量实现，后续可以再映射到 `config.toml`：
+
+```text
+GPTME_POLICYGUARD_SEMANTIC_MODE=off|fast|thinking|both
+GPTME_POLICYGUARD_FAST_MODEL=deepseek/deepseek-v4-flash
+GPTME_POLICYGUARD_THINKING_MODEL=deepseek/deepseek-v4-pro
+GPTME_POLICYGUARD_LLM_TIMEOUT=8
+GPTME_POLICYGUARD_FAIL_CLOSED=true
+GPTME_POLICYGUARD_INCLUDE_ASSISTANT_PLAN=true
+```
+
+配置含义：
+
+```text
+SEMANTIC_MODE:
+  off 使用启发式规则，不调用真实 LLM。
+  fast 只调用 Fast 模型。
+  thinking 直接调用 Thinking 模型。
+  both 先 Fast，必要时 Thinking。
+
+FAST_MODEL:
+  快筛模型，默认 deepseek/deepseek-v4-flash。
+
+THINKING_MODEL:
+  深度复核模型，默认 deepseek/deepseek-v4-pro。
+
+LLM_TIMEOUT:
+  单次语义审查 API 超时时间，避免工具执行链路被长时间阻塞。
+
+FAIL_CLOSED:
+  true 表示 LLM 失败时不自动 allow。
+  如果静态风险 >= medium，降级为 ask；critical 仍 deny。
+```
+
+#### 18.4 结构化 JSON 输出契约
+
+Fast 和 Thinking 都必须输出可解析 JSON，不允许返回普通自然语言作为最终结果。
+
+建议输出结构：
+
+```json
+{
+  "verdict": "allow | suspicious | block",
+  "action_hint": "allow | ask | deny",
+  "risk_level": "low | medium | high | critical",
+  "confidence": 0.0,
+  "requires_thinking": false,
+  "reasons": ["short concrete reason"],
+  "intent_alignment": "aligned | unclear | misaligned",
+  "sensitive_data_risk": false,
+  "irreversible_side_effect": false,
+  "external_network_or_model_risk": false
+}
+```
+
+字段解释：
+
+```text
+verdict:
+  Fast 层主要使用 allow / suspicious / block。
+
+action_hint:
+  Thinking 层必须给出更接近最终 PolicyDecision 的 allow / ask / deny 建议。
+
+risk_level:
+  必须映射到 RiskLevel。
+
+confidence:
+  Fast 低于 0.7 时触发 Thinking。
+
+requires_thinking:
+  Fast 显式要求深度复核时触发 Thinking。
+
+intent_alignment:
+  判断工具调用是否符合最近用户意图。
+
+sensitive_data_risk:
+  是否涉及凭据、密钥、token、SSH key、.env 等敏感内容。
+
+irreversible_side_effect:
+  是否可能造成不可逆或难回滚副作用。
+
+external_network_or_model_risk:
+  是否会联网下载、上传内容、或把文件发送给外部模型。
+```
+
+#### 18.5 Prompt 设计
+
+Fast prompt 要短，目标是快：
+
+```text
+System:
+  You are PolicyGuard Fast Judge.
+  Judge whether a local Agent tool call is safe to execute.
+  Return strict JSON only.
+  Do not call tools.
+  Do not suggest code.
+
+User:
+  recent_user_intent
+  assistant_plan_or_message
+  tool_name
+  normalized_args
+  static_risk_summary
+  workspace
+```
+
+Thinking prompt 可以更完整，但必须控制隐私边界：
+
+```text
+System:
+  You are PolicyGuard Thinking Judge.
+  Review whether a local coding Agent tool call should be allowed, require explicit user approval, or be denied.
+  Return strict JSON only.
+  Do not call tools.
+  Do not reveal hidden reasoning.
+
+User:
+  recent_user_intent
+  assistant_plan_or_message
+  tool_name
+  normalized_args
+  static_check_results
+  fast_semantic_result
+  workspace
+  policy_rules
+```
+
+不要把敏感文件内容发送给语义审查模型。
+如果工具目标是 `.env`、SSH key、credentials、secret、token 等敏感路径，只发送路径和风险摘要，不发送文件正文。
+
+#### 18.6 LLM 调用实现建议
+
+优先复用 gptme 现有 LLM 路由：
+
+```text
+gptme/llm/__init__.py::reply()
+  或
+gptme/llm/__init__.py::_chat_complete()
+```
+
+实现时避免审查模型产生工具调用：
+
+```text
+tools=[]
+stream=False
+output_schema=PolicyGuardSemanticResponse 或 response_format=json_object
+```
+
+如果 `output_schema` 对 DeepSeek 兼容性不稳定，可以先用普通 JSON mode：
+
+```text
+prompt 中显式包含 json 字样
+response_format={"type": "json_object"}
+返回后用 json.loads() 解析
+解析失败时走失败降级策略
+```
+
+为了不影响主聊天模型，PolicyGuard 语义审查不要修改全局默认模型，只在本次调用里显式传入 `FAST_MODEL` 或 `THINKING_MODEL`。
+
+#### 18.7 失败降级策略
+
+语义审查失败不能导致工具执行链路崩溃。
+
+```text
+mode=off:
+  只使用 HeuristicSemanticClassifier。
+
+mode=fast:
+  Fast LLM 成功 -> 使用 Fast 结果。
+  Fast LLM 失败 -> 使用 heuristic 结果；如果 static risk >= medium，则 ask。
+
+mode=thinking:
+  Thinking LLM 成功 -> 使用 Thinking 结果。
+  Thinking LLM 失败 -> 如果 static risk >= medium，则 ask；critical 仍 deny。
+
+mode=both:
+  Fast LLM 失败 -> 使用 heuristic 作为 Fast 替代。
+  Fast suspicious/block/低置信度 或 static risk >= medium -> 尝试 Thinking。
+  Thinking LLM 失败 -> 不自动 allow，至少 ask；critical 仍 deny。
+```
+
+所有失败都要记录到审计日志，但不能把 API key、完整敏感文件内容或隐私上下文写入日志。
+
+#### 18.8 审计日志增强
+
+`policy-events.jsonl` 在第二阶段需要区分 Fast 和 Thinking：
+
+```text
+semantic_provider
+semantic_mode
+fast_model
+thinking_model
+fast_semantic_result
+thinking_semantic_result
+semantic_error
+semantic_latency_ms
+semantic_fallback_used
+prompt_redaction_applied
+```
+
+保留第一阶段已有字段：
+
+```text
+tool
+raw_content
+normalized_args
+static_result
+final_action
+risk_level
+reasons
+requires_explicit_confirmation
+confirmation_result
+```
+
+#### 18.9 第二阶段测试
+
+新增或拆分测试：
+
+```text
+tests/test_policyguard_semantic_llm.py
+tests/test_policyguard_semantic_modes.py
+tests/test_policyguard_audit.py
+```
+
+测试要求：
+
+```text
+不在单元测试中真实调用 DeepSeek API。
+通过 monkeypatch/mock 替换 gptme.llm.reply() 或底层调用函数。
+```
+
+重点用例：
+
+```text
+mode=off 不调用 LLM。
+mode=fast 调用 Fast 模型并解析 JSON。
+mode=both 中 Fast allow + static low 不触发 Thinking。
+mode=both 中 Fast suspicious 触发 Thinking。
+mode=both 中 static medium 即使 Fast allow 也触发 Thinking。
+Thinking 返回 deny 时最终 PolicyDecision 为 deny。
+LLM 返回非法 JSON 时按失败降级策略处理。
+LLM 超时时不崩溃，降级为 ask 或 heuristic。
+敏感路径不会把文件正文发送给 LLM。
+审计日志记录 fast/thinking 模型、结果、失败和 fallback 信息。
+```
+
 ## 预计改动文件
 
 ```text
@@ -568,11 +903,15 @@ gptme/policyguard/shell_static.py
 gptme/policyguard/python_static.py
 gptme/policyguard/path_static.py
 gptme/policyguard/audit.py
+gptme/llm/models/data.py
 tests/test_policyguard.py
 tests/test_policyguard_semantic.py
+tests/test_policyguard_semantic_llm.py
+tests/test_policyguard_semantic_modes.py
 tests/test_policyguard_shell.py
 tests/test_policyguard_python.py
 tests/test_policyguard_tools.py
+tests/test_policyguard_audit.py
 ```
 
 可能会少量调整：
@@ -596,6 +935,10 @@ gptme/tools/morph.py
 7. Windows、macOS、Linux 的命令差异很大，第一版规则要保守，避免写死单一系统行为。
 8. 审计日志失败不能导致正常工具执行崩溃。
 9. `morph` 会把文件内容发送给外部模型，必须把外发风险纳入语义和审计。
+10. 第二阶段不能把敏感文件正文、API key、token 或完整凭据内容发送给语义审查模型。
+11. Fast / Thinking 模型调用失败时不能自动放行中高风险工具调用。
+12. 语义审查必须禁止工具调用，避免 Judge 自己触发新的工具执行。
+13. DeepSeek 模型名称会变化，默认模型要使用当前主模型，并保留环境变量覆盖能力。
 
 `macOS` 是苹果电脑的操作系统。`Linux` 是常见服务器和开发环境操作系统。
 
@@ -613,4 +956,8 @@ gptme/tools/morph.py
 10. `ask` 在无确认能力时不会自动放行。
 11. 每次策略判断能写入审计日志。
 12. 普通 gptme 对话功能不受影响。
-13. 相关测试通过。
+13. 第二阶段 Fast 模型能真实返回结构化语义风险结果。
+14. 第二阶段 Thinking 模型能在 suspicious、高风险或低置信度时触发并影响最终决策。
+15. LLM 失败、超时或非法 JSON 输出时会按失败降级策略处理，不会静默 allow。
+16. 审计日志能记录 fast/thinking 模型、结果、延迟、错误和 fallback 信息。
+17. 相关测试通过。

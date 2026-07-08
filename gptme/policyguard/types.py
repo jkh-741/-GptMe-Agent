@@ -62,6 +62,9 @@ class SemanticRiskResult:
     confidence: float
     reasons: list[str]
     requires_thinking: bool = False
+    action_hint: PolicyAction | None = None
+    model: str | None = None
+    error: str | None = None
 
 
 @dataclass(frozen=True)
@@ -96,6 +99,8 @@ class PolicyDecision:
     reasons: list[str]
     checks: list[PolicyCheckResult] = field(default_factory=list)
     semantic_result: SemanticRiskResult | None = None
+    fast_semantic_result: SemanticRiskResult | None = None
+    thinking_semantic_result: SemanticRiskResult | None = None
     static_result: StaticRiskResult | None = None
     requires_explicit_confirmation: bool = False
     semantic_mode: str = "off"

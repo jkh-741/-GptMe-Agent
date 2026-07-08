@@ -34,6 +34,10 @@ def write_policy_event(
             "normalized_args": normalized.to_semantic_args(),
             "semantic_mode": decision.semantic_mode,
             "semantic_result": _jsonable(decision.semantic_result),
+            "fast_semantic_result": _jsonable(decision.fast_semantic_result),
+            "thinking_semantic_result": _jsonable(
+                decision.thinking_semantic_result
+            ),
             "static_result": _jsonable(decision.static_result),
             "final_action": decision.action.value,
             "risk_level": decision.risk_level.value,
