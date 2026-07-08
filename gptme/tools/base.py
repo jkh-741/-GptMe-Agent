@@ -699,6 +699,59 @@ class ToolUse:
                     ):
                         yield from pre_hook_msgs
 
+                    from ..hooks import ConfirmAction, get_confirmation
+                    from ..logmanager import LogManager
+                    from ..policyguard.audit import write_policy_event
+                    from ..policyguard.evaluator import (
+                        denied_message,
+                        evaluate_tool_use,
+                        policy_preview,
+                        skipped_message,
+                    )
+                    from ..policyguard.types import PolicyAction
+
+                    normalized_tool_use, policy_decision = evaluate_tool_use(
+                        self,
+                        workspace=workspace,
+                        log=log,
+                    )
+                    log_manager = LogManager.get_current_log()
+                    logdir = log_manager.logdir if log_manager else None
+
+                    if policy_decision.action == PolicyAction.DENY:
+                        write_policy_event(
+                            logdir=logdir,
+                            normalized=normalized_tool_use,
+                            decision=policy_decision,
+                            confirmation_result="denied",
+                        )
+                        yield denied_message(policy_decision)
+                        return
+
+                    if policy_decision.action == PolicyAction.ASK:
+                        confirmation = get_confirmation(
+                            tool_use=self,
+                            preview=policy_preview(policy_decision),
+                            workspace=workspace,
+                            default_confirm=False,
+                        )
+                        write_policy_event(
+                            logdir=logdir,
+                            normalized=normalized_tool_use,
+                            decision=policy_decision,
+                            confirmation_result=confirmation.action.value,
+                        )
+                        if confirmation.action != ConfirmAction.CONFIRM:
+                            yield skipped_message(confirmation.message)
+                            return
+                    else:
+                        write_policy_event(
+                            logdir=logdir,
+                            normalized=normalized_tool_use,
+                            decision=policy_decision,
+                            confirmation_result="not_required",
+                        )
+
                     # Play tool sound if enabled
                     from ..util.sound import get_tool_sound_for_tool, play_tool_sound
 

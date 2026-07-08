@@ -209,7 +209,7 @@ def test_kwargs_parse_simple():
         }
     )
     assert len(entries) == 2
-    assert entries[0][0] == Path("/tmp/x.txt")
+    assert entries[0][0] == Path("/tmp/x.txt").resolve()
     assert isinstance(entries[1][1], str)
 
 
@@ -228,7 +228,7 @@ def test_kwargs_json_string():
         }
     )
     assert len(entries) == 1
-    assert entries[0][0] == Path("/tmp/z.txt")
+    assert entries[0][0] == Path("/tmp/z.txt").resolve()
 
 
 def test_kwargs_missing_field():
