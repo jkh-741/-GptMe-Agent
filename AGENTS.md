@@ -164,6 +164,36 @@ $env:PYTHONIOENCODING="utf-8"
 .\.venv\Scripts\gptme.exe -m deepseek/deepseek-chat
 ```
 
+PolicyGuard semantic review startup:
+```powershell
+$env:GPTME_POLICYGUARD_SEMANTIC_MODE="both"
+$env:LLM_API_TIMEOUT="15"
+.\.venv\Scripts\gptme.exe -m deepseek/deepseek-chat
+```
+
+`GPTME_POLICYGUARD_SEMANTIC_MODE` controls whether PolicyGuard calls the semantic
+review model before risky tool execution:
+- `off`: disable model semantic review; use local heuristic rules plus structured static checks.
+- `fast`: run only Fast semantic review for low-latency triage.
+- `thinking`: run only Thinking semantic review for deeper but slower review.
+- `both`: run Fast first, then run Thinking when Fast is suspicious, low-confidence, requires thinking, or static risk is medium or higher.
+
+Current default semantic review models:
+- Fast: `deepseek/deepseek-chat`
+- Thinking: `deepseek/deepseek-reasoner`
+
+Override the semantic review models with:
+```powershell
+$env:GPTME_POLICYGUARD_FAST_MODEL="deepseek/deepseek-chat"
+$env:GPTME_POLICYGUARD_THINKING_MODEL="deepseek/deepseek-reasoner"
+```
+
+`LLM_API_TIMEOUT` is gptme's existing global model API timeout in seconds.
+PolicyGuard semantic review reuses the gptme LLM call path, so it is affected by
+the same timeout. If semantic review times out, fails on network/API errors,
+returns empty content, or returns invalid JSON, PolicyGuard falls back to local
+heuristic review and records the failure in `SemanticRiskResult.error`.
+
 Important files and directories for the user's learning path:
 - `gptme/cli/main.py` - CLI entry point, conversation flow, tool selection, architect/editor modes.
 - `gptme/tools/` - Tool system, including shell, python, read, save, patch, browser, MCP, and related tools.

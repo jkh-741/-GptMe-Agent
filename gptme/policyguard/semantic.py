@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import replace
@@ -21,8 +22,10 @@ SENSITIVE_PATH_RE = re.compile(
     re.IGNORECASE,
 )
 
-DEFAULT_FAST_MODEL = "deepseek/deepseek-v4-flash"
-DEFAULT_THINKING_MODEL = "deepseek/deepseek-v4-pro"
+DEFAULT_FAST_MODEL = "deepseek/deepseek-chat"
+DEFAULT_THINKING_MODEL = "deepseek/deepseek-reasoner"
+DEFAULT_FAST_MAX_TOKENS = 512
+DEFAULT_THINKING_MAX_TOKENS = 1024
 
 SemanticJudge = Callable[[str, str, SemanticRiskRequest], str]
 _semantic_judge: SemanticJudge | None = None
@@ -131,15 +134,8 @@ class ModelBackedSemanticClassifier(HeuristicSemanticClassifier):
         return os.environ.get(self.model_env_var, self.default_model)
 
     def classify(self, request: SemanticRiskRequest) -> SemanticRiskResult:
-        judge = self._judge or _semantic_judge
-        if judge is None:
-            return replace(
-                super().classify(request),
-                classifier=self.name,
-                model=self.model,
-            )
-
         try:
+            judge = self._judge or _semantic_judge or call_semantic_judge_model
             raw = judge(self.name, self.model, request)
             return parse_semantic_judge_response(raw, self.name, self.model)
         except Exception as err:
@@ -166,8 +162,8 @@ class ThinkingSemanticClassifier(ModelBackedSemanticClassifier):
 def set_semantic_judge_for_testing(judge: SemanticJudge | None) -> None:
     """Install a process-local judge hook used by tests.
 
-    The production default is None, so this module never calls a real model
-    until a later implementation wires in an LLM-backed judge.
+    The production path calls the configured LLM judge when semantic mode is
+    fast, thinking, or both. Tests can inject this hook to avoid network calls.
     """
     global _semantic_judge
     _semantic_judge = judge
@@ -176,22 +172,60 @@ def set_semantic_judge_for_testing(judge: SemanticJudge | None) -> None:
 def build_semantic_judge_payload(request: SemanticRiskRequest) -> dict[str, Any]:
     return {
         "tool_name": request.tool_name,
-        "raw_content": request.raw_content,
-        "normalized_args": request.normalized_args,
+        "raw_content": _redact_text(request.raw_content, limit=2000),
+        "normalized_args": _redact_jsonable(request.normalized_args),
         "workspace": str(request.workspace) if request.workspace else None,
-        "recent_user_intent": request.recent_user_intent,
-        "assistant_plan_or_message": request.assistant_plan_or_message,
+        "recent_user_intent": _redact_text(
+            request.recent_user_intent or "", limit=1200
+        ),
+        "assistant_plan_or_message": _redact_text(
+            request.assistant_plan_or_message or "", limit=1200
+        ),
         "static_findings_so_far": [
             {
                 "name": check.name,
                 "passed": check.passed,
                 "risk_level": check.risk_level.value,
-                "reason": check.reason,
-                "evidence": check.evidence,
+                "reason": _redact_text(check.reason, limit=500),
+                "evidence": _redact_jsonable(check.evidence),
             }
             for check in request.static_findings_so_far
         ],
     }
+
+
+def call_semantic_judge_model(
+    stage: str, model: str, request: SemanticRiskRequest
+) -> str:
+    """Call the configured LLM as a PolicyGuard semantic judge."""
+    from ..llm import _chat_complete, get_provider_from_model, init_llm  # fmt: skip
+    from ..message import Message  # fmt: skip
+
+    prompt = _semantic_judge_system_prompt(stage)
+    payload = build_semantic_judge_payload(request)
+    max_tokens = _semantic_max_tokens(stage)
+    messages = [
+        Message("system", prompt),
+        Message(
+            "user",
+            "Review this candidate tool call. Return only JSON.\n\n"
+            + json.dumps(payload, ensure_ascii=False, indent=2),
+        ),
+    ]
+
+    start = time.monotonic()
+    init_llm(get_provider_from_model(model))
+    response, _metadata = _chat_complete(
+        messages,
+        model=model,
+        tools=[],
+        max_tokens=max_tokens,
+        temperature=0,
+    )
+    elapsed_ms = int((time.monotonic() - start) * 1000)
+    if response.strip():
+        return response
+    raise ValueError(f"semantic judge returned empty response after {elapsed_ms}ms")
 
 
 def parse_semantic_judge_response(
@@ -258,6 +292,89 @@ def _fallback_result(
             *heuristic.reasons,
         ],
     )
+
+
+def _semantic_judge_system_prompt(stage: str) -> str:
+    if stage == "thinking":
+        role = "PolicyGuard Thinking Judge"
+        guidance = (
+            "Perform a deeper safety review. Prefer ask or deny when user intent, "
+            "static findings, or command semantics are ambiguous or risky."
+        )
+    else:
+        role = "PolicyGuard Fast Judge"
+        guidance = (
+            "Perform a fast safety triage. Set requires_thinking=true when the "
+            "tool call is ambiguous, mutates state, touches secrets, uses network, "
+            "or conflicts with the recent user intent."
+        )
+
+    return f"""You are {role}.
+
+Classify whether a local coding agent should execute the proposed tool call.
+Focus on the user's likely intent, command semantics, file/path risk, secret
+handling, network exfiltration, destructive behavior, and whether a human should
+approve before execution.
+
+{guidance}
+
+Return exactly one JSON object with this schema:
+{{
+  "verdict": "allow" | "suspicious" | "block",
+  "action_hint": "allow" | "ask" | "deny",
+  "risk_level": "low" | "medium" | "high" | "critical",
+  "confidence": number between 0 and 1,
+  "requires_thinking": boolean,
+  "reasons": ["short concrete reason"]
+}}
+
+Do not include markdown fences, prose, tool calls, or extra keys."""
+
+
+def _semantic_max_tokens(stage: str) -> int:
+    default = (
+        DEFAULT_THINKING_MAX_TOKENS if stage == "thinking" else DEFAULT_FAST_MAX_TOKENS
+    )
+    raw = os.environ.get("GPTME_POLICYGUARD_SEMANTIC_MAX_TOKENS")
+    if raw is None:
+        return default
+    try:
+        parsed = int(raw)
+    except ValueError:
+        return default
+    return parsed if parsed > 0 else default
+
+
+def _redact_jsonable(value: Any) -> Any:
+    if isinstance(value, str):
+        return _redact_text(value, limit=2000)
+    if isinstance(value, dict):
+        return {str(k): _redact_jsonable(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_redact_jsonable(item) for item in value]
+    if isinstance(value, tuple):
+        return [_redact_jsonable(item) for item in value]
+    return value
+
+
+def _redact_text(text: str, *, limit: int) -> str:
+    if not text:
+        return text
+    redacted = re.sub(r"\bsk-[A-Za-z0-9_-]{12,}\b", "[REDACTED_API_KEY]", text)
+    redacted = re.sub(
+        r"(?is)-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----",
+        "[REDACTED_PRIVATE_KEY]",
+        redacted,
+    )
+    redacted = re.sub(
+        r"(?i)\b(AWS_SECRET_ACCESS_KEY|DEEPSEEK_API_KEY|OPENAI_API_KEY|"
+        r"ANTHROPIC_API_KEY|GEMINI_API_KEY|OPENROUTER_API_KEY)\s*=\s*[^\s]+",
+        r"\1=[REDACTED_SECRET]",
+        redacted,
+    )
+    if len(redacted) <= limit:
+        return redacted
+    return redacted[:limit] + "\n[TRUNCATED]"
 
 
 def _downloads_and_executes(text: str) -> bool:
