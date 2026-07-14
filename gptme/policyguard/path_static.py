@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from .semantic import SENSITIVE_PATH_RE
@@ -138,10 +139,12 @@ def _check_single_path(path: Path, workspace: Path) -> list[PolicyCheckResult]:
             )
         )
 
-    normalized_path_text = str(resolved_path).replace("\\", "/")
+    normalized_raw_path_text = _normalize_separators(path_text)
+    normalized_path_text = _normalize_separators(str(resolved_path))
     if (
         resolved_path.name in HIGH_RISK_CONFIG_NAMES
         or ".github/workflows" in normalized_path_text
+        or ".github/workflows" in normalized_raw_path_text
     ):
         checks.append(
             PolicyCheckResult(
@@ -154,3 +157,7 @@ def _check_single_path(path: Path, workspace: Path) -> list[PolicyCheckResult]:
         )
 
     return checks
+
+
+def _normalize_separators(path_text: str) -> str:
+    return re.sub(r"/+", "/", path_text.replace("\\", "/"))

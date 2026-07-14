@@ -194,6 +194,30 @@ the same timeout. If semantic review times out, fails on network/API errors,
 returns empty content, or returns invalid JSON, PolicyGuard falls back to local
 heuristic review and records the failure in `SemanticRiskResult.error`.
 
+Speculative execution startup:
+```powershell
+$env:GPTME_SPECULATION_MODE="auto"
+$env:GPTME_SPECULATION_PREDICTOR="model"
+$env:GPTME_SPECULATION_PREDICTOR_MODEL="deepseek/deepseek-chat"
+.\.venv\Scripts\gptme.exe -m deepseek/deepseek-chat
+```
+
+`GPTME_SPECULATION_MODE` controls whether the speculative execution runtime is
+enabled:
+- `off`: default. Disable prediction, fork execution, overlay workspaces, match/reuse, and metrics side effects.
+- `manual`: expose speculation internals for tests or explicit API calls only; the main chat loop will not auto-start speculation.
+- `auto`: after the main Agent finishes a turn, run the warm-up and confidence gates, then start a background speculative branch when allowed.
+
+`GPTME_SPECULATION_PREDICTOR` selects how the next user prompt is predicted:
+- `heuristic`: default. Use deterministic local rules; cheap and stable for tests, but less adaptive.
+- `model`: call a model-backed predictor that reads the recent conversation and returns JSON predictions. If the model call fails, times out through the normal gptme LLM path, or returns invalid JSON, it falls back to `heuristic`.
+
+`GPTME_SPECULATION_PREDICTOR_MODEL` sets the model used only by
+`GPTME_SPECULATION_PREDICTOR=model`:
+- Any gptme model name accepted by `-m`, for example `deepseek/deepseek-chat`.
+- If unset, the predictor uses the current conversation model when available, otherwise gptme's default model.
+- This model predicts the user's likely next prompt; the forked speculative Agent still uses the conversation model recorded in the speculation context.
+
 Important files and directories for the user's learning path:
 - `gptme/cli/main.py` - CLI entry point, conversation flow, tool selection, architect/editor modes.
 - `gptme/tools/` - Tool system, including shell, python, read, save, patch, browser, MCP, and related tools.

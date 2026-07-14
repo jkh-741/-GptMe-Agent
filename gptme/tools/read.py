@@ -12,6 +12,7 @@ from collections.abc import Generator
 from pathlib import Path
 
 from ..message import Message
+from ..speculation.overlay import get_current_overlay
 from ..util.context import md_codeblock
 from .base import (
     Parameter,
@@ -129,8 +130,19 @@ def _read_one(
     """Read a single file or directory and yield messages with the result."""
     # Path traversal protection: validate relative paths stay within cwd
     path_display = path
-    path = path.expanduser().resolve()
-    if not path_display.is_absolute():
+    overlay = get_current_overlay()
+    if overlay is not None:
+        try:
+            path = overlay.read_path(path_display)
+        except FileNotFoundError:
+            yield Message("system", f"File not found: {path_display}")
+            return
+        except ValueError as err:
+            yield Message("system", str(err))
+            return
+    else:
+        path = path.expanduser().resolve()
+    if overlay is None and not path_display.is_absolute():
         cwd = Path.cwd().resolve()
         try:
             path.relative_to(cwd)

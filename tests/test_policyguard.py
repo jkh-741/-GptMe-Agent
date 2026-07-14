@@ -115,9 +115,18 @@ def test_windows_style_sensitive_path_is_detected(tmp_path: Path) -> None:
     assert decision.risk_level == RiskLevel.HIGH
 
 
-def test_windows_style_github_workflow_path_is_medium_risk(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    "path",
+    [
+        r".github\workflows\ci.yml",
+        r".github\\workflows\\ci.yml",
+    ],
+)
+def test_windows_style_github_workflow_path_is_medium_risk(
+    tmp_path: Path, path: str
+) -> None:
     _, decision = evaluate_tool_use(
-        ToolUse("save", [r".github\workflows\ci.yml"], "name: ci"),
+        ToolUse("save", [path], "name: ci"),
         workspace=tmp_path,
     )
 

@@ -9,6 +9,7 @@ from typing import Literal
 
 from ..hooks import confirm
 from ..message import Message
+from ..speculation.overlay import get_current_overlay
 from ..util.ask_execute import execute_with_confirmation
 from .base import (
     Parameter,
@@ -129,11 +130,15 @@ def execute_save_impl(
     path_display = path
 
     # Print full path to give agent feedback about where exactly the file is saved
-    path = path.expanduser().resolve()
+    overlay = get_current_overlay()
+    if overlay is not None:
+        path = overlay.write_path(path_display)
+    else:
+        path = path.expanduser().resolve()
 
     # Path traversal protection: validate relative paths stay within cwd
     # Absolute paths are intentional and allowed, relative paths should not escape cwd
-    if not path_display.is_absolute():
+    if overlay is None and not path_display.is_absolute():
         cwd = Path.cwd().resolve()
         try:
             path.relative_to(cwd)
@@ -227,11 +232,15 @@ def execute_append_impl(
     """Actual append implementation."""
     assert path
     path_display = path
-    path = path.expanduser().resolve()
+    overlay = get_current_overlay()
+    if overlay is not None:
+        path = overlay.materialize_path(path_display)
+    else:
+        path = path.expanduser().resolve()
 
     # Path traversal protection: validate relative paths stay within cwd
     # (matches the same check in execute_save_impl)
-    if not path_display.is_absolute():
+    if overlay is None and not path_display.is_absolute():
         cwd = Path.cwd().resolve()
         try:
             path.relative_to(cwd)

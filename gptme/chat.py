@@ -27,6 +27,8 @@ from .prompt_queue import (
     drain_prompt_queue,
     get_message_queue_id,
 )
+from .speculation import SpeculationContext, SpeculationManager
+from .speculation.types import SpeculationMode
 from .telemetry import set_conversation_context, trace_function
 from .tools import (
     ToolFormat,
@@ -208,6 +210,7 @@ def _run_chat_loop(
     output_schema=None,
 ):
     """Main chat loop - extracted to allow clean exception handling."""
+    speculation_manager = SpeculationManager()
 
     while True:
         # 中文说明：先把其他终端或后台写入的 durable prompt queue 合并进内存队列。
@@ -239,8 +242,22 @@ def _run_chat_loop(
 
                 # Process the message and get response
                 try:
-                    _process_message_conversation(
-                        manager, stream, tool_format, model, output_schema
+                    handled_by_speculation = False
+                    if msg.role == "user":
+                        handled_by_speculation = _resolve_active_speculation(
+                            speculation_manager,
+                            manager,
+                            msg,
+                        )
+                    if not handled_by_speculation:
+                        _process_message_conversation(
+                            manager, stream, tool_format, model, output_schema
+                        )
+                    _maybe_start_speculation(
+                        speculation_manager,
+                        manager,
+                        tool_format=tool_format,
+                        model=model,
                     )
                 except SessionCompleteException:
                     _drain_external_prompt_queue(manager, prompt_queue)
@@ -276,12 +293,24 @@ def _run_chat_loop(
                         model,
                         output_schema,
                     )
+                    _maybe_start_speculation(
+                        speculation_manager,
+                        manager,
+                        tool_format=tool_format,
+                        model=model,
+                    )
                 else:
                     # Normal case: user provided input
                     msg = user_input
                     manager.append(msg)
 
                     # Reset interrupt flag since user provided new input
+
+                    handled_by_speculation = _resolve_active_speculation(
+                        speculation_manager,
+                        manager,
+                        msg,
+                    )
 
                     # Handle user commands
                     if msg.role == "user" and execute_cmd(msg, manager):
@@ -298,12 +327,19 @@ def _run_chat_loop(
                             manager.append(hook_msg)
 
                     # Process the message and get response
-                    _process_message_conversation(
+                    if not handled_by_speculation:
+                        _process_message_conversation(
+                            manager,
+                            stream,
+                            tool_format,
+                            model,
+                            output_schema,
+                        )
+                    _maybe_start_speculation(
+                        speculation_manager,
                         manager,
-                        stream,
-                        tool_format,
-                        model,
-                        output_schema,
+                        tool_format=tool_format,
+                        model=model,
                     )
 
             # Trigger LOOP_CONTINUE hooks to check if we should continue/exit
@@ -369,6 +405,68 @@ def _drain_external_prompt_queue(
 
     prompt_queue.extend(drained)
     logger.info("Loaded %d queued prompt(s) for %s", len(drained), manager.logdir.name)
+
+
+def _maybe_start_speculation(
+    speculation_manager: SpeculationManager,
+    manager: LogManager,
+    *,
+    tool_format: ToolFormat | None = None,
+    model: str | None = None,
+) -> None:
+    if speculation_manager.config.mode != SpeculationMode.AUTO:
+        return
+    context = _build_speculation_context(manager, tool_format=tool_format, model=model)
+    if context is None:
+        return
+    speculation_manager.start_background(
+        context,
+    )
+
+
+def _resolve_active_speculation(
+    speculation_manager: SpeculationManager,
+    manager: LogManager,
+    msg: Message,
+) -> bool:
+    if speculation_manager.config.mode == SpeculationMode.OFF:
+        return False
+    if msg.role != "user" or not speculation_manager.active_runs:
+        return False
+    context = _build_speculation_context(manager)
+    if context is None:
+        return False
+    resolution = speculation_manager.resolve_user_message(msg, context)
+    if resolution is None or not resolution.reused_messages:
+        return False
+    for reused_message in resolution.reused_messages:
+        manager.append(reused_message)
+    return True
+
+
+def _build_speculation_context(
+    manager: LogManager,
+    *,
+    tool_format: ToolFormat | None = None,
+    model: str | None = None,
+) -> SpeculationContext | None:
+    last_assistant = next(
+        (msg for msg in reversed(manager.log.messages) if msg.role == "assistant"),
+        None,
+    )
+    if last_assistant is None:
+        return None
+    return SpeculationContext(
+        conversation_id=manager.name,
+        logdir=manager.logdir,
+        workspace=manager.workspace,
+        messages_snapshot=copy.deepcopy(manager.log.messages),
+        last_assistant_message=last_assistant,
+        available_tools=[tool.name for tool in get_tools() if tool.is_runnable],
+        tool_format=tool_format or "markdown",
+        model=model,
+        completed_turns=sum(1 for msg in manager.log.messages if msg.role == "user"),
+    )
 
 
 def _process_message_conversation(

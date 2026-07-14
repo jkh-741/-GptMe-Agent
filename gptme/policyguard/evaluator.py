@@ -155,10 +155,9 @@ def merge_policy_results(
     requires_explicit_confirmation = False
 
     if (
-        semantic_result
-        and semantic_result.action_hint == PolicyAction.DENY
-    ) or _has_failed_check(checks, RiskLevel.CRITICAL) or (
-        semantic_result and semantic_result.verdict == SemanticVerdict.BLOCK
+        (semantic_result and semantic_result.action_hint == PolicyAction.DENY)
+        or _has_failed_check(checks, RiskLevel.CRITICAL)
+        or (semantic_result and semantic_result.verdict == SemanticVerdict.BLOCK)
     ):
         action = PolicyAction.DENY
     elif semantic_result and semantic_result.action_hint == PolicyAction.ASK:
