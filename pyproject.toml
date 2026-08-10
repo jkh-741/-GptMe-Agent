@@ -57,30 +57,30 @@ pick = {version = "^2.6.0", markers = "sys_platform != 'win32'"}
 tiktoken = ">=0.13.0"
 tomlkit = "*"
 typing-extensions = "*"
-platformdirs = "^4.10"
+platformdirs = "^4.11"
 lxml = "*"
-pypdf = ">=6.14.0"  # For PDF text extraction in browser tool (CVE fix: RAM exhaustion + infinite loop)
+pypdf = ">=6.15.0"  # For PDF text extraction in browser tool (CVE fix: RAM exhaustion + infinite loop)
 requests = "^2.34"  # For HTTP requests in browser tool (PDF detection)
-json-repair = "^0.61.0"
+json-repair = "^0.62.0"
 mcp = "^1.27.2"
 questionary = "^2.1.1"
 python-dateutil = "^2.9.0.post0"
 pyyaml = "^6.0.3"
 
 # providers
-openai = "^2.43"
-anthropic = "^0.111"
+openai = "^2.53"
+anthropic = "^0.120"
 
 # tools
 ipython = "^8.39.0"
 bashlex = "^0.18"
-playwright = {version = "1.60.0", optional=true}  # version constrained due to annoying to have to run `playwright install` on every update
+playwright = {version = "1.62.0", optional=true}  # version constrained due to annoying to have to run `playwright install` on every update
 python-xlib = {version = "^0.33", optional=true}  # for X11 interaction
 
 # evals
 multiprocessing-logging = "^0.3.4"
-dspy = {version = "^3.2.1", python = "<=3.13", optional=true}
-datasets = {version = ">=5.0.0", optional=true}  # for SWE-bench eval
+dspy = {version = "^3.3.0", python = "<=3.13", optional=true}
+datasets = {version = ">=5.0.1", optional=true}  # for SWE-bench eval
 swebench = {version = ">=1.0", optional=true}  # for SWE-bench eval harness
 terminal-bench = {version = ">=0.1", optional=true, python = ">=3.12"}  # for Terminal-Bench eval harness
 
@@ -98,7 +98,7 @@ flask = {version = "^3.0", optional=true}
 flask-cors = {version = ">=6.0.5,<7", optional=true}
 flask-compress = {version = ">=1.14", optional=true}
 pydantic = "^2.13.4"
-prometheus-client = {version = ">=0.17", optional=true}
+prometheus-client = {version = ">=0.26.0", optional=true}
 
 # telemetry
 opentelemetry-api = {version = "^1.20.0", optional=true}
@@ -110,13 +110,13 @@ opentelemetry-exporter-prometheus = {version = "^0.55b1", optional=true}
 opentelemetry-instrumentation-anthropic = {version="^0.48.1", optional=true}
 opentelemetry-instrumentation-openai = {version="^0.48.1", optional=true}
 opentelemetry-instrumentation-threading = {version="^0.55b1", optional=true}
-sentence-transformers = {version = "^5.6.0", optional=true}
+sentence-transformers = {version = "^5.7.0", optional=true}
 
 # build
 pyinstaller = {version="^6.21", python=">=3.10,<3.15", optional=true}  # not yet compatible with Python 3.15+
 
 # acp (Agent Client Protocol)
-agent-client-protocol = {version = ">=0.10.1", optional=true, python=">=3.10,<3.15"}
+agent-client-protocol = {version = ">=0.12.0", optional=true, python=">=3.10,<3.15"}
 
 [tool.poetry.group.dev.dependencies]
 # lint
@@ -151,7 +151,7 @@ sphinx-autobuild = "^2024.10.3"
 sphinx-llms-txt = "^0.7.1"
 sphinxcontrib-programoutput = "*"
 sphinxcontrib-asciinema = "*"
-sphinxcontrib-mermaid = "^2.0.2"
+sphinxcontrib-mermaid = "^2.1.0"
 myst-parser = "*"
 
 # types
