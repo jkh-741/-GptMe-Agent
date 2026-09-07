@@ -48,20 +48,20 @@ include = ["gptme/server/static/**/*", "gptme/server/webui-dist/**/*", "gptme/ev
 
 [tool.poetry.dependencies]
 python = "^3.10"
-click = "^8.4"
+click = "^8.5"
 click-default-group = "^1.2.4"
-python-dotenv = "^1.2.2"
+python-dotenv = "^1.2.3"
 rich = "^13.5.2"
 tabulate = "*"
 pick = {version = "^2.6.0", markers = "sys_platform != 'win32'"}
-tiktoken = ">=0.13.0"
+tiktoken = ">=0.14.0"
 tomlkit = "*"
 typing-extensions = "*"
-platformdirs = "^4.10"
+platformdirs = "^4.11"
 lxml = "*"
-pypdf = ">=6.14.0"  # For PDF text extraction in browser tool (CVE fix: RAM exhaustion + infinite loop)
+pypdf = ">=6.16.2"  # For PDF text extraction in browser tool (CVE fix: RAM exhaustion + infinite loop)
 requests = "^2.34"  # For HTTP requests in browser tool (PDF detection)
-json-repair = "^0.61.0"
+json-repair = "^0.63.4"
 mcp = "^1.27.2"
 questionary = "^2.1.1"
 python-dateutil = "^2.9.0.post0"
@@ -74,13 +74,13 @@ anthropic = "^0.111"
 # tools
 ipython = "^8.39.0"
 bashlex = "^0.18"
-playwright = {version = "1.60.0", optional=true}  # version constrained due to annoying to have to run `playwright install` on every update
+playwright = {version = "1.62.0", optional=true}  # version constrained due to annoying to have to run `playwright install` on every update
 python-xlib = {version = "^0.33", optional=true}  # for X11 interaction
 
 # evals
-multiprocessing-logging = "^0.3.4"
-dspy = {version = "^3.2.1", python = "<=3.13", optional=true}
-datasets = {version = ">=5.0.0", optional=true}  # for SWE-bench eval
+multiprocessing-logging = "^0.4.0"
+dspy = {version = "^3.3.1", python = "<=3.13", optional=true}
+datasets = {version = ">=5.0.1", optional=true}  # for SWE-bench eval
 swebench = {version = ">=1.0", optional=true}  # for SWE-bench eval harness
 terminal-bench = {version = ">=0.1", optional=true, python = ">=3.12"}  # for Terminal-Bench eval harness
 
@@ -97,8 +97,8 @@ scipy = {version = "*", optional=true}
 flask = {version = "^3.0", optional=true}
 flask-cors = {version = ">=6.0.5,<7", optional=true}
 flask-compress = {version = ">=1.14", optional=true}
-pydantic = "^2.13.4"
-prometheus-client = {version = ">=0.17", optional=true}
+pydantic = "^2.13.5"
+prometheus-client = {version = ">=0.26.0", optional=true}
 
 # telemetry
 opentelemetry-api = {version = "^1.20.0", optional=true}
@@ -113,10 +113,10 @@ opentelemetry-instrumentation-threading = {version="^0.55b1", optional=true}
 sentence-transformers = {version = "^5.6.0", optional=true}
 
 # build
-pyinstaller = {version="^6.21", python=">=3.10,<3.15", optional=true}  # not yet compatible with Python 3.15+
+pyinstaller = {version="^6.22", python=">=3.10,<3.15", optional=true}  # not yet compatible with Python 3.15+
 
 # acp (Agent Client Protocol)
-agent-client-protocol = {version = ">=0.10.1", optional=true, python=">=3.10,<3.15"}
+agent-client-protocol = {version = ">=0.12.1", optional=true, python=">=3.10,<3.15"}
 
 [tool.poetry.group.dev.dependencies]
 # lint
@@ -140,7 +140,7 @@ pytest-mock = "*"
 greenlet = "*"  # dependency of playwright, but needed for coverage
 
 # build
-pyinstaller = {version="^6.21", python=">=3.10,<3.15"}  # not yet compatible with Python 3.15+
+pyinstaller = {version="^6.22", python=">=3.10,<3.15"}  # not yet compatible with Python 3.15+
 
 # docs
 sphinx = "^8.0"
@@ -151,7 +151,7 @@ sphinx-autobuild = "^2024.10.3"
 sphinx-llms-txt = "^0.7.1"
 sphinxcontrib-programoutput = "*"
 sphinxcontrib-asciinema = "*"
-sphinxcontrib-mermaid = "^2.0.2"
+sphinxcontrib-mermaid = "^2.1.1"
 myst-parser = "*"
 
 # types
